@@ -98,7 +98,7 @@ Plans:
 
 Plans:
 
-- [ ] 03-01-PLAN.md — Tuya homes/devices discovery repository and metadata normalization (DISC-01)
+- [x] 03-01-PLAN.md — Tuya homes/devices discovery repository and metadata normalization (DISC-01)
 - [ ] 03-02-PLAN.md — Supported-category predicate plus Homebridge accessory register/reuse/prune lifecycle (DISC-02, DISC-03)
 - [ ] 03-03-PLAN.md — Platform startup orchestration: token load, discovery, registry reconcile, auth/error handling (DISC-01, DISC-02, DISC-03, DISC-04)
 
@@ -198,7 +198,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 |-------|----------------|--------|-----------|
 | 1. Project Scaffolding & TDD Gates | 3/3 | Complete    | 2026-06-24 |
 | 2. Auth Protocol Port + Credential Feasibility | 4/4 | Complete    | 2026-06-24 |
-| 3. Device Discovery + Platform Skeleton | 0/3 | Planned     | - |
+| 3. Device Discovery + Platform Skeleton | 1/3 | In progress | - |
 | 4. Switches & Outlets + Mapping Engine | 0/TBD | Not started | - |
 | 5. Climate & Sensors | 0/TBD | Not started | - |
 | 6. Status Polling + Offline Handling (MVP Ship) | 0/TBD | Not started | - |
