@@ -24,8 +24,8 @@ lights/covers/scenes are explicitly deferred to v2.
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Project Scaffolding & TDD Gates** - TypeScript Homebridge plugin skeleton + TDD enforcement harness + CI + `/ship` (completed 2026-06-24)
-- [ ] **Phase 2: Auth Protocol Port + Credential Feasibility** - Port device-sharing signing/crypto, prove QR login end-to-end, resolve legitimate credential
-- [ ] **Phase 3: Device Discovery + Platform Skeleton** - Discover Tuya devices, expose to HomeKit with stable UUIDs, cache/register/prune lifecycle
+- [x] **Phase 2: Auth Protocol Port + Credential Feasibility** - Port device-sharing signing/crypto, prove QR login end-to-end, resolve legitimate credential
+- [x] **Phase 3: Device Discovery + Platform Skeleton** - Discover Tuya devices, expose to HomeKit with stable UUIDs, cache/register/prune lifecycle
 - [ ] **Phase 4: Switches & Outlets + Mapping Engine** - On/off control incl. multi-gang, plus the reusable DP→HomeKit mapping/scaling engine
 - [ ] **Phase 5: Climate & Sensors** - Temp/humidity, binary sensors, thermostat control, battery reporting
 - [ ] **Phase 6: Status Polling + Offline Handling (MVP Ship)** - Polling keeps state current, offline devices show "No Response", first npm publish
@@ -92,15 +92,15 @@ Plans:
   1. On launch the plugin walks homes → devices and lists each device's category and status set retrieved from the cloud.
   2. Each accessory uses a stable UUID derived from its Tuya device id and is restored from cache on restart without creating duplicates.
   3. A device removed from the Tuya account is pruned from HomeKit on the next discovery.
-  4. An optional home/device whitelist in config limits which devices are exposed.
+  4. Whitelist config remains deferred to the config-UI phase; Phase 3 adds no whitelist fields.
 
-**Plans**: 2/3 plans complete
+**Plans**: 3/3 plans complete
 
 Plans:
 
 - [x] 03-01-PLAN.md — Tuya homes/devices discovery repository and metadata normalization (DISC-01)
 - [x] 03-02-PLAN.md — Supported-category predicate plus Homebridge accessory register/reuse/prune lifecycle (DISC-02, DISC-03)
-- [ ] 03-03-PLAN.md — Platform startup orchestration: token load, discovery, registry reconcile, auth/error handling (DISC-01, DISC-02, DISC-03, DISC-04)
+- [x] 03-03-PLAN.md — Platform startup orchestration: token load, discovery, registry reconcile, auth/error handling (DISC-01, DISC-02, DISC-03, DISC-04)
 
 ### Phase 4: Switches & Outlets + Mapping Engine
 
@@ -198,7 +198,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 |-------|----------------|--------|-----------|
 | 1. Project Scaffolding & TDD Gates | 3/3 | Complete    | 2026-06-24 |
 | 2. Auth Protocol Port + Credential Feasibility | 4/4 | Complete    | 2026-06-24 |
-| 3. Device Discovery + Platform Skeleton | 2/3 | In progress | - |
+| 3. Device Discovery + Platform Skeleton | 3/3 | Complete    | 2026-06-24 |
 | 4. Switches & Outlets + Mapping Engine | 0/TBD | Not started | - |
 | 5. Climate & Sensors | 0/TBD | Not started | - |
 | 6. Status Polling + Offline Handling (MVP Ship) | 0/TBD | Not started | - |

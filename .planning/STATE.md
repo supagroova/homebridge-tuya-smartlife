@@ -2,19 +2,19 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-current_phase: 3
-current_phase_name: Device Discovery + Platform Skeleton
-status: executing
-stopped_at: Phase 3 Plan 2 complete
-last_updated: "2026-06-24T17:07:14.000Z"
+current_phase: 4
+current_phase_name: Switches & Outlets + Mapping Engine
+status: ready_for_planning
+stopped_at: Phase 3 complete; ready for Phase 4
+last_updated: "2026-06-24T17:11:42.000Z"
 last_activity: 2026-06-24
-last_activity_desc: Phase 3 Plan 2 accessory registry complete
+last_activity_desc: Phase 3 complete; platform startup discovery wired
 progress:
   total_phases: 7
-  completed_phases: 2
+  completed_phases: 3
   total_plans: 10
-  completed_plans: 9
-  percent: 29
+  completed_plans: 10
+  percent: 43
 ---
 
 # Project State
@@ -24,22 +24,22 @@ progress:
 See: .planning/PROJECT.md (updated 2026-06-24)
 
 **Core value:** A user can control their Tuya devices in HomeKit after a simple Smart Life QR login — no per-user Tuya developer account.
-**Current focus:** Phase 03 — device-discovery-platform-skeleton
+**Current focus:** Phase 04 — switches-outlets-mapping-engine
 
 ## Current Position
 
-Phase: 3 — Device Discovery + Platform Skeleton
-Plan: 03-03 ready
-Status: Executing — 2/3 Phase 3 plans complete
-Last activity: 2026-06-24 — Phase 3 Plan 2 accessory registry complete
+Phase: 4 — Switches & Outlets + Mapping Engine
+Plan: ready for planning
+Status: Ready for planning — Phase 3 complete
+Last activity: 2026-06-24 — Phase 3 complete; platform startup discovery wired
 
-Progress: [██░░░░░░░░] 2/7 phases complete
+Progress: [███░░░░░░░] 3/7 phases complete
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 3
+- Total plans completed: 10
 - Average duration: - min
 - Total execution time: 0.0 hours
 
@@ -49,7 +49,7 @@ Progress: [██░░░░░░░░] 2/7 phases complete
 |-------|-------|-------|----------|
 | 01 | 3 | - | - |
 | 02 | 4/4 | - | - |
-| 03 | 2/3 | - | - |
+| 03 | 3/3 | - | - |
 
 **Recent Trend:**
 
@@ -66,6 +66,7 @@ Progress: [██░░░░░░░░] 2/7 phases complete
 | Phase 02 P04 | ~15m | 4 tasks | 4 files |
 | Phase 03 P01 | ~15m | 2 tasks | 3 files |
 | Phase 03 P02 | ~20m | 4 tasks | 4 files |
+| Phase 03 P03 | ~20m | 3 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -109,6 +110,6 @@ Items acknowledged and carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-06-24T17:00:00.000Z
-Stopped at: Phase 3 Plan 1 complete
-Resume file: .planning/phases/03-device-discovery-platform-skeleton/03-03-PLAN.md
+Last session: 2026-06-24T17:11:42.000Z
+Stopped at: Phase 3 complete; ready for Phase 4
+Resume file: .planning/ROADMAP.md
