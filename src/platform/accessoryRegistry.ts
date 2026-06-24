@@ -1,7 +1,7 @@
 import { isSupportedCategory } from '../discovery/supportedCategories';
 import type { TuyaDevice } from '../discovery/types';
 
-type RegistryAccessory = {
+export type RegistryAccessory = {
   displayName: string;
   UUID: string;
   context: Record<string, unknown>;
