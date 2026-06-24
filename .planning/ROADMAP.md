@@ -34,7 +34,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 ### Phase 1: Project Scaffolding & TDD Gates
 **Goal**: Stand up the TypeScript Homebridge dynamic-platform plugin skeleton and the full TDD enforcement harness so every subsequent phase is quality-gated.
-**Mode:** mvp
+**Mode:** standard
 **Depends on**: Nothing (first phase)
 **Requirements**: FND-01, FND-02, FND-03, FND-04
 **Success Criteria** (what must be TRUE):
