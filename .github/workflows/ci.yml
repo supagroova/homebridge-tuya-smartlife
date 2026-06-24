@@ -1,0 +1,23 @@
+name: CI
+
+on: [push, pull_request]
+
+# Least-privilege: the default GITHUB_TOKEN only needs to read the repo to run the gate.
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [22, 24] # match engines: ^22 || ^24
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: 'npm'
+      - run: npm ci # lockfile guard — fails on a drifted package-lock.json
+      - run: make check # full gate: lockfile-check + lint + typecheck + tdd-audit + test
+      - run: npm run build
