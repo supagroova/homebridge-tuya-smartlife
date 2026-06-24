@@ -32,11 +32,11 @@ coverage:
 # Lists production files under src/ with no corresponding test. Fails non-zero
 # when any non-exempt, non-debt file is found.
 tdd-audit:
-	bash .claude/scripts/tdd-audit.sh
+	bash .codex/scripts/tdd-audit.sh
 
 # Fails when package-lock.json drifts from package.json (runs npm ci).
 lockfile-check:
-	bash .claude/scripts/lockfile-check.sh
+	bash .codex/scripts/lockfile-check.sh
 
 fmt:
 	npx prettier --write .

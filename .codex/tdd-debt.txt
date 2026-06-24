@@ -1,0 +1,6 @@
+# Pre-existing TDD debt - production files without a corresponding test.
+# Tracked here so `make tdd-audit` blocks NEW untested additions but does not
+# fail the build on legacy gaps. Remove a line as soon as its test ships.
+#
+# Format: one path per line, blank lines and `#` comments allowed.
+#
