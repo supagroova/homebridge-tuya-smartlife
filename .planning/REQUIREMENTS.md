@@ -87,13 +87,39 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| (to be populated by roadmap) | | |
+| FND-01 | Phase 1 | Pending |
+| FND-02 | Phase 1 | Pending |
+| FND-03 | Phase 1 | Pending |
+| FND-04 | Phase 1 | Pending |
+| AUTH-01 | Phase 2 | Pending |
+| AUTH-02 | Phase 2 | Pending |
+| AUTH-03 | Phase 2 | Pending |
+| AUTH-04 | Phase 2 | Pending |
+| AUTH-05 | Phase 2 | Pending |
+| DISC-01 | Phase 3 | Pending |
+| DISC-02 | Phase 3 | Pending |
+| DISC-03 | Phase 3 | Pending |
+| DISC-04 | Phase 3 | Pending |
+| SW-01 | Phase 4 | Pending |
+| SW-02 | Phase 4 | Pending |
+| SW-03 | Phase 4 | Pending |
+| CLIM-01 | Phase 5 | Pending |
+| CLIM-02 | Phase 5 | Pending |
+| CLIM-03 | Phase 5 | Pending |
+| CLIM-04 | Phase 5 | Pending |
+| UPD-01 | Phase 6 | Pending |
+| UPD-02 | Phase 6 | Pending |
+| UPD-03 | Phase 6 | Pending |
+| PUB-01 | Phase 6 | Pending |
+| CFG-01 | Phase 7 | Pending |
+| CFG-02 | Phase 7 | Pending |
+| PUB-02 | Phase 7 | Pending |
 
 **Coverage:**
-- v1 requirements: 24 total
-- Mapped to phases: TBD
-- Unmapped: TBD
+- v1 requirements: 27 total
+- Mapped to phases: 27 (100%)
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-06-24*
-*Last updated: 2026-06-24 after initialization*
+*Last updated: 2026-06-24 after roadmap creation*
