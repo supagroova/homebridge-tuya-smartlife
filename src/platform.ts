@@ -1,4 +1,6 @@
 // tdd-audit: exempt
+import { join } from 'node:path';
+
 import type {
   API,
   DynamicPlatformPlugin,
@@ -7,13 +9,20 @@ import type {
   PlatformConfig,
 } from 'homebridge';
 
-import { PLATFORM_NAME, PLUGIN_NAME } from './settings';
+import { TuyaReauthRequiredError } from './auth/errors';
+import { TuyaDeviceSharingClient } from './auth/customerApi';
+import { FileTokenStore } from './auth/tokenStore';
+import type { PersistedTokenInfo, TokenInfo } from './auth/types';
+import { DeviceRepository } from './discovery/deviceRepository';
+import { AccessoryRegistry } from './platform/accessoryRegistry';
+import { runPlatformDiscovery } from './platformDiscovery';
+import { PLATFORM_NAME, PLUGIN_NAME, TOKEN_FILE_NAME, TUYA_CLIENT_ID } from './settings';
 
 /**
  * TuyaSmartLifePlatform is the Homebridge dynamic platform. It caches accessories restored from
  * disk and, once Homebridge has finished launching, will discover Tuya devices from the cloud.
  *
- * Device discovery is implemented in Phase 3 — for now didFinishLaunching is a logged no-op.
+ * Device-specific services are added in later phases; this class only wires platform lifecycle.
  */
 export class TuyaSmartLifePlatform implements DynamicPlatformPlugin {
   public readonly accessories: PlatformAccessory[] = [];
@@ -29,8 +38,7 @@ export class TuyaSmartLifePlatform implements DynamicPlatformPlugin {
     this.log.debug('Using HAP characteristics: %s', this.api.hap.Characteristic !== undefined);
 
     this.api.on('didFinishLaunching', () => {
-      // Device discovery is implemented in Phase 3.
-      this.log.info('didFinishLaunching: device discovery is implemented in Phase 3.');
+      void this.discoverDevices();
     });
   }
 
@@ -41,4 +49,43 @@ export class TuyaSmartLifePlatform implements DynamicPlatformPlugin {
     this.log.info('Loading accessory from cache: %s', accessory.displayName);
     this.accessories.push(accessory);
   }
+
+  private async discoverDevices(): Promise<void> {
+    const tokenStore = new FileTokenStore(join(this.api.user.storagePath(), TOKEN_FILE_NAME));
+    const registry = new AccessoryRegistry<PlatformAccessory>({
+      api: this.api,
+      pluginName: PLUGIN_NAME,
+      platformName: PLATFORM_NAME,
+      cachedAccessories: this.accessories,
+    });
+
+    await runPlatformDiscovery({
+      log: this.log,
+      tokenStore,
+      createClient: (token) =>
+        new TuyaDeviceSharingClient({
+          clientId: TUYA_CLIENT_ID,
+          endpoint: requireEndpoint(token),
+          token,
+          onTokenUpdate: (nextToken) => tokenStore.save(mergeTokenUpdate(token, nextToken)),
+        }),
+      createRepository: (client) => new DeviceRepository(client),
+      registry,
+    });
+  }
+}
+
+function requireEndpoint(token: PersistedTokenInfo): string {
+  if (!token.endpoint) {
+    throw new TuyaReauthRequiredError('missing endpoint');
+  }
+
+  return token.endpoint;
+}
+
+function mergeTokenUpdate(storedToken: PersistedTokenInfo, nextToken: TokenInfo): PersistedTokenInfo {
+  return {
+    ...storedToken,
+    ...nextToken,
+  };
 }
