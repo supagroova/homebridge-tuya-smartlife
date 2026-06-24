@@ -1,0 +1,4 @@
+# tdd-debt allowlist — production files under src/ that pre-existed without a test.
+# One repo-relative path per line. tdd-audit reports these as non-fatal debt;
+# every other untested non-exempt file is a hard failure. Remove each line as its
+# test ships. Seeded empty — there is no debt at bootstrap.
