@@ -4,15 +4,15 @@ milestone: v1.0
 milestone_name: milestone
 current_phase: 2
 current_phase_name: Auth Protocol Port + Credential Feasibility
-status: verifying
-stopped_at: Phase 2 context gathered
-last_updated: "2026-06-24T11:38:40.372Z"
+status: planned
+stopped_at: Phase 2 planned
+last_updated: "2026-06-24T12:05:00.000Z"
 last_activity: 2026-06-24
-last_activity_desc: Phase 01 complete, transitioned to Phase 2
+last_activity_desc: Phase 02 planned with four execution plans
 progress:
   total_phases: 7
   completed_phases: 1
-  total_plans: 3
+  total_plans: 7
   completed_plans: 3
   percent: 14
 ---
@@ -24,16 +24,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-06-24)
 
 **Core value:** A user can control their Tuya devices in HomeKit after a simple Smart Life QR login — no per-user Tuya developer account.
-**Current focus:** Phase 01 — project-scaffolding-tdd-gates
+**Current focus:** Phase 02 — auth-protocol-port-credential-feasibility
 
 ## Current Position
 
 Phase: 2 — Auth Protocol Port + Credential Feasibility
-Plan: Not started
-Status: Phase complete — ready for verification
-Last activity: 2026-06-24 — Phase 01 complete, transitioned to Phase 2
+Plan: 02-01 ready
+Status: Planned — ready for execution
+Last activity: 2026-06-24 — Phase 02 planned with four execution plans
 
-Progress: [░░░░░░░░░░] 0%
+Progress: [░░░░░░░░░░] 0/4 plans complete
 
 ## Performance Metrics
 
@@ -48,6 +48,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 01 | 3 | - | - |
+| 02 | 0/4 | - | - |
 
 **Recent Trend:**
 
@@ -87,6 +88,7 @@ None yet.
 [Issues that affect future work]
 
 - [Phase 2]: Tuya partner gating is the project-defining unknown. If a legitimate `client_id`/`schema` cannot be obtained, auth pivots to the developer-project API fallback — but scaffolding (Phase 1) is reused regardless.
+- [Phase 2]: Execution must not use Claude CLI/agents; Phase 2 planning was completed Codex-local with `.codex/scripts` as the local gate.
 
 ## Deferred Items
 
@@ -98,6 +100,6 @@ Items acknowledged and carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-06-24T11:38:40.361Z
-Stopped at: Phase 2 context gathered
-Resume file: .planning/phases/02-auth-protocol-port-credential-feasibility/02-CONTEXT.md
+Last session: 2026-06-24T12:05:00.000Z
+Stopped at: Phase 2 planned
+Resume file: .planning/phases/02-auth-protocol-port-credential-feasibility/02-01-PLAN.md
