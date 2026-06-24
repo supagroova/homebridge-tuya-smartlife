@@ -4,16 +4,16 @@ milestone: v1.0
 milestone_name: milestone
 current_phase: 2
 current_phase_name: Auth Protocol Port + Credential Feasibility
-status: executing
-stopped_at: Phase 2 Plan 3 complete
-last_updated: "2026-06-24T12:55:00.000Z"
+status: blocked
+stopped_at: Phase 2 complete; Phase 3 blocked on credential decision
+last_updated: "2026-06-24T13:15:00.000Z"
 last_activity: 2026-06-24
-last_activity_desc: Phase 02 Plan 3 token store and QR flow complete
+last_activity_desc: Phase 02 Plan 4 dev probe and credential feasibility complete; Phase 3 blocked
 progress:
   total_phases: 7
   completed_phases: 1
   total_plans: 7
-  completed_plans: 6
+  completed_plans: 7
   percent: 14
 ---
 
@@ -29,11 +29,11 @@ See: .planning/PROJECT.md (updated 2026-06-24)
 ## Current Position
 
 Phase: 2 — Auth Protocol Port + Credential Feasibility
-Plan: 02-04 ready
-Status: Executing — 3/4 Phase 2 plans complete
-Last activity: 2026-06-24 — Phase 02 Plan 3 token store and QR flow complete
+Plan: blocked before 03-01
+Status: Blocked — credential path unresolved
+Last activity: 2026-06-24 — Phase 02 Plan 4 dev probe and credential feasibility complete
 
-Progress: [███████░░░] 3/4 plans complete
+Progress: [██████████] 4/4 Phase 2 plans complete; Phase 3 blocked
 
 ## Performance Metrics
 
@@ -48,7 +48,7 @@ Progress: [███████░░░] 3/4 plans complete
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 01 | 3 | - | - |
-| 02 | 3/4 | - | - |
+| 02 | 4/4 | - | - |
 
 **Recent Trend:**
 
@@ -62,6 +62,7 @@ Progress: [███████░░░] 3/4 plans complete
 | Phase 02 P01 | ~10m | 3 tasks | 4 files |
 | Phase 02 P02 | ~20m | 3 tasks | 5 files |
 | Phase 02 P03 | ~20m | 4 tasks | 5 files |
+| Phase 02 P04 | ~15m | 4 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -92,6 +93,7 @@ None yet.
 
 - [Phase 2]: Tuya partner gating is the project-defining unknown. If a legitimate `client_id`/`schema` cannot be obtained, auth pivots to the developer-project API fallback — but scaffolding (Phase 1) is reused regardless.
 - [Phase 2]: Execution must not use Claude CLI/agents; Phase 2 planning was completed Codex-local with `.codex/scripts` as the local gate.
+- [Phase 2]: Phase 3 is blocked until `docs/credential-feasibility.md` changes from `selected_path: blocked-pending-credential` to either a legitimate device-sharing QR route or an owner-approved auth-only fallback.
 
 ## Deferred Items
 
@@ -103,6 +105,6 @@ Items acknowledged and carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-06-24T12:20:00.000Z
-Stopped at: Phase 2 Plan 3 complete
-Resume file: .planning/phases/02-auth-protocol-port-credential-feasibility/02-04-PLAN.md
+Last session: 2026-06-24T13:15:00.000Z
+Stopped at: Phase 2 complete; Phase 3 blocked on credential decision
+Resume file: docs/credential-feasibility.md
