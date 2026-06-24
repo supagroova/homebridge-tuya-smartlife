@@ -4,17 +4,17 @@ milestone: v1.0
 milestone_name: milestone
 current_phase: 01
 current_phase_name: project-scaffolding-tdd-gates
-status: executing
+status: verifying
 stopped_at: Completed 01-02-PLAN.md
-last_updated: "2026-06-24T09:57:32.801Z"
+last_updated: "2026-06-24T10:06:42.826Z"
 last_activity: 2026-06-24
 last_activity_desc: Phase 01 execution started
 progress:
   total_phases: 7
-  completed_phases: 0
+  completed_phases: 1
   total_plans: 3
-  completed_plans: 2
-  percent: 0
+  completed_plans: 3
+  percent: 14
 ---
 
 # Project State
@@ -30,7 +30,7 @@ See: .planning/PROJECT.md (updated 2026-06-24)
 
 Phase: 01 (project-scaffolding-tdd-gates) — EXECUTING
 Plan: 3 of 3
-Status: Ready to execute
+Status: Phase complete — ready for verification
 Last activity: 2026-06-24 — Phase 01 execution started
 
 Progress: [░░░░░░░░░░] 0%
@@ -57,6 +57,7 @@ Progress: [░░░░░░░░░░] 0%
 *Updated after each plan completion*
 | Phase 01 P01 | 4m | 2 tasks | 11 files |
 | Phase 01 P02 | ~30m | 3 tasks | 14 files |
+| Phase 01 P03 | ~5m | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -72,6 +73,8 @@ Recent decisions affecting current work:
 - [Phase ?]: Added @eslint/js + .prettierignore as Rule-3 blocking fixes during scaffolding
 - [Phase ?]: Coverage excludes Homebridge glue (index/platform/settings) to keep the 85% jest gate green on a clean checkout.
 - [Phase ?]: tdd-audit skips constant-only modules so src/settings.ts passes without an exempt marker.
+- [Phase ?]: CI invokes make check + npm run build so CI and local hook gate are identical
+- [Phase ?]: Publish-on-tag uses npm Trusted Publishing / --provenance; NPM_TOKEN is fallback only
 
 ### Pending Todos
 
@@ -95,6 +98,6 @@ Items acknowledged and carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-06-24T09:57:32.796Z
+Last session: 2026-06-24T10:06:16.697Z
 Stopped at: Completed 01-02-PLAN.md
 Resume file: None
