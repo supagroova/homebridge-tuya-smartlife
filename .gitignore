@@ -5,3 +5,6 @@ coverage/
 .DS_Store
 .env
 .env.*
+.tuya-token*.json
+tuya-token*.json
+tuya-qr-probe*.json
