@@ -47,12 +47,12 @@ Decimal phases appear between their surrounding integers in numeric order.
   4. GitHub Actions runs the full gate (lint + typecheck + tdd-audit + tests) on a Node version matrix for every PR/push, passing green.
   5. The `/ship` workflow runs `make check`, then commits and pushes only when the gate passes.
 
-**Plans**: 1/3 plans executed
+**Plans**: 2/3 plans executed
 
 Plans:
 
 - [x] 01-01-PLAN.md — npm + TS Homebridge dynamic-platform skeleton, build, lint/format, config schema (FND-01)
-- [ ] 01-02-PLAN.md — TDD harness: Jest 85% coverage, 5 hook scripts, settings.json wiring, tdd-debt allowlist, lockfile guard, Makefile check (FND-02)
+- [x] 01-02-PLAN.md — TDD harness: Jest 85% coverage, 5 hook scripts, settings.json wiring, tdd-debt allowlist, lockfile guard, Makefile check (FND-02)
 - [ ] 01-03-PLAN.md — GitHub Actions Node-matrix CI + publish-on-tag, and the /ship verify→commit→push skill (FND-03, FND-04)
 
 > **Note:** This phase bootstraps the TDD gates, so it is itself exempt from the test-first rule it establishes. No domain code is written here.
@@ -191,7 +191,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Project Scaffolding & TDD Gates | 1/3 | In Progress|  |
+| 1. Project Scaffolding & TDD Gates | 2/3 | In Progress|  |
 | 2. Auth Protocol Port + Credential Feasibility | 0/TBD | Not started | - |
 | 3. Device Discovery + Platform Skeleton | 0/TBD | Not started | - |
 | 4. Switches & Outlets + Mapping Engine | 0/TBD | Not started | - |

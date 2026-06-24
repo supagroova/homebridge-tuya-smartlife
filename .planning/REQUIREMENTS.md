@@ -10,7 +10,7 @@ Requirements for the initial release. Each maps to roadmap phases.
 ### Foundation & Quality
 
 - [x] **FND-01**: Repo is scaffolded as a TypeScript Homebridge dynamic platform plugin (npm, `tsc` → `dist/`, correct `package.json` engines/keywords)
-- [ ] **FND-02**: Strict TDD enforced by repo hooks — test-first write guard, typecheck/lint/format on edit, 85% coverage Stop gate, `tdd-audit` + `tdd-debt.txt` allowlist, `npm ci` lockfile guard
+- [x] **FND-02**: Strict TDD enforced by repo hooks — test-first write guard, typecheck/lint/format on edit, 85% coverage Stop gate, `tdd-audit` + `tdd-debt.txt` allowlist, `npm ci` lockfile guard
 - [ ] **FND-03**: GitHub Actions CI runs the full gate (lint + typecheck + tdd-audit + tests) on a Node version matrix for every PR/push
 - [ ] **FND-04**: `/ship` workflow verifies (`make check`) → commits → pushes
 
@@ -88,7 +88,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | Requirement | Phase | Status |
 |-------------|-------|--------|
 | FND-01 | Phase 1 | Complete |
-| FND-02 | Phase 1 | Pending |
+| FND-02 | Phase 1 | Complete |
 | FND-03 | Phase 1 | Pending |
 | FND-04 | Phase 1 | Pending |
 | AUTH-01 | Phase 2 | Pending |

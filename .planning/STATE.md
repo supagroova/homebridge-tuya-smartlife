@@ -5,15 +5,15 @@ milestone_name: milestone
 current_phase: 01
 current_phase_name: project-scaffolding-tdd-gates
 status: executing
-stopped_at: ROADMAP.md and STATE.md created; REQUIREMENTS.md traceability populated.
-last_updated: "2026-06-24T09:46:08.362Z"
+stopped_at: Completed 01-02-PLAN.md
+last_updated: "2026-06-24T09:57:32.801Z"
 last_activity: 2026-06-24
 last_activity_desc: Phase 01 execution started
 progress:
   total_phases: 7
   completed_phases: 0
   total_plans: 3
-  completed_plans: 1
+  completed_plans: 2
   percent: 0
 ---
 
@@ -29,7 +29,7 @@ See: .planning/PROJECT.md (updated 2026-06-24)
 ## Current Position
 
 Phase: 01 (project-scaffolding-tdd-gates) — EXECUTING
-Plan: 2 of 3
+Plan: 3 of 3
 Status: Ready to execute
 Last activity: 2026-06-24 — Phase 01 execution started
 
@@ -56,6 +56,7 @@ Progress: [░░░░░░░░░░] 0%
 
 *Updated after each plan completion*
 | Phase 01 P01 | 4m | 2 tasks | 11 files |
+| Phase 01 P02 | ~30m | 3 tasks | 14 files |
 
 ## Accumulated Context
 
@@ -69,6 +70,8 @@ Recent decisions affecting current work:
 - [Roadmap]: Phase 6 (polling + offline) is the MVP ship point; MQTT push and lights/covers/scenes are deferred to v2.
 - [Phase ?]: Homebridge plugin scaffolded with tsc-only build; HAP via api.hap, no hap-nodejs dependency
 - [Phase ?]: Added @eslint/js + .prettierignore as Rule-3 blocking fixes during scaffolding
+- [Phase ?]: Coverage excludes Homebridge glue (index/platform/settings) to keep the 85% jest gate green on a clean checkout.
+- [Phase ?]: tdd-audit skips constant-only modules so src/settings.ts passes without an exempt marker.
 
 ### Pending Todos
 
@@ -92,6 +95,6 @@ Items acknowledged and carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-06-24T09:45:38.868Z
-Stopped at: ROADMAP.md and STATE.md created; REQUIREMENTS.md traceability populated.
+Last session: 2026-06-24T09:57:32.796Z
+Stopped at: Completed 01-02-PLAN.md
 Resume file: None
