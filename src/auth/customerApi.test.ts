@@ -116,8 +116,14 @@ describe('TuyaDeviceSharingClient', () => {
       nonce: () => nonce,
     });
 
-    await expect(client.get('/v1.0/things')).rejects.toThrow(TuyaApiError);
-    await expect(client.get('/v1.0/things')).rejects.not.toThrow(accessToken);
+    try {
+      await client.get('/v1.0/things');
+      fail('Expected Tuya API error');
+    } catch (error) {
+      expect(error).toBeInstanceOf(TuyaApiError);
+      expect((error as Error).message).not.toContain(accessToken);
+      expect((error as Error).message).not.toContain('secret-payload');
+    }
   });
 
   it('redacts common token and encdata fields', () => {
@@ -176,7 +182,9 @@ describe('TuyaDeviceSharingClient', () => {
       clientId,
       endpoint,
       token: token({ expireTimeMs: now + 30_000 }),
-      onTokenUpdate: (nextToken) => updates.push(nextToken),
+      onTokenUpdate: (nextToken) => {
+        updates.push(nextToken);
+      },
       now: () => now,
       requestId: () => requestIds.shift() ?? 'unexpected',
       nonce: () => nonce,
