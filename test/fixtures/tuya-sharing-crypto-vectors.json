@@ -1,0 +1,31 @@
+{
+  "note": "Dummy deterministic vectors generated from the Tuya device-sharing SDK algorithm. No live Tuya credentials or tokens.",
+  "requestId": "11111111-2222-4333-8444-555555555555",
+  "refreshToken": "dummy-refresh-token",
+  "accessToken": "dummy-access-token",
+  "clientId": "dummy-client-id",
+  "time": "1710000000123",
+  "nonce": "ABCDEF234567",
+  "query": {
+    "deviceId": "device-123",
+    "codes": ["switch_1", "temp_current"]
+  },
+  "body": {
+    "commands": [
+      {
+        "code": "switch_1",
+        "value": true
+      }
+    ]
+  },
+  "queryJson": "{\"deviceId\":\"device-123\",\"codes\":[\"switch_1\",\"temp_current\"]}",
+  "bodyJson": "{\"commands\":[{\"code\":\"switch_1\",\"value\":true}]}",
+  "hashKey": "0ee6e6fe5eb85b9b1d5e502c8510f946",
+  "emptySidSecret": "ec5c1dee7b43dbdc",
+  "nonEmptySid": "abcdefghijklmnop",
+  "nonEmptySidSecret": "d7696b0b5b195243",
+  "queryEncdata": "QUJDREVGMjM0NTY3NRwPIw+RuuvWFjdsGKagyL4gC6BMh56TBdTyc5PiBhpIGnsaSZvtFifbNJS8xshWak2aImzNXR3E5tQ9SFS0YyZTCV6xVGDowH+lNP0=",
+  "bodyEncdata": "QUJDREVGMjM0NTY3NRwIKRSVuOD7ATdsYbnn3bgnC69Hl97GQILydKi2VxRQNzgFS5e7Tzv2cNPtucEtM7IxM46eqdciq/gS8cFo",
+  "xSign": "9f28f56d3b2de736e1d20c57aa9bffeec37cebf0b98738891061412b380d3e44",
+  "noTokenSign": "54781b51eb33c920cb148749eb53334b56e47a209e269a66cbe143346693ee80"
+}
