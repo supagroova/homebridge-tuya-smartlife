@@ -67,7 +67,7 @@ Plans:
 
   1. A user completes a Smart Life login by entering a user code and scanning the rendered QR, with no developer account, and receives a working token.
   2. `crypto.ts` reproduces the Python SDK's HMAC + AES-GCM `encdata` signing byte-for-byte, locked by golden-vector unit tests over known SDK inputs/outputs.
-  3. The plugin authenticates with its own legitimately-issued `client_id`/`schema` (never Home Assistant's), or — if partner access dead-ends — the fallback developer-project API path is selected and documented.
+  3. The plugin authenticates through the Tuya-published HA-compatible QR credential path for development, while a Homebridge-specific credential remains a release-hardening follow-up.
   4. Auth tokens persist across a Homebridge restart (no QR re-scan on reboot) and refresh proactively before expiry, with a single in-flight refresh guard and a clear re-auth surfaced when refresh fails.
 
 **Plans**: 4 plans ready
@@ -79,7 +79,7 @@ Plans:
 - [x] 02-03-PLAN.md — Token persistence and UI-free QR login flow modules (AUTH-01, AUTH-03, AUTH-04)
 - [x] 02-04-PLAN.md — Dev-only QR probe plus credential feasibility go/no-go artifact (AUTH-01, AUTH-02, AUTH-03, AUTH-04, AUTH-05)
 
-> **Risk:** The credential path is the project-defining unknown. Home Assistant's credential is used ONLY as a throwaway probe to prove the port works — it is never shipped. If the credential path dead-ends, the fallback pivots **auth only** (developer-project API); the Phase 1 scaffolding and TDD harness are reused regardless, so the pivot does not cascade into the rest of the roadmap.
+> **Risk:** The credential path remains a public-release concern. For development, the owner approved using the Tuya-published HA-compatible QR values to get the Homebridge port working. Before a broad public/verified release, revisit whether Tuya will issue or bless a Homebridge-specific `client_id`/`schema`.
 
 ### Phase 3: Device Discovery + Platform Skeleton
 
@@ -195,7 +195,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Project Scaffolding & TDD Gates | 3/3 | Complete    | 2026-06-24 |
-| 2. Auth Protocol Port + Credential Feasibility | 4/4 | Blocked on credential | - |
+| 2. Auth Protocol Port + Credential Feasibility | 4/4 | Complete    | 2026-06-24 |
 | 3. Device Discovery + Platform Skeleton | 0/TBD | Not started | - |
 | 4. Switches & Outlets + Mapping Engine | 0/TBD | Not started | - |
 | 5. Climate & Sensors | 0/TBD | Not started | - |

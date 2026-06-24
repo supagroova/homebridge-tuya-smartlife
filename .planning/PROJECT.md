@@ -76,8 +76,8 @@ frictionless cloud onboarding + reliable control is what must work.
 
 ## Open Questions / Top Risks
 
-- **Tuya partner gating (project-defining):** Does Tuya permit a *non-HA* client to use the device-sharing / QR-login flow, or is it restricted to approved partners? The "use the designated APP to login" errors are a warning sign. If gated, we pivot (partner registration, or fall back to the developer-project API). **Research resolves this first.**
-- **Author-side credentials:** likely a one-time registration baked into the plugin (HA's model), not per-user — to be confirmed.
+- **Tuya QR credential path:** For development, proceed with the Tuya-published HA-compatible `client_id`/`schema` used by Home Assistant so the Homebridge port can work without per-user developer accounts. Before a broad public/verified release, revisit whether Tuya will issue or bless a Homebridge-specific credential.
+- **Author-side credentials:** not per-user; centralized QR credential values are used by the plugin, with any Homebridge-specific credential acquisition deferred until the port works.
 - **Region nuance:** the EU Data Act framing around device data sharing — confirm it doesn't block the consumer QR flow for the author's region.
 - **Token fragility:** QR expiry and token-refresh ("sign invalid") issues observed in HA — design refresh/recovery accordingly.
 

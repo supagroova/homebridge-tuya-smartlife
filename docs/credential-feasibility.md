@@ -1,25 +1,23 @@
 # Credential Feasibility
 
-**Status:** blocked pending Tuya credential route or owner-approved fallback  
+**Status:** unblocked for development using Tuya-published HA-compatible QR credentials
 **Last updated:** 2026-06-24  
 **Phase:** 02-auth-protocol-port-credential-feasibility
 
 ## Goal
 
 Determine whether `homebridge-tuya-smartlife` can use the Smart Life User Code + QR-code
-device-sharing flow with this plugin's own legitimate Tuya `client_id` and `schema`, so end users do
-not need Tuya developer accounts.
+device-sharing flow without end users creating Tuya developer accounts.
 
 ## Constraints
 
-- Home Assistant's `client_id` / `schema` may be used only as a disposable local protocol probe.
-- Home Assistant's credential must never be shipped, documented as setup, baked into runtime
-  defaults, or treated as this plugin's production path.
+- The Tuya-published Home Assistant-compatible `client_id` / `schema` may be used to get the
+  Homebridge port working.
+- Before a public/verified release, revisit whether Tuya will issue a Homebridge-specific
+  `client_id` / `schema` or explicitly bless reuse of the existing HA-compatible values.
 - The preferred user experience remains Smart Life QR login with no per-user Tuya developer account.
 - Developer-project API support is an auth-only fallback, not the primary path and not selected
   silently.
-- Phase 3 device discovery must not start until this document records either a legitimate QR
-  credential route or the owner explicitly accepts the auth-only fallback.
 
 ## Evidence Log
 
@@ -30,28 +28,26 @@ not need Tuya developer accounts.
 | 2026-06-24 | Tuya Device Data Sharing docs | Tuya documents a third-party data-sharing/OAuth authorization route with enterprise verification, data-center constraints, app-owner authorization, and service subscription. | Shows an official data-sharing path exists, but does not prove an OSS Homebridge plugin can self-serve an HA-style QR credential. |
 | 2026-06-24 | Local Phase 2 implementation | TypeScript modules now cover crypto/signing, signed HTTP transport, refresh, file token storage, QR token creation, and login-result polling against mocks. | Code is ready for a legitimate credential once obtained. |
 | 2026-06-24 | Tuya credential acquisition | No project-owned `client_id` / `schema` is present in the repo or workspace. No Tuya approval response has been recorded. | Production QR onboarding remains blocked. |
+| 2026-06-24 | Tuya `tuya-smart-life` / Home Assistant source | Tuya-published source uses `HA_3y9q4ak7g4ephrvke` and `haauthorize` for the Smart Life QR flow. | Owner approved using those values to get the Homebridge port working now, while pursuing a Homebridge-specific credential later. |
 
 ## Decision
 
-`selected_path: blocked-pending-credential`
+`selected_path: device-sharing-qr-ha-compatible`
 
-As of 2026-06-24, the project does **not** have a legitimate plugin-owned Tuya `client_id` /
-`schema`, and the developer-project API fallback has **not** been accepted by the owner. Therefore:
+As of 2026-06-24, the project will proceed with the Tuya-published Home Assistant-compatible
+`client_id` / `schema` values to get the Homebridge port working:
 
-- Do not proceed to Phase 3 device discovery as production work.
-- Do not ship, document, or default to Home Assistant's credential.
-- Continue Tuya partner/developer-support contact in parallel.
-- If Tuya confirms a legitimate credential route, update this document to
-  `selected_path: device-sharing-qr` and record the credential handling rules without committing the
-  credential value.
-- If Tuya declines or does not respond inside the owner's time-box, ask the owner whether to accept
-  `selected_path: developer-project-api-fallback` for auth only.
+- `client_id`: Tuya-published HA-compatible value
+- `schema`: Tuya-published HA-compatible value
+- Phase 3 may proceed against this QR auth path.
+- Continue Tuya partner/developer-support contact later for a Homebridge-specific credential or
+  explicit blessing before any broad public/verified release.
+- Do not pivot to the developer-project API unless the owner explicitly chooses that later.
 
 ## Consequences For Later Phases
 
-- Phase 2 code can be used for local protocol probes and mocked integration work.
-- Phase 3 is blocked for real Tuya cloud discovery until this decision changes.
-- The package must remain credential-neutral: credentials come from runtime configuration or local
-  probe flags, never source defaults.
-- The final Phase 7 config UI must be designed around whichever path is selected here.
-
+- Phase 2 code can be used for local protocol probes, mocked integration work, and Phase 3 discovery.
+- Phase 3 is unblocked for development.
+- The package can expose the HA-compatible QR values as compatibility defaults if needed, but should
+  keep them centralized, documented, and easy to replace with Homebridge-specific values later.
+- The final Phase 7 config UI should not ask end users for Tuya developer credentials.

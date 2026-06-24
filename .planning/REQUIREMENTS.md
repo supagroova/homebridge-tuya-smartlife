@@ -17,7 +17,7 @@ Requirements for the initial release. Each maps to roadmap phases.
 ### Authentication
 
 - [ ] **AUTH-01**: User completes Smart Life login via User Code + QR scan (no developer account)
-- [ ] **AUTH-02**: Plugin authenticates with its **own** legitimately-issued Tuya `client_id`/`schema` (never Home Assistant's) — *conditional on the Phase 0 credential outcome; fallback is the developer-project API*
+- [ ] **AUTH-02**: Plugin authenticates through the Smart Life QR device-sharing path using the Tuya-published HA-compatible `client_id`/`schema` for development; Homebridge-specific credentials remain a release-hardening follow-up
 - [ ] **AUTH-03**: Auth tokens persist across Homebridge restarts (no QR re-scan on reboot)
 - [ ] **AUTH-04**: Tokens auto-refresh proactively before expiry; clear re-auth surfaced when refresh fails
 - [ ] **AUTH-05**: Signed-request transport (HMAC + AES-GCM `encdata`) ported correctly, locked by golden-vector tests
@@ -79,7 +79,7 @@ Explicitly excluded. Documented to prevent scope creep.
 | Local LAN control (Tuya Wi-Fi protocol) | Author's devices are BT/gateway-bridged; Homebridge host is remote with no BT |
 | Local BLE control | Host cannot reach devices over Bluetooth |
 | Developer-project API (Access ID/Secret) as the *primary* path | The exact friction (per-user account, 6-month renewals) this project exists to avoid — retained only as a Phase 0 fallback |
-| Shipping Home Assistant's `client_id`/`schema` | Revocable by Tuya overnight; ToS/impersonation risk; would brick all installs |
+| Treating the Tuya-published HA-compatible `client_id`/`schema` as permanently settled for a broad public/verified release | Revocation / permission risk remains; revisit with Tuya for Homebridge-specific credentials or explicit blessing before broad release |
 
 ## Traceability
 

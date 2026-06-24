@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-current_phase: 2
-current_phase_name: Auth Protocol Port + Credential Feasibility
-status: blocked
-stopped_at: Phase 2 complete; Phase 3 blocked on credential decision
-last_updated: "2026-06-24T13:15:00.000Z"
+current_phase: 3
+current_phase_name: Device Discovery + Platform Skeleton
+status: ready_for_planning
+stopped_at: Phase 2 credential decision updated; Phase 3 unblocked
+last_updated: "2026-06-24T13:30:00.000Z"
 last_activity: 2026-06-24
-last_activity_desc: Phase 02 Plan 4 dev probe and credential feasibility complete; Phase 3 blocked
+last_activity_desc: Owner approved using Tuya-published HA-compatible QR values for development; Phase 3 unblocked
 progress:
   total_phases: 7
-  completed_phases: 1
+  completed_phases: 2
   total_plans: 7
   completed_plans: 7
   percent: 14
@@ -24,16 +24,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-06-24)
 
 **Core value:** A user can control their Tuya devices in HomeKit after a simple Smart Life QR login — no per-user Tuya developer account.
-**Current focus:** Phase 02 — auth-protocol-port-credential-feasibility
+**Current focus:** Phase 03 — device-discovery-platform-skeleton
 
 ## Current Position
 
-Phase: 2 — Auth Protocol Port + Credential Feasibility
-Plan: blocked before 03-01
-Status: Blocked — credential path unresolved
-Last activity: 2026-06-24 — Phase 02 Plan 4 dev probe and credential feasibility complete
+Phase: 3 — Device Discovery + Platform Skeleton
+Plan: 03-01 ready for planning
+Status: Ready for planning
+Last activity: 2026-06-24 — owner approved using Tuya-published HA-compatible QR values for development
 
-Progress: [██████████] 4/4 Phase 2 plans complete; Phase 3 blocked
+Progress: [██░░░░░░░░] 2/7 phases complete
 
 ## Performance Metrics
 
@@ -73,6 +73,7 @@ Recent decisions affecting current work:
 
 - [Roadmap]: Phase 1 is the mandated first step — scaffolding + TDD harness, itself exempt from the test-first rule it establishes.
 - [Roadmap]: The credential/auth question is resolved in Phase 2 BEFORE any device work; HA's credential is a throwaway probe, never shipped.
+- [Phase 2]: Owner approved using the Tuya-published HA-compatible QR `client_id` / `schema` values to get the Homebridge port working; pursue Homebridge-specific credentials later before broad release.
 - [Roadmap]: Phase 6 (polling + offline) is the MVP ship point; MQTT push and lights/covers/scenes are deferred to v2.
 - [Phase ?]: Homebridge plugin scaffolded with tsc-only build; HAP via api.hap, no hap-nodejs dependency
 - [Phase ?]: Added @eslint/js + .prettierignore as Rule-3 blocking fixes during scaffolding
@@ -93,7 +94,7 @@ None yet.
 
 - [Phase 2]: Tuya partner gating is the project-defining unknown. If a legitimate `client_id`/`schema` cannot be obtained, auth pivots to the developer-project API fallback — but scaffolding (Phase 1) is reused regardless.
 - [Phase 2]: Execution must not use Claude CLI/agents; Phase 2 planning was completed Codex-local with `.codex/scripts` as the local gate.
-- [Phase 2]: Phase 3 is blocked until `docs/credential-feasibility.md` changes from `selected_path: blocked-pending-credential` to either a legitimate device-sharing QR route or an owner-approved auth-only fallback.
+- [Phase 2]: Public/verified release should revisit whether Tuya will issue or bless a Homebridge-specific `client_id` / `schema`.
 
 ## Deferred Items
 
@@ -105,6 +106,6 @@ Items acknowledged and carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-06-24T13:15:00.000Z
-Stopped at: Phase 2 complete; Phase 3 blocked on credential decision
-Resume file: docs/credential-feasibility.md
+Last session: 2026-06-24T13:30:00.000Z
+Stopped at: Phase 3 ready for planning
+Resume file: .planning/ROADMAP.md
