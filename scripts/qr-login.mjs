@@ -3,7 +3,7 @@ import { createRequire } from 'node:module';
 import { resolve } from 'node:path';
 import { setTimeout as delay } from 'node:timers/promises';
 
-const require = createRequire(import.meta.url);
+const requireFromScript = createRequire(import.meta.url);
 
 const usage = `Usage: npm run auth:qr-login -- --user-code <code> --client-id <id> --schema <schema> [options]
 
@@ -41,8 +41,8 @@ if (missing.length > 0) {
   process.exit(2);
 }
 
-const { QrLoginFlow } = require('../dist/auth/qrLoginFlow.js');
-const { FileTokenStore } = require('../dist/auth/tokenStore.js');
+const { QrLoginFlow } = requireFromScript('../dist/auth/qrLoginFlow.js');
+const { FileTokenStore } = requireFromScript('../dist/auth/tokenStore.js');
 
 const tokenFile = resolve(args.tokenFile ?? '.tuya-token.json');
 const flow = new QrLoginFlow({

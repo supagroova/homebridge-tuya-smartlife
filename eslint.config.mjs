@@ -9,9 +9,9 @@ export default tseslint.config(
   },
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
-  // CommonJS Node config files (jest.config.js) use module.exports / require.
+  // Node config and utility scripts use Node globals.
   {
-    files: ['*.js', '*.cjs'],
+    files: ['*.js', '*.cjs', 'scripts/*.mjs'],
     languageOptions: {
       sourceType: 'commonjs',
       globals: globals.node,
