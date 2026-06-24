@@ -114,11 +114,13 @@ Plans:
   2. A multi-gang device exposes each gang (`switch_N` DP) as its own HomeKit service that is independently controllable.
   3. Outlets are mapped to the HomeKit Outlet service and plain switches to the Switch service, based on Tuya category.
 
-**Plans**: TBD
+**Plans**: 3 plans ready
 
 Plans:
 
-- [ ] 04-01: TBD
+- [ ] 04-01-PLAN.md — Pure scaling primitive and switch/outlet DP mapping engine (SW-02, SW-03)
+- [ ] 04-02-PLAN.md — Tuya command transport for HomeKit writes (SW-01)
+- [ ] 04-03-PLAN.md — HomeKit switch/outlet service binding and registry integration (SW-01, SW-02, SW-03)
 
 ### Phase 5: Climate & Sensors
 
@@ -199,7 +201,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 1. Project Scaffolding & TDD Gates | 3/3 | Complete    | 2026-06-24 |
 | 2. Auth Protocol Port + Credential Feasibility | 4/4 | Complete    | 2026-06-24 |
 | 3. Device Discovery + Platform Skeleton | 3/3 | Complete    | 2026-06-24 |
-| 4. Switches & Outlets + Mapping Engine | 0/TBD | Not started | - |
+| 4. Switches & Outlets + Mapping Engine | 0/3 | Planned | - |
 | 5. Climate & Sensors | 0/TBD | Not started | - |
 | 6. Status Polling + Offline Handling (MVP Ship) | 0/TBD | Not started | - |
 | 7. Config-UI + QR Setup Screen | 0/TBD | Not started | - |
