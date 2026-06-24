@@ -74,7 +74,7 @@ Plans:
 
 Plans:
 
-- [ ] 02-01-PLAN.md — Tuya device-sharing crypto/signing golden-vector port (AUTH-05)
+- [x] 02-01-PLAN.md — Tuya device-sharing crypto/signing golden-vector port (AUTH-05)
 - [ ] 02-02-PLAN.md — Signed HTTP client, encrypted transport, typed errors, proactive token refresh (AUTH-04, AUTH-05)
 - [ ] 02-03-PLAN.md — Token persistence and UI-free QR login flow modules (AUTH-01, AUTH-03, AUTH-04)
 - [ ] 02-04-PLAN.md — Dev-only QR probe plus credential feasibility go/no-go artifact (AUTH-01, AUTH-02, AUTH-03, AUTH-04, AUTH-05)
@@ -195,7 +195,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Project Scaffolding & TDD Gates | 3/3 | Complete    | 2026-06-24 |
-| 2. Auth Protocol Port + Credential Feasibility | 0/4 | Planned     | - |
+| 2. Auth Protocol Port + Credential Feasibility | 1/4 | In progress | - |
 | 3. Device Discovery + Platform Skeleton | 0/TBD | Not started | - |
 | 4. Switches & Outlets + Mapping Engine | 0/TBD | Not started | - |
 | 5. Climate & Sensors | 0/TBD | Not started | - |
