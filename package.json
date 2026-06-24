@@ -1,0 +1,43 @@
+{
+  "name": "homebridge-tuya-smartlife",
+  "displayName": "Homebridge Tuya SmartLife",
+  "version": "0.1.0",
+  "description": "Homebridge plugin bringing Tuya / Smart Life devices into HomeKit via the Smart Life device-sharing (QR) login — no Tuya developer account required.",
+  "license": "Apache-2.0",
+  "main": "dist/index.js",
+  "engines": {
+    "node": "^22 || ^24",
+    "homebridge": "^2.0.0"
+  },
+  "keywords": [
+    "homebridge-plugin",
+    "tuya",
+    "smart-life",
+    "smartlife",
+    "homekit"
+  ],
+  "scripts": {
+    "build": "rimraf dist && tsc",
+    "lint": "eslint .",
+    "test": "jest",
+    "prepublishOnly": "npm run lint && npm test && npm run build"
+  },
+  "peerDependencies": {
+    "homebridge": "^2.0.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9",
+    "@types/node": "^22",
+    "eslint": "^9",
+    "eslint-config-prettier": "^10",
+    "homebridge": "^2",
+    "prettier": "^3.8",
+    "rimraf": "^6",
+    "typescript": "~5.9",
+    "typescript-eslint": "^8"
+  },
+  "files": [
+    "dist",
+    "config.schema.json"
+  ]
+}
