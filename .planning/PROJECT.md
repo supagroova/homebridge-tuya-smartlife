@@ -33,7 +33,7 @@ frictionless cloud onboarding + reliable control is what must work.
 - [ ] Support **switches / outlets** (on/off)
 - [ ] Support **climate & sensors** (the author's gateway-bridged BT devices)
 - [ ] Homebridge config-UI schema (`config.schema.json`) for setup
-- [ ] Strict TDD gates + GitHub Actions CI (Phase 1 foundation)
+- [x] Strict TDD gates + GitHub Actions CI (Phase 1 foundation) — ✓ delivered in Phase 1
 - [ ] Published to npm + discoverable in Homebridge
 
 ### Out of Scope
@@ -99,4 +99,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-06-23 after initialization*
+*Last updated: 2026-06-24 after Phase 1 (scaffolding & TDD gates) completion*
