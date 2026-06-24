@@ -1,0 +1,16 @@
+{
+  "pluginAlias": "TuyaSmartLife",
+  "pluginType": "platform",
+  "singular": true,
+  "schema": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "title": "Name",
+        "type": "string",
+        "default": "Tuya SmartLife",
+        "required": true
+      }
+    }
+  }
+}
