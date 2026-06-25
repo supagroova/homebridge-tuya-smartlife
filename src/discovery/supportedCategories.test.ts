@@ -9,6 +9,10 @@ describe('isSupportedCategory', () => {
     expect(isSupportedCategory('wsdcg')).toBe(true);
   });
 
+  it.each(['mcs', 'pir', 'sj', 'ywbj'])('supports read-only sensor category %s', (category) => {
+    expect(isSupportedCategory(category)).toBe(true);
+  });
+
   it('does not support unrelated categories as HomeKit skeletons', () => {
     expect(isSupportedCategory('dj')).toBe(false);
   });
