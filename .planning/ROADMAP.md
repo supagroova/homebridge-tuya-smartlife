@@ -26,7 +26,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 1: Project Scaffolding & TDD Gates** - TypeScript Homebridge plugin skeleton + TDD enforcement harness + CI + `/ship` (completed 2026-06-24)
 - [x] **Phase 2: Auth Protocol Port + Credential Feasibility** - Port device-sharing signing/crypto, prove QR login end-to-end, resolve legitimate credential
 - [x] **Phase 3: Device Discovery + Platform Skeleton** - Discover Tuya devices, expose to HomeKit with stable UUIDs, cache/register/prune lifecycle
-- [ ] **Phase 4: Switches & Outlets + Mapping Engine** - On/off control incl. multi-gang, plus the reusable DP→HomeKit mapping/scaling engine
+- [x] **Phase 4: Switches & Outlets + Mapping Engine** - On/off control incl. multi-gang, plus the reusable DP→HomeKit mapping/scaling engine
 - [ ] **Phase 5: Climate & Sensors** - Temp/humidity, binary sensors, thermostat control, battery reporting
 - [ ] **Phase 6: Status Polling + Offline Handling (MVP Ship)** - Polling keeps state current, offline devices show "No Response", first npm publish
 - [ ] **Phase 7: Config-UI + QR Setup Screen** - Config schema + custom QR login UI + README documentation
@@ -120,7 +120,7 @@ Plans:
 
 - [x] 04-01-PLAN.md — Pure scaling primitive and switch/outlet DP mapping engine (SW-02, SW-03)
 - [x] 04-02-PLAN.md — Tuya command transport for HomeKit writes (SW-01)
-- [ ] 04-03-PLAN.md — HomeKit switch/outlet service binding and registry integration (SW-01, SW-02, SW-03)
+- [x] 04-03-PLAN.md — HomeKit switch/outlet service binding and registry integration (SW-01, SW-02, SW-03)
 
 ### Phase 5: Climate & Sensors
 
@@ -201,7 +201,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 1. Project Scaffolding & TDD Gates | 3/3 | Complete    | 2026-06-24 |
 | 2. Auth Protocol Port + Credential Feasibility | 4/4 | Complete    | 2026-06-24 |
 | 3. Device Discovery + Platform Skeleton | 3/3 | Complete    | 2026-06-24 |
-| 4. Switches & Outlets + Mapping Engine | 2/3 | In progress | - |
+| 4. Switches & Outlets + Mapping Engine | 3/3 | Complete    | 2026-06-25 |
 | 5. Climate & Sensors | 0/TBD | Not started | - |
 | 6. Status Polling + Offline Handling (MVP Ship) | 0/TBD | Not started | - |
 | 7. Config-UI + QR Setup Screen | 0/TBD | Not started | - |
