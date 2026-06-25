@@ -10,6 +10,7 @@ import type {
 } from 'homebridge';
 
 import { TuyaReauthRequiredError } from './auth/errors';
+import { bindSwitchOutletAccessory } from './accessories/switchOutletAccessory';
 import { TuyaDeviceSharingClient } from './auth/customerApi';
 import { FileTokenStore } from './auth/tokenStore';
 import type { PersistedTokenInfo, TokenInfo } from './auth/types';
@@ -52,11 +53,24 @@ export class TuyaSmartLifePlatform implements DynamicPlatformPlugin {
 
   private async discoverDevices(): Promise<void> {
     const tokenStore = new FileTokenStore(join(this.api.user.storagePath(), TOKEN_FILE_NAME));
+    let activeRepository: DeviceRepository | undefined;
     const registry = new AccessoryRegistry<PlatformAccessory>({
       api: this.api,
       pluginName: PLUGIN_NAME,
       platformName: PLATFORM_NAME,
       cachedAccessories: this.accessories,
+      bindAccessory: (accessory, device) => {
+        if (activeRepository === undefined) {
+          throw new Error('Device repository is not ready');
+        }
+
+        bindSwitchOutletAccessory({
+          hap: this.api.hap,
+          accessory,
+          device,
+          sendCommands: (deviceId, commands) => activeRepository?.sendCommands(deviceId, commands),
+        });
+      },
     });
 
     await runPlatformDiscovery({
@@ -69,7 +83,11 @@ export class TuyaSmartLifePlatform implements DynamicPlatformPlugin {
           token,
           onTokenUpdate: (nextToken) => tokenStore.save(mergeTokenUpdate(token, nextToken)),
         }),
-      createRepository: (client) => new DeviceRepository(client),
+      createRepository: (client) => {
+        activeRepository = new DeviceRepository(client);
+
+        return activeRepository;
+      },
       registry,
     });
   }

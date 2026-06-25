@@ -28,6 +28,7 @@ export type AccessoryRegistryOptions<TAccessory extends RegistryAccessory> = {
   pluginName: string;
   platformName: string;
   cachedAccessories: TAccessory[];
+  bindAccessory?: (accessory: TAccessory, device: TuyaDevice) => void;
 };
 
 export type AccessoryReconcileResult<TAccessory extends RegistryAccessory> = {
@@ -61,12 +62,14 @@ export class AccessoryRegistry<TAccessory extends RegistryAccessory = RegistryAc
 
       if (cached) {
         updateContext(cached, device);
+        this.options.bindAccessory?.(cached, device);
         restored.push(cached);
         continue;
       }
 
       const accessory = new this.options.api.platformAccessory(device.name, this.uuidFor(device.id));
       updateContext(accessory, device);
+      this.options.bindAccessory?.(accessory, device);
       registered.push(accessory);
     }
 
