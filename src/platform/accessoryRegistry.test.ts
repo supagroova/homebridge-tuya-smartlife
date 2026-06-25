@@ -54,11 +54,13 @@ function apiMock() {
 describe('AccessoryRegistry', () => {
   it('registers a new supported device with a stable UUID and context metadata', () => {
     const { api, registerPlatformAccessories } = apiMock();
+    const bindAccessory = jest.fn();
     const registry = new AccessoryRegistry({
       api,
       pluginName: 'homebridge-tuya-smartlife',
       platformName: 'TuyaSmartLife',
       cachedAccessories: [],
+      bindAccessory,
     });
 
     const result = registry.reconcile([device()]);
@@ -85,10 +87,15 @@ describe('AccessoryRegistry', () => {
       ],
     ]);
     expect(result.registered).toHaveLength(1);
+    expect(bindAccessory).toHaveBeenCalledWith(
+      expect.objectContaining({ context: expect.objectContaining({ tuyaDeviceId: 'switch-1' }) }),
+      expect.objectContaining({ id: 'switch-1' }),
+    );
   });
 
   it('reuses a cached accessory when the Tuya device id matches', () => {
     const { api, registerPlatformAccessories } = apiMock();
+    const bindAccessory = jest.fn();
     const cached = new MockPlatformAccessory('Old Name', 'uuid:tuya-smartlife:switch-1');
     cached.context.tuyaDeviceId = 'switch-1';
     const registry = new AccessoryRegistry({
@@ -96,6 +103,7 @@ describe('AccessoryRegistry', () => {
       pluginName: 'homebridge-tuya-smartlife',
       platformName: 'TuyaSmartLife',
       cachedAccessories: [cached],
+      bindAccessory,
     });
 
     const result = registry.reconcile([device({ name: 'New Name' })]);
@@ -106,20 +114,24 @@ describe('AccessoryRegistry', () => {
       tuyaDeviceId: 'switch-1',
       tuyaDeviceName: 'New Name',
     });
+    expect(bindAccessory).toHaveBeenCalledWith(cached, expect.objectContaining({ id: 'switch-1' }));
   });
 
   it('does not register unsupported categories as placeholder accessories', () => {
     const { api, registerPlatformAccessories } = apiMock();
+    const bindAccessory = jest.fn();
     const registry = new AccessoryRegistry({
       api,
       pluginName: 'homebridge-tuya-smartlife',
       platformName: 'TuyaSmartLife',
       cachedAccessories: [],
+      bindAccessory,
     });
 
     const result = registry.reconcile([device({ id: 'light-1', category: 'dj' })]);
 
     expect(registerPlatformAccessories).not.toHaveBeenCalled();
+    expect(bindAccessory).not.toHaveBeenCalled();
     expect(result.unsupported.map((unsupportedDevice) => unsupportedDevice.id)).toEqual(['light-1']);
   });
 
