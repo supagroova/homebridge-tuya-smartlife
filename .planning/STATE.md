@@ -4,15 +4,15 @@ milestone: v1.0
 milestone_name: milestone
 current_phase: 5
 current_phase_name: Climate & Sensors
-status: ready_for_planning
-stopped_at: Phase 4 complete; ready for Phase 5
-last_updated: "2026-06-25T07:39:36.000Z"
+status: planned
+stopped_at: Phase 5 planned; ready for execution
+last_updated: "2026-06-25T07:46:52.000Z"
 last_activity: 2026-06-24
-last_activity_desc: Phase 4 complete; switch/outlet binding wired
+last_activity_desc: Phase 5 planning complete
 progress:
   total_phases: 7
   completed_phases: 4
-  total_plans: 13
+  total_plans: 17
   completed_plans: 13
   percent: 57
 ---
@@ -29,9 +29,9 @@ See: .planning/PROJECT.md (updated 2026-06-24)
 ## Current Position
 
 Phase: 5 — Climate & Sensors
-Plan: ready for planning
-Status: Ready for planning — Phase 4 complete
-Last activity: 2026-06-25 — Phase 4 complete; switch/outlet binding wired
+Plan: 05-01 ready
+Status: Planned — Phase 5 has 4 executable plans
+Last activity: 2026-06-25 — Phase 5 planning complete
 
 Progress: [████░░░░░░] 4/7 phases complete
 
@@ -51,6 +51,7 @@ Progress: [████░░░░░░] 4/7 phases complete
 | 02 | 4/4 | - | - |
 | 03 | 3/3 | - | - |
 | 04 | 3/3 | - | - |
+| 05 | 0/4 | - | - |
 
 **Recent Trend:**
 
@@ -114,6 +115,6 @@ Items acknowledged and carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-06-25T07:39:36.000Z
-Stopped at: Phase 4 complete; ready for Phase 5
-Resume file: .planning/ROADMAP.md
+Last session: 2026-06-25T07:46:52.000Z
+Stopped at: Phase 5 planned; ready for execution
+Resume file: .planning/phases/05-climate-sensors/05-01-PLAN.md

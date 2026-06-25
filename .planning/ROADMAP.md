@@ -135,11 +135,14 @@ Plans:
   3. A thermostat's current and target state can be read and set, with target temperature clamped to the DP-spec range/step and mode mapped to the HAP state.
   4. Battery level and low-battery status are reported for devices that provide them.
 
-**Plans**: TBD
+**Plans**: 4 plans ready
 
 Plans:
 
-- [ ] 05-01: TBD
+- [ ] 05-01-PLAN.md — Pure read-only sensor and battery mapping (CLIM-01, CLIM-02, CLIM-04)
+- [ ] 05-02-PLAN.md — HomeKit read-only sensor binding and supported categories (CLIM-01, CLIM-02, CLIM-04)
+- [ ] 05-03-PLAN.md — Pure wk thermostat mapping and command generation (CLIM-03, CLIM-04)
+- [ ] 05-04-PLAN.md — HomeKit thermostat binding and Phase 5 platform composition (CLIM-01, CLIM-02, CLIM-03, CLIM-04)
 
 ### Phase 6: Status Polling + Offline Handling (MVP Ship)
 
@@ -202,6 +205,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 2. Auth Protocol Port + Credential Feasibility | 4/4 | Complete    | 2026-06-24 |
 | 3. Device Discovery + Platform Skeleton | 3/3 | Complete    | 2026-06-24 |
 | 4. Switches & Outlets + Mapping Engine | 3/3 | Complete    | 2026-06-25 |
-| 5. Climate & Sensors | 0/TBD | Not started | - |
+| 5. Climate & Sensors | 0/4 | Planned | - |
 | 6. Status Polling + Offline Handling (MVP Ship) | 0/TBD | Not started | - |
 | 7. Config-UI + QR Setup Screen | 0/TBD | Not started | - |
