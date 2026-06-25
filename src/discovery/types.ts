@@ -31,3 +31,7 @@ export type DiscoverDevicesResult = {
   devices: TuyaDevice[];
 };
 
+export type TuyaDeviceCommand = {
+  code: string;
+  value: unknown;
+};

@@ -1,7 +1,18 @@
-import type { DiscoverDevicesResult, TuyaDevice, TuyaDeviceFunction, TuyaHome } from './types';
+import type {
+  DiscoverDevicesResult,
+  TuyaDevice,
+  TuyaDeviceCommand,
+  TuyaDeviceFunction,
+  TuyaHome,
+} from './types';
 
 type DiscoveryClient = {
   get(path: string, params?: Record<string, unknown>): Promise<{ result?: unknown }>;
+  post(
+    path: string,
+    params?: Record<string, unknown>,
+    body?: Record<string, unknown>,
+  ): Promise<{ result?: unknown }>;
 };
 
 type RawHome = {
@@ -53,6 +64,10 @@ export class DeviceRepository {
       homes,
       devices: deviceGroups.flat(),
     };
+  }
+
+  async sendCommands(deviceId: string, commands: TuyaDeviceCommand[]): Promise<void> {
+    await this.client.post(`/v1.1/m/thing/${deviceId}/commands`, undefined, { commands });
   }
 
   private async normalizeDevice(homeId: string, raw: RawDevice): Promise<TuyaDevice> {
