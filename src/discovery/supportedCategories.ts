@@ -4,6 +4,10 @@ const SUPPORTED_CATEGORIES = new Set([
   'pc',
   'tdq',
   'wsdcg',
+  'mcs',
+  'pir',
+  'sj',
+  'ywbj',
 ]);
 
 export function isSupportedCategory(category: string): boolean {
