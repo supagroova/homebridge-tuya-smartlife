@@ -39,7 +39,7 @@ class FakeService {
     return fakeCharacteristic;
   }
 
-  setCharacteristic(characteristic: unknown, value: unknown): this {
+  setCharacteristic(characteristic: unknown): this {
     this.getCharacteristic(characteristic);
     return this;
   }
