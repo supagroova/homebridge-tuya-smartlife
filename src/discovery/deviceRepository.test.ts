@@ -7,9 +7,17 @@ type GetCall = {
   params?: Record<string, unknown>;
 };
 
+type PostCall = {
+  path: string;
+  params?: Record<string, unknown>;
+  body?: Record<string, unknown>;
+};
+
 class FakeClient {
   calls: GetCall[] = [];
+  postCalls: PostCall[] = [];
   failWith?: Error;
+  postFailWith?: Error;
 
   async get(path: string, params?: Record<string, unknown>): Promise<{ result: unknown }> {
     this.calls.push({ path, params });
@@ -94,6 +102,20 @@ class FakeClient {
 
     throw new Error(`Unexpected request: ${path}`);
   }
+
+  async post(
+    path: string,
+    params?: Record<string, unknown>,
+    body?: Record<string, unknown>,
+  ): Promise<{ result: unknown }> {
+    this.postCalls.push({ path, params, body });
+
+    if (this.postFailWith) {
+      throw this.postFailWith;
+    }
+
+    return { result: true };
+  }
 }
 
 describe('DeviceRepository', () => {
@@ -169,5 +191,31 @@ describe('DeviceRepository', () => {
     const repository = new DeviceRepository(client);
 
     await expect(repository.discoverDevices()).rejects.toThrow(TuyaReauthRequiredError);
+  });
+
+  it('sends device commands to the Tuya command endpoint', async () => {
+    const client = new FakeClient();
+    const repository = new DeviceRepository(client);
+    const commands = [{ code: 'switch_1', value: false }];
+
+    await repository.sendCommands('switch-1', commands);
+
+    expect(client.postCalls).toEqual([
+      {
+        path: '/v1.1/m/thing/switch-1/commands',
+        params: undefined,
+        body: { commands },
+      },
+    ]);
+  });
+
+  it('propagates command transport errors', async () => {
+    const client = new FakeClient();
+    client.postFailWith = new Error('command failed');
+    const repository = new DeviceRepository(client);
+
+    await expect(repository.sendCommands('switch-1', [{ code: 'switch_1', value: true }])).rejects.toThrow(
+      'command failed',
+    );
   });
 });
