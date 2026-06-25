@@ -139,7 +139,7 @@ Plans:
 
 Plans:
 
-- [ ] 05-01-PLAN.md — Pure read-only sensor and battery mapping (CLIM-01, CLIM-02, CLIM-04)
+- [x] 05-01-PLAN.md — Pure read-only sensor and battery mapping (CLIM-01, CLIM-02, CLIM-04)
 - [ ] 05-02-PLAN.md — HomeKit read-only sensor binding and supported categories (CLIM-01, CLIM-02, CLIM-04)
 - [ ] 05-03-PLAN.md — Pure wk thermostat mapping and command generation (CLIM-03, CLIM-04)
 - [ ] 05-04-PLAN.md — HomeKit thermostat binding and Phase 5 platform composition (CLIM-01, CLIM-02, CLIM-03, CLIM-04)
@@ -205,6 +205,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 2. Auth Protocol Port + Credential Feasibility | 4/4 | Complete    | 2026-06-24 |
 | 3. Device Discovery + Platform Skeleton | 3/3 | Complete    | 2026-06-24 |
 | 4. Switches & Outlets + Mapping Engine | 3/3 | Complete    | 2026-06-25 |
-| 5. Climate & Sensors | 0/4 | Planned | - |
+| 5. Climate & Sensors | 1/4 | In progress | - |
 | 6. Status Polling + Offline Handling (MVP Ship) | 0/TBD | Not started | - |
 | 7. Config-UI + QR Setup Screen | 0/TBD | Not started | - |
