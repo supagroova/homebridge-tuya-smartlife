@@ -20,6 +20,8 @@ import { DeviceRepository } from './discovery/deviceRepository';
 import { AccessoryRegistry } from './platform/accessoryRegistry';
 import { runPlatformDiscovery } from './platformDiscovery';
 import { PLATFORM_NAME, PLUGIN_NAME, TOKEN_FILE_NAME, TUYA_CLIENT_ID } from './settings';
+import { DeviceStatusPoller } from './updates/poller';
+import { UpdateHub } from './updates/updateHub';
 
 /**
  * TuyaSmartLifePlatform is the Homebridge dynamic platform. It caches accessories restored from
@@ -29,6 +31,7 @@ import { PLATFORM_NAME, PLUGIN_NAME, TOKEN_FILE_NAME, TUYA_CLIENT_ID } from './s
  */
 export class TuyaSmartLifePlatform implements DynamicPlatformPlugin {
   public readonly accessories: PlatformAccessory[] = [];
+  private statusPoller: DeviceStatusPoller | undefined;
 
   constructor(
     public readonly log: Logging,
@@ -56,6 +59,9 @@ export class TuyaSmartLifePlatform implements DynamicPlatformPlugin {
   private async discoverDevices(): Promise<void> {
     const tokenStore = new FileTokenStore(join(this.api.user.storagePath(), TOKEN_FILE_NAME));
     let activeRepository: DeviceRepository | undefined;
+    const updateHub = new UpdateHub();
+    const communicationFailure = () =>
+      new this.api.hap.HapStatusError(this.api.hap.HAPStatus.SERVICE_COMMUNICATION_FAILURE);
     const registry = new AccessoryRegistry<PlatformAccessory>({
       api: this.api,
       pluginName: PLUGIN_NAME,
@@ -71,22 +77,30 @@ export class TuyaSmartLifePlatform implements DynamicPlatformPlugin {
           accessory,
           device,
           sendCommands: (deviceId, commands) => activeRepository?.sendCommands(deviceId, commands),
+          getDevice: (deviceId) => updateHub.get(deviceId),
+          applySnapshot: (deviceSnapshot) => updateHub.applySnapshot(deviceSnapshot),
+          communicationFailure,
         });
         bindSensorAccessory({
           hap: this.api.hap,
           accessory,
           device,
+          getDevice: (deviceId) => updateHub.get(deviceId),
+          communicationFailure,
         });
         bindThermostatAccessory({
           hap: this.api.hap,
           accessory,
           device,
           sendCommands: (deviceId, commands) => activeRepository?.sendCommands(deviceId, commands),
+          getDevice: (deviceId) => updateHub.get(deviceId),
+          applySnapshot: (deviceSnapshot) => updateHub.applySnapshot(deviceSnapshot),
+          communicationFailure,
         });
       },
     });
 
-    await runPlatformDiscovery({
+    const discovery = await runPlatformDiscovery({
       log: this.log,
       tokenStore,
       createClient: (token) =>
@@ -103,6 +117,23 @@ export class TuyaSmartLifePlatform implements DynamicPlatformPlugin {
       },
       registry,
     });
+
+    if (discovery.status !== 'success' || activeRepository === undefined) {
+      return;
+    }
+
+    updateHub.replaceAll(discovery.devices);
+    this.statusPoller?.stop();
+    this.statusPoller = new DeviceStatusPoller({
+      repository: activeRepository,
+      updateHub,
+      log: this.log,
+      intervalMs: 120_000,
+      jitterRatio: 0.2,
+      backoffMultiplier: 2,
+      maxBackoffMs: 15 * 60_000,
+    });
+    this.statusPoller.start();
   }
 }
 

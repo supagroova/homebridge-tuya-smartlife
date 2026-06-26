@@ -1,6 +1,7 @@
 import type { TuyaDevice, TuyaDeviceCommand } from '../discovery/types';
 import { buildThermostatMapping, type ThermostatMapping, type ThermostatState } from '../mappers/thermostat';
 import type { SensorMapping } from '../mappers/sensor';
+import { createStatusReader } from './statusReader';
 
 type CharacteristicLike = {
   onGet(handler: () => unknown): CharacteristicLike;
@@ -55,6 +56,9 @@ export type BindThermostatAccessoryOptions = {
   accessory: AccessoryLike;
   device: TuyaDevice;
   sendCommands: ThermostatCommandSender;
+  getDevice?: (deviceId: string) => TuyaDevice | undefined;
+  applySnapshot?: (device: TuyaDevice) => void;
+  communicationFailure?: () => Error;
 };
 
 const THERMOSTAT_SUBTYPE = 'thermostat';
@@ -68,13 +72,14 @@ export function bindThermostatAccessory(options: BindThermostatAccessoryOptions)
   }
 
   options.accessory.context.tuyaStatus = { ...options.device.status };
+  const statusReader = createStatusReader(options);
 
   const service =
     options.accessory.getServiceById(options.hap.Service.Thermostat, THERMOSTAT_SUBTYPE) ??
     options.accessory.addService(options.hap.Service.Thermostat, options.device.name, THERMOSTAT_SUBTYPE);
 
   bindThermostatCharacteristics(options, service);
-  bindBatteryCharacteristics(options, mapping);
+  bindBatteryCharacteristics(options, mapping, statusReader.requireOnlineDevice);
 }
 
 function bindThermostatCharacteristics(options: BindThermostatAccessoryOptions, service: ServiceLike): void {
@@ -100,13 +105,19 @@ function bindThermostatCharacteristics(options: BindThermostatAccessoryOptions, 
   );
 }
 
-function bindBatteryCharacteristics(options: BindThermostatAccessoryOptions, mapping: ThermostatMapping): void {
+function bindBatteryCharacteristics(
+  options: BindThermostatAccessoryOptions,
+  mapping: ThermostatMapping,
+  requireOnlineDevice: () => TuyaDevice,
+): void {
   for (const batteryMapping of mapping.battery) {
     const service =
       options.accessory.getServiceById(options.hap.Service.Battery, BATTERY_SUBTYPE) ??
       options.accessory.addService(options.hap.Service.Battery, `${options.device.name} Battery`, BATTERY_SUBTYPE);
 
-    service.getCharacteristic(batteryCharacteristicFor(options.hap, batteryMapping)).onGet(() => batteryMapping.value);
+    service
+      .getCharacteristic(batteryCharacteristicFor(options.hap, batteryMapping))
+      .onGet(() => currentBatteryValue(requireOnlineDevice(), batteryMapping));
   }
 }
 
@@ -115,6 +126,8 @@ async function setTargetTemperature(options: BindThermostatAccessoryOptions, val
     return;
   }
 
+  const statusReader = createStatusReader(options);
+  statusReader.requireOnlineDevice();
   const mapping = currentMapping(options);
 
   if (!mapping) {
@@ -123,12 +136,14 @@ async function setTargetTemperature(options: BindThermostatAccessoryOptions, val
 
   const command = mapping.targetTemperature.command(value);
   await options.sendCommands(options.device.id, [command]);
-  options.device.status[command.code] = command.value;
-  options.accessory.context.tuyaStatus = { ...options.device.status };
+  const nextDevice = statusReader.applyCommandValues([command]);
+  options.accessory.context.tuyaStatus = { ...nextDevice.status };
 }
 
 async function setTargetState(options: BindThermostatAccessoryOptions, value: unknown): Promise<void> {
   const state = stateFromTargetValue(options.hap, value);
+  const statusReader = createStatusReader(options);
+  statusReader.requireOnlineDevice();
   const mapping = currentMapping(options);
 
   if (!state || !mapping) {
@@ -137,16 +152,18 @@ async function setTargetState(options: BindThermostatAccessoryOptions, value: un
 
   const commands = mapping.targetStateCommand(state);
   await options.sendCommands(options.device.id, commands);
-
-  for (const command of commands) {
-    options.device.status[command.code] = command.value;
-  }
-
-  options.accessory.context.tuyaStatus = { ...options.device.status };
+  const nextDevice = statusReader.applyCommandValues(commands);
+  options.accessory.context.tuyaStatus = { ...nextDevice.status };
 }
 
 function currentMapping(options: BindThermostatAccessoryOptions): ThermostatMapping | undefined {
-  return buildThermostatMapping(options.device);
+  return buildThermostatMapping(createStatusReader(options).requireOnlineDevice());
+}
+
+function currentBatteryValue(device: TuyaDevice, mapping: SensorMapping): boolean | number | undefined {
+  return buildThermostatMapping(device)?.battery.find(
+    (candidate) => candidate.code === mapping.code && candidate.characteristic === mapping.characteristic,
+  )?.value;
 }
 
 function currentStateValue(hap: HapLike, state: ThermostatState | undefined): unknown {

@@ -1,5 +1,6 @@
 import type { TuyaDevice, TuyaDeviceCommand } from '../discovery/types';
 import { buildSwitchOutletMappings } from '../mappers/switchOutlet';
+import { createStatusReader } from './statusReader';
 
 type CharacteristicLike = {
   onGet(handler: () => unknown): CharacteristicLike;
@@ -38,10 +39,14 @@ export type BindSwitchOutletAccessoryOptions = {
   accessory: AccessoryLike;
   device: TuyaDevice;
   sendCommands: SwitchOutletCommandSender;
+  getDevice?: (deviceId: string) => TuyaDevice | undefined;
+  applySnapshot?: (device: TuyaDevice) => void;
+  communicationFailure?: () => Error;
 };
 
 export function bindSwitchOutletAccessory(options: BindSwitchOutletAccessoryOptions): void {
   options.accessory.context.tuyaStatus = { ...options.device.status };
+  const statusReader = createStatusReader(options);
 
   for (const mapping of buildSwitchOutletMappings(options.device)) {
     const serviceConstructor =
@@ -56,12 +61,14 @@ export function bindSwitchOutletAccessory(options: BindSwitchOutletAccessoryOpti
 
     service
       .getCharacteristic(options.hap.Characteristic.On)
-      .onGet(() => options.device.status[mapping.code])
+      .onGet(() => statusReader.statusValue(mapping.code))
       .onSet(async (value) => {
+        statusReader.requireOnlineDevice();
         const nextValue = Boolean(value);
-        await options.sendCommands(options.device.id, [mapping.command(nextValue)]);
-        options.device.status[mapping.code] = nextValue;
-        options.accessory.context.tuyaStatus = { ...options.device.status };
+        const command = mapping.command(nextValue);
+        await options.sendCommands(options.device.id, [command]);
+        const nextDevice = statusReader.applyCommandValues([command]);
+        options.accessory.context.tuyaStatus = { ...nextDevice.status };
       });
   }
 }

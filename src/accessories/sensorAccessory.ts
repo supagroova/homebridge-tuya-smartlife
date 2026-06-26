@@ -1,5 +1,6 @@
 import type { TuyaDevice } from '../discovery/types';
 import { buildBatteryMappings, buildSensorMappings, type SensorMapping } from '../mappers/sensor';
+import { createStatusReader } from './statusReader';
 
 type CharacteristicLike = {
   onGet(handler: () => unknown): CharacteristicLike;
@@ -41,6 +42,8 @@ export type BindSensorAccessoryOptions = {
   hap: HapLike;
   accessory: AccessoryLike;
   device: TuyaDevice;
+  getDevice?: (deviceId: string) => TuyaDevice | undefined;
+  communicationFailure?: () => Error;
 };
 
 export function bindSensorAccessory(options: BindSensorAccessoryOptions): void {
@@ -51,13 +54,25 @@ export function bindSensorAccessory(options: BindSensorAccessoryOptions): void {
   }
 
   options.accessory.context.tuyaStatus = { ...options.device.status };
+  const statusReader = createStatusReader(options);
 
   for (const mapping of [...sensorMappings, ...buildBatteryMappings(options.device)]) {
     const serviceConstructor = serviceConstructorFor(options.hap, mapping);
     const service = serviceFor(options, serviceConstructor, mapping);
 
-    service.getCharacteristic(characteristicFor(options.hap, mapping)).onGet(() => mapping.value);
+    service
+      .getCharacteristic(characteristicFor(options.hap, mapping))
+      .onGet(() => currentMappingValue(statusReader.requireOnlineDevice(), mapping));
   }
+}
+
+function currentMappingValue(device: TuyaDevice, mapping: SensorMapping): boolean | number | undefined {
+  return [...buildSensorMappings(device), ...buildBatteryMappings(device)].find(
+    (candidate) =>
+      candidate.code === mapping.code &&
+      candidate.serviceType === mapping.serviceType &&
+      candidate.characteristic === mapping.characteristic,
+  )?.value;
 }
 
 function serviceFor(

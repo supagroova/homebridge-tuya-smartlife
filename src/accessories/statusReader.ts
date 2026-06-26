@@ -4,14 +4,14 @@ export type StatusReaderOptions = {
   device: TuyaDevice;
   getDevice?: (deviceId: string) => TuyaDevice | undefined;
   applySnapshot?: (device: TuyaDevice) => void;
-  communicationFailure: () => Error;
+  communicationFailure?: () => Error;
 };
 
 export type StatusReader = {
   currentDevice(): TuyaDevice;
   requireOnlineDevice(): TuyaDevice;
   statusValue(code: string): unknown;
-  applyCommandValues(commands: TuyaDeviceCommand[]): void;
+  applyCommandValues(commands: TuyaDeviceCommand[]): TuyaDevice;
 };
 
 export function createStatusReader(options: StatusReaderOptions): StatusReader {
@@ -31,13 +31,13 @@ function requireOnlineDevice(options: StatusReaderOptions): TuyaDevice {
   const device = currentDevice(options);
 
   if (!device.online) {
-    throw options.communicationFailure();
+    throw (options.communicationFailure ?? defaultCommunicationFailure)();
   }
 
   return device;
 }
 
-function applyCommandValues(options: StatusReaderOptions, commands: TuyaDeviceCommand[]): void {
+function applyCommandValues(options: StatusReaderOptions, commands: TuyaDeviceCommand[]): TuyaDevice {
   const device = currentDevice(options);
   const nextDevice: TuyaDevice = {
     ...device,
@@ -49,8 +49,14 @@ function applyCommandValues(options: StatusReaderOptions, commands: TuyaDeviceCo
 
   if (options.applySnapshot) {
     options.applySnapshot(nextDevice);
-    return;
+    return nextDevice;
   }
 
   options.device.status = nextDevice.status;
+
+  return nextDevice;
+}
+
+function defaultCommunicationFailure(): Error {
+  return new Error('Tuya device is offline');
 }
