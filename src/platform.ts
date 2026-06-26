@@ -10,7 +10,9 @@ import type {
 } from 'homebridge';
 
 import { TuyaReauthRequiredError } from './auth/errors';
+import { bindSensorAccessory } from './accessories/sensorAccessory';
 import { bindSwitchOutletAccessory } from './accessories/switchOutletAccessory';
+import { bindThermostatAccessory } from './accessories/thermostatAccessory';
 import { TuyaDeviceSharingClient } from './auth/customerApi';
 import { FileTokenStore } from './auth/tokenStore';
 import type { PersistedTokenInfo, TokenInfo } from './auth/types';
@@ -65,6 +67,17 @@ export class TuyaSmartLifePlatform implements DynamicPlatformPlugin {
         }
 
         bindSwitchOutletAccessory({
+          hap: this.api.hap,
+          accessory,
+          device,
+          sendCommands: (deviceId, commands) => activeRepository?.sendCommands(deviceId, commands),
+        });
+        bindSensorAccessory({
+          hap: this.api.hap,
+          accessory,
+          device,
+        });
+        bindThermostatAccessory({
           hap: this.api.hap,
           accessory,
           device,
