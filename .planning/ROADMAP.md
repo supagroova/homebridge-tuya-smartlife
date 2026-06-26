@@ -179,6 +179,15 @@ Plans:
   2. A custom config-UI screen renders the login QR, polls for scan completion, and shows friendly messages for known errors (e.g. `E0020003`, "designated APP", region issues).
   3. The README documents QR-login setup, the supported device set, and known limitations.
 
+**QR Setup Flow To Preserve**:
+
+  1. Enable Homebridge custom plugin UI with `customUi: true` and a shipped `homebridge-ui/` bundle; the static schema form alone is not enough to display/poll QR login.
+  2. The UI asks for Smart Life user code and region/endpoint, then calls plugin UI server endpoints through `homebridge.request(...)`.
+  3. The UI server calls the existing `QrLoginFlow.createQrCode(...)` and returns the QR payload/data URL for display in the settings modal.
+  4. The user scans the QR code in the Smart Life app; the UI polls the server for scan status.
+  5. On success, the server writes `tuya-smartlife-token.json` to `this.homebridgeStoragePath` so the platform can load it on startup.
+  6. The UI updates/saves plugin config as needed and prompts the user to restart Homebridge.
+
 **Plans**: TBD
 **UI hint**: yes
 
