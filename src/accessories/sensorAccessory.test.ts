@@ -129,6 +129,53 @@ describe('bindSensorAccessory', () => {
     );
   });
 
+  it('reads updated temperature and humidity values from getDevice', () => {
+    const accessory = new FakeAccessory();
+
+    bindSensorAccessory({
+      hap,
+      accessory,
+      device: device(),
+      getDevice: () =>
+        device({
+          status: {
+            va_temperature: 201,
+            va_humidity: 402,
+            battery_percentage: 50,
+            battery_state: 'low',
+          },
+        }),
+      communicationFailure: () => new Error('offline'),
+    });
+
+    expect(accessory.services[0]?.getCharacteristic(hap.Characteristic.CurrentTemperature).getHandler?.()).toBe(
+      20.1,
+    );
+    expect(
+      accessory.services[1]?.getCharacteristic(hap.Characteristic.CurrentRelativeHumidity).getHandler?.(),
+    ).toBe(40.2);
+    expect(accessory.services[2]?.getCharacteristic(hap.Characteristic.BatteryLevel).getHandler?.()).toBe(50);
+    expect(accessory.services[2]?.getCharacteristic(hap.Characteristic.StatusLowBattery).getHandler?.()).toBe(
+      true,
+    );
+  });
+
+  it('throws communication failure for offline sensor getters', () => {
+    const accessory = new FakeAccessory();
+
+    bindSensorAccessory({
+      hap,
+      accessory,
+      device: device(),
+      getDevice: () => device({ online: false }),
+      communicationFailure: () => new Error('offline'),
+    });
+
+    expect(() =>
+      accessory.services[0]?.getCharacteristic(hap.Characteristic.CurrentTemperature).getHandler?.(),
+    ).toThrow('offline');
+  });
+
   it('creates binary sensor services from category-specific mappings', () => {
     const accessory = new FakeAccessory();
 

@@ -179,6 +179,65 @@ describe('bindThermostatAccessory', () => {
     );
   });
 
+  it('reads updated thermostat values from getDevice', () => {
+    const accessory = new FakeAccessory();
+
+    bindThermostatAccessory({
+      hap,
+      accessory,
+      device: device(),
+      sendCommands: jest.fn(),
+      getDevice: () =>
+        device({
+          status: {
+            switch: true,
+            temp_current: 199,
+            temp_set: 205,
+            mode: 'auto',
+            battery_percentage: 60,
+            battery_state: 'low',
+          },
+        }),
+      communicationFailure: () => new Error('offline'),
+    });
+
+    expect(accessory.services[0]?.getCharacteristic(hap.Characteristic.CurrentTemperature).getHandler?.()).toBe(
+      19.9,
+    );
+    expect(accessory.services[0]?.getCharacteristic(hap.Characteristic.TargetTemperature).getHandler?.()).toBe(
+      20.5,
+    );
+    expect(
+      accessory.services[0]?.getCharacteristic(hap.Characteristic.TargetHeatingCoolingState.token).getHandler?.(),
+    ).toBe(hap.Characteristic.TargetHeatingCoolingState.AUTO);
+    expect(accessory.services[1]?.getCharacteristic(hap.Characteristic.BatteryLevel).getHandler?.()).toBe(60);
+    expect(accessory.services[1]?.getCharacteristic(hap.Characteristic.StatusLowBattery).getHandler?.()).toBe(
+      true,
+    );
+  });
+
+  it('throws communication failure for offline thermostat getters and setters', async () => {
+    const accessory = new FakeAccessory();
+    const sendCommands = jest.fn();
+
+    bindThermostatAccessory({
+      hap,
+      accessory,
+      device: device(),
+      sendCommands,
+      getDevice: () => device({ online: false }),
+      communicationFailure: () => new Error('offline'),
+    });
+
+    expect(() =>
+      accessory.services[0]?.getCharacteristic(hap.Characteristic.CurrentTemperature).getHandler?.(),
+    ).toThrow('offline');
+    await expect(
+      accessory.services[0]?.getCharacteristic(hap.Characteristic.TargetTemperature).setHandler?.(19.5),
+    ).rejects.toThrow('offline');
+    expect(sendCommands).not.toHaveBeenCalled();
+  });
+
   it('reuses existing thermostat service by subtype', () => {
     const accessory = new FakeAccessory();
     const existing = accessory.addService(hap.Service.Thermostat, 'Existing', 'thermostat');
@@ -192,13 +251,20 @@ describe('bindThermostatAccessory', () => {
     const accessory = new FakeAccessory();
     const tuyaDevice = device();
     const sendCommands = jest.fn().mockResolvedValue(undefined);
+    const applySnapshot = jest.fn();
 
-    bindThermostatAccessory({ hap, accessory, device: tuyaDevice, sendCommands });
+    bindThermostatAccessory({ hap, accessory, device: tuyaDevice, sendCommands, applySnapshot });
 
     await accessory.services[0]?.getCharacteristic(hap.Characteristic.TargetTemperature).setHandler?.(19.5);
 
     expect(sendCommands).toHaveBeenCalledWith('thermostat-1', [{ code: 'temp_set', value: 195 }]);
-    expect(tuyaDevice.status.temp_set).toBe(195);
+    expect(applySnapshot).toHaveBeenCalledWith(
+      expect.objectContaining({
+        id: 'thermostat-1',
+        status: expect.objectContaining({ temp_set: 195 }),
+      }),
+    );
+    expect(tuyaDevice.status.temp_set).toBe(225);
     expect(accessory.context.tuyaStatus).toMatchObject({ temp_set: 195 });
   });
 

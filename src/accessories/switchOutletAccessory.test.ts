@@ -108,6 +108,43 @@ describe('bindSwitchOutletAccessory', () => {
     expect(sendCommands).not.toHaveBeenCalled();
   });
 
+  it('reads the latest cached status from getDevice', () => {
+    const accessory = new FakeAccessory();
+
+    bindSwitchOutletAccessory({
+      hap,
+      accessory,
+      device: device(),
+      sendCommands: jest.fn(),
+      getDevice: () => device({ status: { switch_1: false } }),
+      communicationFailure: () => new Error('offline'),
+    });
+
+    expect(accessory.services[0]?.getCharacteristic(hap.Characteristic.On).getHandler?.()).toBe(false);
+  });
+
+  it('throws communication failure for offline onGet and does not send offline onSet commands', async () => {
+    const accessory = new FakeAccessory();
+    const sendCommands = jest.fn();
+
+    bindSwitchOutletAccessory({
+      hap,
+      accessory,
+      device: device(),
+      sendCommands,
+      getDevice: () => device({ online: false }),
+      communicationFailure: () => new Error('offline'),
+    });
+
+    expect(() => accessory.services[0]?.getCharacteristic(hap.Characteristic.On).getHandler?.()).toThrow(
+      'offline',
+    );
+    await expect(accessory.services[0]?.getCharacteristic(hap.Characteristic.On).setHandler?.(false)).rejects.toThrow(
+      'offline',
+    );
+    expect(sendCommands).not.toHaveBeenCalled();
+  });
+
   it('creates outlet services for outlet categories', () => {
     const accessory = new FakeAccessory();
 
@@ -160,13 +197,17 @@ describe('bindSwitchOutletAccessory', () => {
     const accessory = new FakeAccessory();
     const tuyaDevice = device();
     const sendCommands = jest.fn().mockResolvedValue(undefined);
+    const applySnapshot = jest.fn();
 
-    bindSwitchOutletAccessory({ hap, accessory, device: tuyaDevice, sendCommands });
+    bindSwitchOutletAccessory({ hap, accessory, device: tuyaDevice, sendCommands, applySnapshot });
 
     await accessory.services[0]?.getCharacteristic(hap.Characteristic.On).setHandler?.(false);
 
     expect(sendCommands).toHaveBeenCalledWith('switch-1', [{ code: 'switch_1', value: false }]);
-    expect(tuyaDevice.status.switch_1).toBe(false);
+    expect(applySnapshot).toHaveBeenCalledWith(
+      expect.objectContaining({ id: 'switch-1', status: { switch_1: false } }),
+    );
+    expect(tuyaDevice.status.switch_1).toBe(true);
     expect(accessory.context.tuyaStatus).toEqual({ switch_1: false });
   });
 
