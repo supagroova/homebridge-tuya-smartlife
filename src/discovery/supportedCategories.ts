@@ -8,6 +8,7 @@ const SUPPORTED_CATEGORIES = new Set([
   'pir',
   'sj',
   'ywbj',
+  'wk',
 ]);
 
 export function isSupportedCategory(category: string): boolean {
