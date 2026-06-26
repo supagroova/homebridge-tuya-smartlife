@@ -13,6 +13,10 @@ describe('isSupportedCategory', () => {
     expect(isSupportedCategory(category)).toBe(true);
   });
 
+  it('supports thermostat category', () => {
+    expect(isSupportedCategory('wk')).toBe(true);
+  });
+
   it('does not support unrelated categories as HomeKit skeletons', () => {
     expect(isSupportedCategory('dj')).toBe(false);
   });
