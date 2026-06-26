@@ -4,15 +4,15 @@ milestone: v1.0
 milestone_name: milestone
 current_phase: 6
 current_phase_name: Status Polling + Offline Handling (MVP Ship)
-status: ready_for_planning
-stopped_at: Phase 5 complete
-last_updated: "2026-06-26T08:01:31Z"
+status: ready_to_execute
+stopped_at: Phase 6 planned
+last_updated: "2026-06-26T08:20:55Z"
 last_activity: 2026-06-26
-last_activity_desc: Phase 5 complete - climate and sensors support implemented
+last_activity_desc: Phase 6 status polling and offline handling planned
 progress:
   total_phases: 7
   completed_phases: 5
-  total_plans: 17
+  total_plans: 20
   completed_plans: 17
   percent: 71
 ---
@@ -29,9 +29,9 @@ See: .planning/PROJECT.md (updated 2026-06-24)
 ## Current Position
 
 Phase: 6 — Status Polling + Offline Handling (MVP Ship)
-Plan: 06-01 planning ready
-Status: Ready for planning — Phase 5 complete
-Last activity: 2026-06-26 — Phase 5 climate and sensors support complete
+Plan: 06-01 ready
+Status: Ready to execute — 3 Phase 6 plans ready
+Last activity: 2026-06-26 — Phase 6 status polling and offline handling planned
 
 Progress: [█████░░░░░] 5/7 phases complete
 
@@ -52,6 +52,7 @@ Progress: [█████░░░░░] 5/7 phases complete
 | 03 | 3/3 | - | - |
 | 04 | 3/3 | - | - |
 | 05 | 4/4 | - | - |
+| 06 | 0/3 | - | - |
 
 **Recent Trend:**
 
@@ -119,6 +120,6 @@ Items acknowledged and carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-06-26T08:01:31Z
-Stopped at: Phase 5 complete
-Resume file: .planning/ROADMAP.md#phase-6-status-polling--offline-handling-mvp-ship
+Last session: 2026-06-26T08:20:55Z
+Stopped at: Phase 6 planned
+Resume file: .planning/phases/06-status-polling-offline-handling-mvp-ship/06-01-PLAN.md
