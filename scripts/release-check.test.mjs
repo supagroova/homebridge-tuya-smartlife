@@ -14,6 +14,9 @@ test('validates Homebridge npm package metadata', () => {
     main: 'dist/index.js',
     files: ['dist', 'config.schema.json'],
     keywords: ['homebridge-plugin', 'tuya'],
+    scripts: {
+      prepare: 'npm run build',
+    },
     peerDependencies: {
       homebridge: '^2.0.0',
     },
@@ -24,13 +27,15 @@ test('rejects packages that are not Homebridge-discoverable', () => {
   assert.throws(
     () =>
       validatePackageMetadata({
-        name: 'tuya-smartlife',
+        name: 'homebridge-tuya-smartlife',
         main: 'dist/index.js',
         files: ['dist', 'config.schema.json'],
-        keywords: ['tuya'],
-        peerDependencies: {},
+        keywords: ['homebridge-plugin', 'tuya'],
+        peerDependencies: {
+          homebridge: '^2.0.0',
+        },
       }),
-    /package name must start with homebridge-/,
+    /package scripts.prepare must run npm run build/,
   );
 });
 
