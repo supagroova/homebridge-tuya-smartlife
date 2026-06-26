@@ -32,6 +32,10 @@ export function validatePackageMetadata(packageJson) {
     errors.push('package peerDependencies must include homebridge');
   }
 
+  if (packageJson.scripts?.prepare !== 'npm run build') {
+    errors.push('package scripts.prepare must run npm run build');
+  }
+
   throwIfErrors(errors);
 }
 

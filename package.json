@@ -21,6 +21,7 @@
     "lint": "eslint .",
     "test": "jest",
     "coverage": "jest --coverage",
+    "prepare": "npm run build",
     "auth:qr-login": "npm run build && node scripts/qr-login.mjs",
     "prepublishOnly": "npm run lint && npm test && npm run build",
     "release:check": "npm run build && node scripts/release-check.mjs"
