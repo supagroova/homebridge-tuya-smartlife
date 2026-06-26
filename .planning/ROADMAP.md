@@ -27,7 +27,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 2: Auth Protocol Port + Credential Feasibility** - Port device-sharing signing/crypto, prove QR login end-to-end, resolve legitimate credential
 - [x] **Phase 3: Device Discovery + Platform Skeleton** - Discover Tuya devices, expose to HomeKit with stable UUIDs, cache/register/prune lifecycle
 - [x] **Phase 4: Switches & Outlets + Mapping Engine** - On/off control incl. multi-gang, plus the reusable DP→HomeKit mapping/scaling engine
-- [ ] **Phase 5: Climate & Sensors** - Temp/humidity, binary sensors, thermostat control, battery reporting
+- [x] **Phase 5: Climate & Sensors** - Temp/humidity, binary sensors, thermostat control, battery reporting
 - [ ] **Phase 6: Status Polling + Offline Handling (MVP Ship)** - Polling keeps state current, offline devices show "No Response", first npm publish
 - [ ] **Phase 7: Config-UI + QR Setup Screen** - Config schema + custom QR login UI + README documentation
 
@@ -142,7 +142,7 @@ Plans:
 - [x] 05-01-PLAN.md — Pure read-only sensor and battery mapping (CLIM-01, CLIM-02, CLIM-04)
 - [x] 05-02-PLAN.md — HomeKit read-only sensor binding and supported categories (CLIM-01, CLIM-02, CLIM-04)
 - [x] 05-03-PLAN.md — Pure wk thermostat mapping and command generation (CLIM-03, CLIM-04)
-- [ ] 05-04-PLAN.md — HomeKit thermostat binding and Phase 5 platform composition (CLIM-01, CLIM-02, CLIM-03, CLIM-04)
+- [x] 05-04-PLAN.md — HomeKit thermostat binding and Phase 5 platform composition (CLIM-01, CLIM-02, CLIM-03, CLIM-04)
 
 ### Phase 6: Status Polling + Offline Handling (MVP Ship)
 
@@ -205,6 +205,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 2. Auth Protocol Port + Credential Feasibility | 4/4 | Complete    | 2026-06-24 |
 | 3. Device Discovery + Platform Skeleton | 3/3 | Complete    | 2026-06-24 |
 | 4. Switches & Outlets + Mapping Engine | 3/3 | Complete    | 2026-06-25 |
-| 5. Climate & Sensors | 3/4 | In progress | - |
+| 5. Climate & Sensors | 4/4 | Complete    | 2026-06-26 |
 | 6. Status Polling + Offline Handling (MVP Ship) | 0/TBD | Not started | - |
 | 7. Config-UI + QR Setup Screen | 0/TBD | Not started | - |

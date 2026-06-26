@@ -2,19 +2,19 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-current_phase: 5
-current_phase_name: Climate & Sensors
-status: executing
-stopped_at: Phase 5 Plan 3 complete
-last_updated: "2026-06-26T07:48:42Z"
+current_phase: 6
+current_phase_name: Status Polling + Offline Handling (MVP Ship)
+status: ready_for_planning
+stopped_at: Phase 5 complete
+last_updated: "2026-06-26T08:01:31Z"
 last_activity: 2026-06-26
-last_activity_desc: Phase 5 Plan 3 thermostat mapper complete
+last_activity_desc: Phase 5 complete - climate and sensors support implemented
 progress:
   total_phases: 7
-  completed_phases: 4
+  completed_phases: 5
   total_plans: 17
-  completed_plans: 16
-  percent: 57
+  completed_plans: 17
+  percent: 71
 ---
 
 # Project State
@@ -24,22 +24,22 @@ progress:
 See: .planning/PROJECT.md (updated 2026-06-24)
 
 **Core value:** A user can control their Tuya devices in HomeKit after a simple Smart Life QR login — no per-user Tuya developer account.
-**Current focus:** Phase 05 — climate-sensors
+**Current focus:** Phase 06 — status-polling-offline-handling
 
 ## Current Position
 
-Phase: 5 — Climate & Sensors
-Plan: 05-04 ready
-Status: Executing — 3/4 Phase 5 plans complete
-Last activity: 2026-06-26 — Phase 5 Plan 3 thermostat mapper complete
+Phase: 6 — Status Polling + Offline Handling (MVP Ship)
+Plan: 06-01 planning ready
+Status: Ready for planning — Phase 5 complete
+Last activity: 2026-06-26 — Phase 5 climate and sensors support complete
 
-Progress: [████░░░░░░] 4/7 phases complete
+Progress: [█████░░░░░] 5/7 phases complete
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 16
+- Total plans completed: 17
 - Average duration: - min
 - Total execution time: 0.0 hours
 
@@ -51,7 +51,7 @@ Progress: [████░░░░░░] 4/7 phases complete
 | 02 | 4/4 | - | - |
 | 03 | 3/3 | - | - |
 | 04 | 3/3 | - | - |
-| 05 | 3/4 | - | - |
+| 05 | 4/4 | - | - |
 
 **Recent Trend:**
 
@@ -75,6 +75,7 @@ Progress: [████░░░░░░] 4/7 phases complete
 | Phase 05 P01 | ~15m | 2 tasks | 2 files |
 | Phase 05 P02 | ~15m | 4 tasks | 4 files |
 | Phase 05 P03 | ~15m | 2 tasks | 2 files |
+| Phase 05 P04 | ~20m | 4 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -118,6 +119,6 @@ Items acknowledged and carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-06-26T07:48:42Z
-Stopped at: Phase 5 Plan 3 complete
-Resume file: .planning/phases/05-climate-sensors/05-04-PLAN.md
+Last session: 2026-06-26T08:01:31Z
+Stopped at: Phase 5 complete
+Resume file: .planning/ROADMAP.md#phase-6-status-polling--offline-handling-mvp-ship
