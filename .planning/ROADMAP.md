@@ -162,7 +162,7 @@ Plans:
 Plans:
 
 - [x] 06-01-PLAN.md — Polling-first UpdateHub and repository-backed status poller (UPD-01, UPD-02)
-- [ ] 06-02-PLAN.md — Offline-aware cached accessory binding and platform polling composition (UPD-01, UPD-02, UPD-03)
+- [x] 06-02-PLAN.md — Offline-aware cached accessory binding and platform polling composition (UPD-01, UPD-02, UPD-03)
 - [ ] 06-03-PLAN.md — npm/Homebridge publish readiness and controlled first-publish gate (PUB-01)
 
 > **Note:** This is the MVP ship point. MQTT real-time push is not a blocker for the first release; it is deferred to v2.
@@ -208,5 +208,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 3. Device Discovery + Platform Skeleton | 3/3 | Complete    | 2026-06-24 |
 | 4. Switches & Outlets + Mapping Engine | 3/3 | Complete    | 2026-06-25 |
 | 5. Climate & Sensors | 4/4 | Complete    | 2026-06-26 |
-| 6. Status Polling + Offline Handling (MVP Ship) | 1/3 | In progress | - |
+| 6. Status Polling + Offline Handling (MVP Ship) | 2/3 | In progress | - |
 | 7. Config-UI + QR Setup Screen | 0/TBD | Not started | - |
