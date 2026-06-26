@@ -5,6 +5,7 @@
 module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
+  testMatch: ['**/*.test.ts'],
   // Collect from production src/, but exclude declaration files, tests, and the
   // Homebridge glue that carries `// tdd-audit: exempt` (registration + the thin
   // dynamic-platform adapter + the constant-only settings module). These are
