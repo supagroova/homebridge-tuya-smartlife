@@ -5,7 +5,7 @@ const errors_1 = require("./auth/errors");
 async function runPlatformDiscovery(options) {
     const token = await options.tokenStore.load();
     if (token === null) {
-        options.log.warn('Tuya Smart Life authentication is required before device discovery can run.');
+        options.log.warn('Tuya Smart Life authentication is required before device discovery can run. Open the plugin settings to complete QR setup.');
         return { status: 'reauth-required' };
     }
     try {
