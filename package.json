@@ -47,7 +47,8 @@
   "files": [
     "dist",
     "config.schema.json",
-    "homebridge-ui"
+    "homebridge-ui/public",
+    "homebridge-ui/server.js"
   ],
   "dependencies": {
     "@homebridge/plugin-ui-utils": "^2.2.4",
