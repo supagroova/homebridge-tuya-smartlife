@@ -29,7 +29,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 4: Switches & Outlets + Mapping Engine** - On/off control incl. multi-gang, plus the reusable DP→HomeKit mapping/scaling engine
 - [x] **Phase 5: Climate & Sensors** - Temp/humidity, binary sensors, thermostat control, battery reporting
 - [ ] **Phase 6: Status Polling + Offline Handling (MVP Ship)** - Polling keeps state current, offline devices show "No Response", first npm publish
-- [ ] **Phase 7: Config-UI + QR Setup Screen** - Config schema + custom QR login UI + README documentation
+- [x] **Phase 7: Config-UI + QR Setup Screen** - Config schema + custom QR login UI + README documentation
 
 ## Phase Details
 
@@ -114,7 +114,7 @@ Plans:
   2. A multi-gang device exposes each gang (`switch_N` DP) as its own HomeKit service that is independently controllable.
   3. Outlets are mapped to the HomeKit Outlet service and plain switches to the Switch service, based on Tuya category.
 
-**Plans**: 3 plans ready
+**Plans**: 3/3 plans complete
 
 Plans:
 
@@ -195,7 +195,7 @@ Plans:
 
 - [x] 07-01-PLAN.md — Config schema and startup setup visibility (CFG-01)
 - [x] 07-02-PLAN.md — Custom Homebridge QR login UI and UI server (CFG-02)
-- [ ] 07-03-PLAN.md — README, package asset checks, and Phase 7 closeout (PUB-02)
+- [x] 07-03-PLAN.md — README, package asset checks, and Phase 7 closeout (PUB-02)
 
 ## Future / v2
 
@@ -220,4 +220,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 4. Switches & Outlets + Mapping Engine | 3/3 | Complete    | 2026-06-25 |
 | 5. Climate & Sensors | 4/4 | Complete    | 2026-06-26 |
 | 6. Status Polling + Offline Handling (MVP Ship) | 3/3 | Ready to publish | - |
-| 7. Config-UI + QR Setup Screen | 2/3 | In progress | - |
+| 7. Config-UI + QR Setup Screen | 3/3 | Complete | 2026-06-29 |
