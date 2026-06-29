@@ -46,6 +46,11 @@
   },
   "files": [
     "dist",
-    "config.schema.json"
-  ]
+    "config.schema.json",
+    "homebridge-ui"
+  ],
+  "dependencies": {
+    "@homebridge/plugin-ui-utils": "^2.2.4",
+    "qrcode": "^1.5.4"
+  }
 }

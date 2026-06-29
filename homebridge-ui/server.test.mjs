@@ -121,7 +121,9 @@ test('polls QR login, persists token, and returns only safe status', async () =>
     connected: true,
     uid: 'uid-2',
     endpoint: 'https://openapi.tuya.example',
+    expiresAt: response.expiresAt,
   });
+  assert.equal(typeof response.expiresAt, 'number');
   assert.equal(JSON.stringify(response).includes('access-token'), false);
   assert.equal(JSON.stringify(response).includes('refresh-token'), false);
 

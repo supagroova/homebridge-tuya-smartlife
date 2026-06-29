@@ -17,5 +17,21 @@ export default tseslint.config(
       globals: globals.node,
     },
   },
+  {
+    files: ['homebridge-ui/*.js'],
+    languageOptions: {
+      sourceType: 'commonjs',
+      globals: globals.node,
+    },
+    rules: {
+      '@typescript-eslint/no-require-imports': 'off',
+    },
+  },
+  {
+    files: ['homebridge-ui/*.mjs'],
+    languageOptions: {
+      globals: globals.node,
+    },
+  },
   prettier,
 );
