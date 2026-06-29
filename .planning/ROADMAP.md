@@ -193,7 +193,7 @@ Plans:
 
 Plans:
 
-- [ ] 07-01-PLAN.md — Config schema and startup setup visibility (CFG-01)
+- [x] 07-01-PLAN.md — Config schema and startup setup visibility (CFG-01)
 - [ ] 07-02-PLAN.md — Custom Homebridge QR login UI and UI server (CFG-02)
 - [ ] 07-03-PLAN.md — README, package asset checks, and Phase 7 closeout (PUB-02)
 
@@ -220,4 +220,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 4. Switches & Outlets + Mapping Engine | 3/3 | Complete    | 2026-06-25 |
 | 5. Climate & Sensors | 4/4 | Complete    | 2026-06-26 |
 | 6. Status Polling + Offline Handling (MVP Ship) | 3/3 | Ready to publish | - |
-| 7. Config-UI + QR Setup Screen | 0/3 | Planned | - |
+| 7. Config-UI + QR Setup Screen | 1/3 | In progress | - |
