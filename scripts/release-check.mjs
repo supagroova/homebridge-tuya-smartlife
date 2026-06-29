@@ -24,6 +24,14 @@ export function validatePackageMetadata(packageJson) {
     errors.push('package files must include config.schema.json');
   }
 
+  if (!Array.isArray(packageJson.files) || !packageJson.files.includes('homebridge-ui/public')) {
+    errors.push('package files must include homebridge-ui/public');
+  }
+
+  if (!Array.isArray(packageJson.files) || !packageJson.files.includes('homebridge-ui/server.js')) {
+    errors.push('package files must include homebridge-ui/server.js');
+  }
+
   if (!Array.isArray(packageJson.keywords) || !packageJson.keywords.includes('homebridge-plugin')) {
     errors.push('package keywords must include homebridge-plugin');
   }
@@ -40,9 +48,15 @@ export function validatePackageMetadata(packageJson) {
 }
 
 export function validateGitInstallFiles(trackedFiles) {
-  if (!trackedFiles.includes('dist/index.js')) {
-    throw new Error('git install branch must track dist/index.js');
-  }
+  throwIfMissing(
+    new Set(trackedFiles),
+    [
+      ['README.md', 'git install branch must track README.md'],
+      ['dist/index.js', 'git install branch must track dist/index.js'],
+      ['homebridge-ui/public/index.html', 'git install branch must track homebridge-ui/public/index.html'],
+      ['homebridge-ui/server.js', 'git install branch must track homebridge-ui/server.js'],
+    ],
+  );
 }
 
 export function validateConfigSchema(configSchema) {
@@ -75,6 +89,18 @@ export function validatePackFiles(packJson) {
 
   if (!files.has('config.schema.json')) {
     errors.push('npm pack must include config.schema.json');
+  }
+
+  if (!files.has('README.md')) {
+    errors.push('npm pack must include README.md');
+  }
+
+  if (!files.has('homebridge-ui/public/index.html')) {
+    errors.push('npm pack must include homebridge-ui/public/index.html');
+  }
+
+  if (!files.has('homebridge-ui/server.js')) {
+    errors.push('npm pack must include homebridge-ui/server.js');
   }
 
   throwIfErrors(errors);
@@ -135,6 +161,14 @@ async function readJson(path) {
 function throwIfErrors(errors) {
   if (errors.length > 0) {
     throw new Error(errors.join('\n'));
+  }
+}
+
+function throwIfMissing(files, requiredFiles) {
+  for (const [path, message] of requiredFiles) {
+    if (!files.has(path)) {
+      throw new Error(message);
+    }
   }
 }
 

@@ -13,7 +13,7 @@ test('validates Homebridge npm package metadata', () => {
   validatePackageMetadata({
     name: 'homebridge-tuya-smartlife',
     main: 'dist/index.js',
-    files: ['dist', 'config.schema.json'],
+    files: ['dist', 'config.schema.json', 'homebridge-ui/public', 'homebridge-ui/server.js'],
     keywords: ['homebridge-plugin', 'tuya'],
     peerDependencies: {
       homebridge: '^2.0.0',
@@ -51,7 +51,16 @@ test('validates github install files are already built', () => {
 });
 
 test('rejects github installs without tracked build output', () => {
-  assert.throws(() => validateGitInstallFiles(['src/index.ts']), /git install branch must track dist\/index.js/);
+  assert.throws(
+    () =>
+      validateGitInstallFiles([
+        'README.md',
+        'src/index.ts',
+        'homebridge-ui/public/index.html',
+        'homebridge-ui/server.js',
+      ]),
+    /git install branch must track dist\/index.js/,
+  );
 });
 
 test('rejects github installs without custom UI assets and README', () => {
