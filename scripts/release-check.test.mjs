@@ -14,9 +14,6 @@ test('validates Homebridge npm package metadata', () => {
     main: 'dist/index.js',
     files: ['dist', 'config.schema.json'],
     keywords: ['homebridge-plugin', 'tuya'],
-    scripts: {
-      prepare: 'npm run build',
-    },
     peerDependencies: {
       homebridge: '^2.0.0',
     },
@@ -34,8 +31,11 @@ test('rejects packages that are not Homebridge-discoverable', () => {
         peerDependencies: {
           homebridge: '^2.0.0',
         },
+        scripts: {
+          prepare: 'npm run build',
+        },
       }),
-    /package scripts.prepare must run npm run build/,
+    /package scripts.prepare must not be set/,
   );
 });
 
