@@ -66,6 +66,7 @@ describe('runPlatformDiscovery', () => {
 
     expect(result.status).toBe('reauth-required');
     expect(log.warn).toHaveBeenCalledWith(expect.stringContaining('authentication is required'));
+    expect(log.warn).toHaveBeenCalledWith(expect.stringContaining('Open the plugin settings'));
     expect(createClient).not.toHaveBeenCalled();
     expect(createRepository).not.toHaveBeenCalled();
     expect(registry.reconcile).not.toHaveBeenCalled();
