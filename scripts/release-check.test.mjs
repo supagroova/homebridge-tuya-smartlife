@@ -3,6 +3,7 @@ import test from 'node:test';
 
 import {
   validateConfigSchema,
+  validateGitInstallFiles,
   validatePackageMetadata,
   validatePackFiles,
   validatePublishWorkflow,
@@ -37,6 +38,14 @@ test('rejects packages that are not Homebridge-discoverable', () => {
       }),
     /package scripts.prepare must not be set/,
   );
+});
+
+test('validates github install files are already built', () => {
+  validateGitInstallFiles(['dist/index.js', 'dist/platform.js']);
+});
+
+test('rejects github installs without tracked build output', () => {
+  assert.throws(() => validateGitInstallFiles(['src/index.ts']), /git install branch must track dist\/index.js/);
 });
 
 test('validates Homebridge config schema metadata', () => {

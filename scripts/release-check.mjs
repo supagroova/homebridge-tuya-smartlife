@@ -32,11 +32,17 @@ export function validatePackageMetadata(packageJson) {
     errors.push('package peerDependencies must include homebridge');
   }
 
-  if (packageJson.scripts?.prepare !== 'npm run build') {
-    errors.push('package scripts.prepare must run npm run build');
+  if (packageJson.scripts?.prepare !== undefined) {
+    errors.push('package scripts.prepare must not be set');
   }
 
   throwIfErrors(errors);
+}
+
+export function validateGitInstallFiles(trackedFiles) {
+  if (!trackedFiles.includes('dist/index.js')) {
+    throw new Error('git install branch must track dist/index.js');
+  }
 }
 
 export function validateConfigSchema(configSchema) {
@@ -83,6 +89,7 @@ async function main() {
   validatePackageMetadata(packageJson);
   validateConfigSchema(configSchema);
   validatePublishWorkflow(publishWorkflow);
+  validateGitInstallFiles(runGitLsFiles(root));
   validatePackFiles(runNpmPackDryRun(root));
 
   console.log('Release check passed.');
@@ -106,6 +113,19 @@ function runNpmPackDryRun(cwd) {
   }
 
   return JSON.parse(result.stdout);
+}
+
+function runGitLsFiles(cwd) {
+  const result = spawnSync('git', ['ls-files'], {
+    cwd,
+    encoding: 'utf8',
+  });
+
+  if (result.status !== 0) {
+    throw new Error(`git ls-files failed: ${result.stderr || result.stdout}`);
+  }
+
+  return result.stdout.split('\n').filter(Boolean);
 }
 
 async function readJson(path) {
