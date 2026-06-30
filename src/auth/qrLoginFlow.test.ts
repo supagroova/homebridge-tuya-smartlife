@@ -158,4 +158,44 @@ describe('QrLoginFlow', () => {
     await result;
     jest.useRealTimers();
   });
+
+  it('logs sanitized QR polling request and response metadata', async () => {
+    const debug = jest.fn();
+    const fetchMock = jest.fn().mockResolvedValue(
+      jsonResponse({
+        success: false,
+        code: 'LOGIN_PENDING',
+        msg: 'pending',
+        result: {
+          qrcode: 'sensitive-qr-token',
+          access_token: 'sensitive-access-token',
+        },
+      }),
+    );
+    const flow = new QrLoginFlow({
+      clientId: 'client-id',
+      schema: 'schema-id',
+      fetch: fetchMock,
+      log: { debug },
+    });
+
+    await flow.pollLoginResult('sensitive-qr-token', 'user-code');
+
+    expect(debug).toHaveBeenCalledWith(
+      'Tuya QR request: method=%s endpoint=%s path=%s',
+      'GET',
+      'https://apigw.iotbing.com',
+      '/v1.0/m/life/home-assistant/qrcode/tokens/[REDACTED]',
+    );
+    expect(debug).toHaveBeenCalledWith(
+      'Tuya QR response: status=%d success=%s code=%s msg=%s resultKeys=%s',
+      200,
+      false,
+      'LOGIN_PENDING',
+      'pending',
+      'qrcode,access_token',
+    );
+    expect(JSON.stringify(debug.mock.calls)).not.toContain('sensitive-qr-token');
+    expect(JSON.stringify(debug.mock.calls)).not.toContain('sensitive-access-token');
+  });
 });
