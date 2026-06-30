@@ -52,6 +52,7 @@ describe('QrLoginFlow', () => {
       .fn()
       .mockResolvedValueOnce(jsonResponse({ success: false, code: 'LOGIN_PENDING', msg: 'pending' }))
       .mockResolvedValueOnce(jsonResponse({ success: false, code: 'QR_EXPIRED', msg: 'expired' }))
+      .mockResolvedValueOnce(jsonResponse({ success: false, code: 'E0020003', msg: 'Login failed, please scan and try again!' }))
       .mockResolvedValueOnce(jsonResponse({ success: false, code: 'E0020003', msg: 'wrong app' }));
     const flow = new QrLoginFlow({
       clientId: 'client-id',
@@ -68,6 +69,11 @@ describe('QrLoginFlow', () => {
       state: 'expired',
       code: 'QR_EXPIRED',
       message: 'expired',
+    });
+    await expect(flow.pollLoginResult('qr-token', 'user-code')).resolves.toEqual({
+      state: 'pending',
+      code: 'E0020003',
+      message: 'Login failed, please scan and try again!',
     });
     await expect(flow.pollLoginResult('qr-token', 'user-code')).resolves.toEqual({
       state: 'failed',
