@@ -218,3 +218,22 @@ test('successful QR login saves plugin config and shows restart status', async (
   assert.equal(ui.saveCount, 1);
   assert.match(ui.elements.status.textContent, /Configuration saved/);
 });
+
+test('invalid endpoint input fails visibly before requesting a QR code', async () => {
+  const ui = await loadUi({
+    async '/status'() {
+      return { connected: false };
+    },
+    async '/qr/start'() {
+      throw new Error('should not request QR with invalid endpoint');
+    },
+  });
+
+  ui.elements.endpoint.value = 'https://apigiw.iotbing.com';
+  ui.elements.userCode.value = 'CaRLUI';
+
+  await ui.elements.startButton.click();
+
+  assert.equal(ui.requestCalls.some((call) => call.path === '/qr/start'), false);
+  assert.match(ui.elements.status.textContent, /Use https:\/\/apigw\.iotbing\.com/i);
+});
