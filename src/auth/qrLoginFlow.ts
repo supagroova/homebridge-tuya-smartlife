@@ -4,6 +4,7 @@ import type { TokenStore } from './tokenStore';
 
 const DEFAULT_LOGIN_ENDPOINT = 'https://apigw.iotbing.com';
 const DEFAULT_REQUEST_TIMEOUT_MS = 10_000;
+const REDACTED = '[REDACTED]';
 
 type LoginTokenResponse = {
   success: boolean;
@@ -53,7 +54,12 @@ export type QrLoginFlowOptions = {
   loginEndpoint?: string;
   requestTimeoutMs?: number;
   fetch?: typeof fetch;
+  log?: QrLoginLogger;
   tokenStore?: TokenStore;
+};
+
+type QrLoginLogger = {
+  debug(message: string, ...parameters: unknown[]): void;
 };
 
 export class QrLoginFlow {
@@ -122,6 +128,14 @@ export class QrLoginFlow {
   private async requestJson<T>(pathAndQuery: string, init: RequestInit): Promise<T> {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), this.options.requestTimeoutMs ?? DEFAULT_REQUEST_TIMEOUT_MS);
+    const url = new URL(`${this.loginEndpoint}${pathAndQuery}`);
+
+    this.logDebug(
+      'Tuya QR request: method=%s endpoint=%s path=%s',
+      init.method ?? 'GET',
+      this.loginEndpoint,
+      sanitizeQrPath(url.pathname),
+    );
 
     let response: Response;
     try {
@@ -143,12 +157,43 @@ export class QrLoginFlow {
       throw new TuyaTransportError(`QR login HTTP error: status=${response.status}`);
     }
 
-    return (await response.json()) as T;
+    const body = (await response.json()) as T;
+    this.logDebugResponse(response.status, body);
+
+    return body;
+  }
+
+  private logDebug(message: string, ...parameters: unknown[]): void {
+    this.options.log?.debug(message, ...parameters);
+  }
+
+  private logDebugResponse(status: number, body: unknown): void {
+    if (!isQrResponse(body)) {
+      this.logDebug('Tuya QR response: status=%d bodyType=%s', status, typeof body);
+      return;
+    }
+
+    this.logDebug(
+      'Tuya QR response: status=%d success=%s code=%s msg=%s resultKeys=%s',
+      status,
+      body.success,
+      body.code ?? '',
+      body.msg ?? '',
+      Object.keys(body.result ?? {}).join(','),
+    );
   }
 }
 
 function isAbortError(error: unknown): boolean {
   return error instanceof Error && error.name === 'AbortError';
+}
+
+function isQrResponse(body: unknown): body is { success: boolean; code?: string; msg?: string; result?: object } {
+  return typeof body === 'object' && body !== null && 'success' in body;
+}
+
+function sanitizeQrPath(pathname: string): string {
+  return pathname.replace(/(\/qrcode\/tokens\/)[^/]+$/, `$1${REDACTED}`);
 }
 
 function mapLoginFailure(code = 'UNKNOWN', message = 'QR login failed'): QrLoginPending {

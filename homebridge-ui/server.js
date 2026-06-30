@@ -14,6 +14,7 @@ function createUiHandlers(options) {
   const tokenStore = options.tokenStore ?? createTokenStore(options.storagePath);
   const createFlow = options.createFlow ?? ((flowOptions) => new QrLoginFlow(flowOptions));
   const qrCodeToDataUrl = options.qrCodeToDataUrl ?? ((value) => qrcode.toDataURL(value));
+  const log = options.log ?? console;
 
   return {
     async status() {
@@ -29,12 +30,16 @@ function createUiHandlers(options) {
     async startQr(payload = {}) {
       const userCode = normalizeRequiredString(payload.userCode, 'Smart Life user code');
       const loginEndpoint = normalizeEndpoint(payload.endpoint);
-      const flow = createFlow(createFlowOptions({ loginEndpoint, tokenStore }));
+      logDebug(log, 'QR login start requested: endpoint=%s userCodeLength=%d', loginEndpoint, userCode.length);
+      const flow = createFlow(createFlowOptions({ loginEndpoint, tokenStore, log }));
       const created = await flow.createQrCode(userCode);
 
       if (created.state !== 'created') {
+        logDebug(log, 'QR login start result: state=%s code=%s', created.state, created.code ?? '');
         return mapQrLoginError(created);
       }
+
+      logDebug(log, 'QR login token created: qrUrlScheme=%s', created.qrUrl.split('?')[0]);
 
       return {
         state: 'created',
@@ -48,8 +53,11 @@ function createUiHandlers(options) {
       const qrToken = normalizeRequiredString(payload.qrToken, 'QR token');
       const userCode = normalizeRequiredString(payload.userCode, 'Smart Life user code');
       const loginEndpoint = normalizeEndpoint(payload.endpoint);
-      const flow = createFlow(createFlowOptions({ loginEndpoint, tokenStore }));
+      logDebug(log, 'QR login poll requested: endpoint=%s userCodeLength=%d', loginEndpoint, userCode.length);
+      const flow = createFlow(createFlowOptions({ loginEndpoint, tokenStore, log }));
       const result = await flow.pollLoginResult(qrToken, userCode);
+
+      logDebug(log, 'QR login poll result: state=%s code=%s', result.state, result.code ?? '');
 
       if (result.state !== 'success') {
         return mapQrLoginError(result);
@@ -69,13 +77,25 @@ function createTokenStore(storagePath) {
   return new FileTokenStore(join(storagePath, TOKEN_FILE_NAME));
 }
 
-function createFlowOptions({ loginEndpoint, tokenStore }) {
+function createFlowOptions({ loginEndpoint, tokenStore, log }) {
   return {
     clientId: TUYA_CLIENT_ID,
     schema: TUYA_SCHEMA,
     loginEndpoint,
+    log,
     tokenStore,
   };
+}
+
+function logDebug(log, message, ...parameters) {
+  if (typeof log.debug === 'function') {
+    log.debug(message, ...parameters);
+    return;
+  }
+
+  if (typeof log.log === 'function') {
+    log.log(message, ...parameters);
+  }
 }
 
 function safeTokenStatus(token) {
@@ -163,6 +183,7 @@ class TuyaSmartLifeUiServer extends HomebridgePluginUiServer {
 
     const handlers = createUiHandlers({
       storagePath: this.homebridgeStoragePath,
+      log: console,
     });
 
     this.onRequest('/status', handlers.status);

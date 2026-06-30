@@ -21,7 +21,11 @@ export type QrLoginFlowOptions = {
     loginEndpoint?: string;
     requestTimeoutMs?: number;
     fetch?: typeof fetch;
+    log?: QrLoginLogger;
     tokenStore?: TokenStore;
+};
+type QrLoginLogger = {
+    debug(message: string, ...parameters: unknown[]): void;
 };
 export declare class QrLoginFlow {
     private readonly options;
@@ -31,4 +35,7 @@ export declare class QrLoginFlow {
     createQrCode(userCode: string): Promise<QrCodeCreated | QrLoginPending>;
     pollLoginResult(qrToken: string, userCode: string): Promise<QrLoginPending | QrLoginSuccess>;
     private requestJson;
+    private logDebug;
+    private logDebugResponse;
 }
+export {};
