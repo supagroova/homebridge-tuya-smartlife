@@ -132,6 +132,11 @@ async function loadUi(requestHandlers) {
 
   return {
     elements,
+    async runIntervals() {
+      for (const callback of intervals.values()) {
+        await callback();
+      }
+    },
     requestCalls,
     configUpdates,
     get saveCount() {
@@ -176,6 +181,43 @@ test('check status does not overwrite an active QR login state', async () => {
 
   assert.equal(ui.elements.qrPanel.classList.contains('d-none'), false);
   assert.equal(ui.elements.status.textContent, 'Waiting for Smart Life confirmation.');
+});
+
+test('start QR login shows the code before polling Tuya', async () => {
+  const ui = await loadUi({
+    async '/status'() {
+      return { connected: false };
+    },
+    async '/qr/start'() {
+      return {
+        state: 'created',
+        qrToken: 'qr-token',
+        qrImage: 'data:image/png;base64,qr',
+      };
+    },
+    async '/qr/poll'() {
+      return {
+        state: 'pending',
+        message: 'Waiting for Smart Life confirmation.',
+      };
+    },
+  });
+
+  ui.elements.userCode.value = 'CaRLUI';
+  await ui.elements.startButton.click();
+
+  assert.equal(ui.elements.qrPanel.classList.contains('d-none'), false);
+  assert.deepEqual(
+    ui.requestCalls.map((call) => call.path),
+    ['/status', '/qr/start'],
+  );
+
+  await ui.runIntervals();
+
+  assert.deepEqual(
+    ui.requestCalls.map((call) => call.path),
+    ['/status', '/qr/start', '/qr/poll'],
+  );
 });
 
 test('successful QR login saves plugin config and shows restart status', async () => {
