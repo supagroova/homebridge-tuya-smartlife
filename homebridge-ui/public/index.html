@@ -64,6 +64,7 @@
     let currentQrToken = null;
     let currentUserCode = null;
     let pollTimer = null;
+    let qrLoginActive = false;
 
     const elements = {
       connectedPanel: document.getElementById('connectedPanel'),
@@ -95,6 +96,11 @@
     }
 
     async function refreshStatus() {
+      if (qrLoginActive) {
+        await pollQrLogin();
+        return;
+      }
+
       setStatus('Checking connection...', 'muted');
 
       try {
@@ -107,6 +113,7 @@
 
     async function startQrLogin() {
       stopPolling();
+      qrLoginActive = false;
       elements.qrPanel.classList.add('d-none');
       setBusy(true);
       setStatus('Creating QR code...', 'muted');
@@ -124,6 +131,7 @@
 
         currentQrToken = result.qrToken;
         currentUserCode = elements.userCode.value.trim();
+        qrLoginActive = true;
         elements.qrImage.src = result.qrImage;
         elements.qrPanel.classList.remove('d-none');
         setStatus('Waiting for Smart Life scan...', 'info');
@@ -158,6 +166,7 @@
     async function renderQrState(result) {
       if (result.state === 'success') {
         stopPolling();
+        qrLoginActive = false;
         elements.qrPanel.classList.add('d-none');
         elements.connectedPanel.classList.remove('d-none');
         setStatus('Connected. Saving Homebridge configuration...', 'success');
@@ -173,6 +182,7 @@
       }
 
       stopPolling();
+      qrLoginActive = false;
       setStatus(result.message || 'QR login failed. Try again.', result.severity === 'warning' ? 'warning' : 'danger');
     }
 
@@ -194,6 +204,10 @@
     }
 
     function renderConnected(result) {
+      if (qrLoginActive && !result.connected) {
+        return;
+      }
+
       if (result.connected) {
         elements.connectedPanel.classList.remove('d-none');
         setStatus(`Connected${result.endpoint ? ` (${result.endpoint})` : ''}.`, 'success');
