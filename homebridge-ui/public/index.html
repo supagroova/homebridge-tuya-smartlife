@@ -32,6 +32,9 @@
   <div class="mb-3">
     <label for="userCode" class="form-label">Smart Life user code</label>
     <input id="userCode" class="form-control" autocomplete="off" placeholder="Enter the code from Smart Life" />
+    <div class="form-text">
+      In the Smart Life app go to Settings &gt; Account and Security &gt; User Code.
+    </div>
   </div>
 
   <div class="mb-3">
@@ -56,6 +59,8 @@
 <script>
   (() => {
     const pollIntervalMs = 3000;
+    const defaultEndpoint = 'https://apigw.iotbing.com';
+    const defaultName = 'Tuya SmartLife';
     let currentQrToken = null;
     let currentUserCode = null;
     let pollTimer = null;
@@ -74,8 +79,20 @@
     window.homebridge.addEventListener('ready', () => {
       elements.startButton.addEventListener('click', startQrLogin);
       elements.checkButton.addEventListener('click', refreshStatus);
+      loadExistingConfig();
       refreshStatus();
     });
+
+    async function loadExistingConfig() {
+      try {
+        const [config] = await window.homebridge.getPluginConfig();
+        if (config && typeof config.endpoint === 'string' && config.endpoint.trim() !== '') {
+          elements.endpoint.value = config.endpoint;
+        }
+      } catch (error) {
+        showError(error);
+      }
+    }
 
     async function refreshStatus() {
       setStatus('Checking connection...', 'muted');
@@ -101,7 +118,7 @@
         });
 
         if (result.state !== 'created') {
-          renderQrState(result);
+          await renderQrState(result);
           return;
         }
 
@@ -111,6 +128,7 @@
         elements.qrPanel.classList.remove('d-none');
         setStatus('Waiting for Smart Life scan...', 'info');
         pollTimer = window.setInterval(pollQrLogin, pollIntervalMs);
+        await pollQrLogin();
       } catch (error) {
         showError(error);
       } finally {
@@ -130,20 +148,22 @@
           endpoint: elements.endpoint.value,
         });
 
-        renderQrState(result);
+        await renderQrState(result);
       } catch (error) {
         stopPolling();
         showError(error);
       }
     }
 
-    function renderQrState(result) {
+    async function renderQrState(result) {
       if (result.state === 'success') {
         stopPolling();
         elements.qrPanel.classList.add('d-none');
         elements.connectedPanel.classList.remove('d-none');
-        setStatus('Connected. Restart Homebridge to run device discovery.', 'success');
-        window.homebridge.toast.success('Smart Life login complete. Restart Homebridge to discover devices.');
+        setStatus('Connected. Saving Homebridge configuration...', 'success');
+        await savePluginConfig();
+        setStatus('Connected. Configuration saved. Restart Homebridge to run device discovery.', 'success');
+        window.homebridge.toast.success('Smart Life login complete. Configuration saved; restart Homebridge to discover devices.');
         return;
       }
 
@@ -154,6 +174,23 @@
 
       stopPolling();
       setStatus(result.message || 'QR login failed. Try again.', result.severity === 'warning' ? 'warning' : 'danger');
+    }
+
+    async function savePluginConfig() {
+      const pluginConfig = await window.homebridge.getPluginConfig();
+      const currentConfig = pluginConfig[0] || {};
+      const endpoint = elements.endpoint.value.trim() || defaultEndpoint;
+      const nextConfig = [
+        {
+          ...currentConfig,
+          platform: 'TuyaSmartLife',
+          name: currentConfig.name || defaultName,
+          endpoint,
+        },
+      ];
+
+      await window.homebridge.updatePluginConfig(nextConfig);
+      await window.homebridge.savePluginConfig();
     }
 
     function renderConnected(result) {

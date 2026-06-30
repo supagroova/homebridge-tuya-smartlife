@@ -6,7 +6,7 @@ const html = await readFile(new URL('./public/index.html', import.meta.url), 'ut
 
 test('explains where to find the Smart Life user code', () => {
   assert.match(html, /Smart Life app/i);
-  assert.match(html, /Settings\s*>\s*Account and Security\s*>\s*User Code/i);
+  assert.match(html, /Settings\s*(?:>|&gt;)\s*Account and Security\s*(?:>|&gt;)\s*User Code/i);
 });
 
 test('checks QR login immediately after rendering instead of waiting for the first interval', () => {
@@ -17,6 +17,7 @@ test('checks QR login immediately after rendering instead of waiting for the fir
 test('saves a Homebridge platform config after QR login succeeds', () => {
   assert.match(html, /homebridge\.getPluginConfig\(\)/);
   assert.match(html, /platform:\s*'TuyaSmartLife'/);
+  assert.match(html, /const endpoint = elements\.endpoint\.value\.trim\(\) \|\| defaultEndpoint/);
   assert.match(html, /homebridge\.updatePluginConfig\(/);
   assert.match(html, /homebridge\.savePluginConfig\(\)/);
   assert.match(html, /Configuration saved/i);
