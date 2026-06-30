@@ -57,9 +57,11 @@ test('reports whether a token is already stored without exposing credentials', a
 
 test('starts QR login and returns a displayable QR payload', async () => {
   const calls = [];
+  const log = createMemoryLog();
   const handlers = createUiHandlers({
     storagePath: '/tmp/homebridge',
     tokenStore: createMemoryTokenStore(),
+    log,
     createFlow(options) {
       calls.push(options);
 
@@ -85,16 +87,22 @@ test('starts QR login and returns a displayable QR payload', async () => {
   });
 
   assert.equal(calls[0].loginEndpoint, 'https://apigw.iotbing.com');
+  assert.equal(calls[0].log, log);
   assert.equal(response.state, 'created');
   assert.equal(response.qrToken, 'qr-token');
   assert.equal(response.qrImage.startsWith('data:image/png;base64,'), true);
   assert.equal(JSON.stringify(response).includes('access_token'), false);
+  assert.match(log.lines.join('\n'), /QR login start requested/);
+  assert.match(log.lines.join('\n'), /QR login token created/);
+  assert.equal(log.lines.join('\n').includes('qr-token'), false);
 });
 
 test('polls QR login, persists token, and returns only safe status', async () => {
   const dir = await mkdtemp(join(tmpdir(), 'tuya-ui-server-'));
+  const log = createMemoryLog();
   const handlers = createUiHandlers({
     storagePath: dir,
+    log,
     createFlow() {
       return {
         async pollLoginResult(qrToken, userCode) {
@@ -130,6 +138,10 @@ test('polls QR login, persists token, and returns only safe status', async () =>
   const saved = JSON.parse(await readFile(join(dir, 'tuya-smartlife-token.json'), 'utf8'));
   assert.equal(saved.accessToken, 'access-token');
   assert.equal(saved.refreshToken, 'refresh-token');
+  assert.match(log.lines.join('\n'), /QR login poll requested/);
+  assert.match(log.lines.join('\n'), /QR login poll result: state=success/);
+  assert.equal(log.lines.join('\n').includes('qr-token'), false);
+  assert.equal(log.lines.join('\n').includes('access-token'), false);
 });
 
 test('maps known QR login failures to friendly messages', () => {
@@ -147,3 +159,20 @@ test('rejects missing QR start input', async () => {
 
   await assert.rejects(() => handlers.startQr({ userCode: ' ' }), /Smart Life user code is required/);
 });
+
+function createMemoryLog() {
+  const lines = [];
+
+  return {
+    lines,
+    debug(message, ...parameters) {
+      lines.push(format(message, parameters));
+    },
+  };
+}
+
+function format(message, parameters) {
+  let nextIndex = 0;
+
+  return message.replace(/%[sd]/g, () => String(parameters[nextIndex++]));
+}
