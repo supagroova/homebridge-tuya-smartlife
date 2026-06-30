@@ -142,7 +142,6 @@
         elements.qrPanel.classList.remove('d-none');
         setStatus('Waiting for Smart Life scan...', 'info');
         pollTimer = window.setInterval(pollQrLogin, pollIntervalMs);
-        await pollQrLogin();
       } catch (error) {
         showError(error);
       } finally {

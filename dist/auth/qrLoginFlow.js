@@ -100,7 +100,8 @@ function sanitizeQrPath(pathname) {
     return pathname.replace(/(\/qrcode\/tokens\/)[^/]+$/, `$1${REDACTED}`);
 }
 function mapLoginFailure(code = 'UNKNOWN', message = 'QR login failed') {
-    if (code.includes('PENDING')) {
+    const normalized = `${code} ${message}`.toLowerCase();
+    if (code.includes('PENDING') || normalized.includes('please scan')) {
         return { state: 'pending', code, message };
     }
     if (code.includes('EXPIRED')) {

@@ -9,9 +9,8 @@ test('explains where to find the Smart Life user code', () => {
   assert.match(html, /Settings\s*(?:>|&gt;)\s*Account and Security\s*(?:>|&gt;)\s*User Code/i);
 });
 
-test('checks QR login immediately after rendering instead of waiting for the first interval', () => {
+test('schedules QR login polling after rendering', () => {
   assert.match(html, /pollTimer\s*=\s*window\.setInterval\(pollQrLogin,\s*pollIntervalMs\)/);
-  assert.match(html, /await pollQrLogin\(\)/);
 });
 
 test('saves a Homebridge platform config after QR login succeeds', () => {

@@ -197,7 +197,9 @@ function sanitizeQrPath(pathname: string): string {
 }
 
 function mapLoginFailure(code = 'UNKNOWN', message = 'QR login failed'): QrLoginPending {
-  if (code.includes('PENDING')) {
+  const normalized = `${code} ${message}`.toLowerCase();
+
+  if (code.includes('PENDING') || normalized.includes('please scan')) {
     return { state: 'pending', code, message };
   }
 

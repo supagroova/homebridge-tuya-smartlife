@@ -175,7 +175,7 @@ test('check status does not overwrite an active QR login state', async () => {
   await ui.elements.startButton.click();
 
   assert.equal(ui.elements.qrPanel.classList.contains('d-none'), false);
-  assert.equal(ui.elements.status.textContent, 'Waiting for Smart Life confirmation.');
+  assert.equal(ui.elements.status.textContent, 'Waiting for Smart Life scan...');
 
   await ui.elements.checkButton.click();
 
@@ -247,6 +247,7 @@ test('successful QR login saves plugin config and shows restart status', async (
   ui.elements.userCode.value = 'CaRLUI';
 
   await ui.elements.startButton.click();
+  await ui.runIntervals();
 
   assert.deepEqual(JSON.parse(JSON.stringify(ui.configUpdates)), [
     [
