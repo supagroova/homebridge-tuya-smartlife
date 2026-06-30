@@ -115,6 +115,12 @@
       stopPolling();
       qrLoginActive = false;
       elements.qrPanel.classList.add('d-none');
+      const endpointError = validateEndpoint();
+      if (endpointError) {
+        setStatus(endpointError, 'danger');
+        return;
+      }
+
       setBusy(true);
       setStatus('Creating QR code...', 'muted');
 
@@ -201,6 +207,25 @@
 
       await window.homebridge.updatePluginConfig(nextConfig);
       await window.homebridge.savePluginConfig();
+    }
+
+    function validateEndpoint() {
+      const endpoint = elements.endpoint.value.trim();
+
+      try {
+        const url = new URL(endpoint || defaultEndpoint);
+        if (url.protocol !== 'https:' && url.protocol !== 'http:') {
+          return 'Tuya login endpoint must start with https://.';
+        }
+
+        if (url.hostname === 'apigiw.iotbing.com') {
+          return 'Use https://apigw.iotbing.com. The endpoint is "apigw", not "apigiw".';
+        }
+      } catch {
+        return 'Enter a valid Tuya login endpoint URL.';
+      }
+
+      return null;
     }
 
     function renderConnected(result) {

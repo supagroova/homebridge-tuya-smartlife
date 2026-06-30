@@ -122,7 +122,7 @@ async function loadUi(requestHandlers) {
     },
   };
 
-  vm.runInNewContext(script, { document, window });
+  vm.runInNewContext(script, { document, URL, window });
 
   for (const listener of readyListeners) {
     listener();
