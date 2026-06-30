@@ -1,0 +1,23 @@
+import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
+import test from 'node:test';
+
+const html = await readFile(new URL('./public/index.html', import.meta.url), 'utf8');
+
+test('explains where to find the Smart Life user code', () => {
+  assert.match(html, /Smart Life app/i);
+  assert.match(html, /Settings\s*(?:>|&gt;)\s*Account and Security\s*(?:>|&gt;)\s*User Code/i);
+});
+
+test('schedules QR login polling after rendering', () => {
+  assert.match(html, /pollTimer\s*=\s*window\.setInterval\(pollQrLogin,\s*pollIntervalMs\)/);
+});
+
+test('saves a Homebridge platform config after QR login succeeds', () => {
+  assert.match(html, /homebridge\.getPluginConfig\(\)/);
+  assert.match(html, /platform:\s*'TuyaSmartLife'/);
+  assert.match(html, /const endpoint = elements\.endpoint\.value\.trim\(\) \|\| defaultEndpoint/);
+  assert.match(html, /homebridge\.updatePluginConfig\(/);
+  assert.match(html, /homebridge\.savePluginConfig\(\)/);
+  assert.match(html, /Configuration saved/i);
+});

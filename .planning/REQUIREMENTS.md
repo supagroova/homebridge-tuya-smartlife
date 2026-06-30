@@ -50,13 +50,13 @@ Requirements for the initial release. Each maps to roadmap phases.
 
 ### Configuration
 
-- [ ] **CFG-01**: Config-UI schema (region/endpoint, whitelist, debug toggle) for setup without editing JSON
-- [ ] **CFG-02**: Custom config-UI screen renders the login QR, polls for scan completion, and shows friendly error messages
+- [x] **CFG-01**: Config-UI schema (region/endpoint, whitelist, debug toggle) for setup without editing JSON
+- [x] **CFG-02**: Custom config-UI screen renders the login QR, polls for scan completion, and shows friendly error messages
 
 ### Distribution
 
 - [ ] **PUB-01**: Published to npm following Homebridge conventions (`homebridge-plugin` keyword, discoverable)
-- [ ] **PUB-02**: README documents setup (QR login), supported devices, and known limitations
+- [x] **PUB-02**: README documents setup (QR login), supported devices, and known limitations
 
 ## v2 Requirements
 
@@ -111,9 +111,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | UPD-02 | Phase 6 | Pending |
 | UPD-03 | Phase 6 | Pending |
 | PUB-01 | Phase 6 | Pending |
-| CFG-01 | Phase 7 | Pending |
-| CFG-02 | Phase 7 | Pending |
-| PUB-02 | Phase 7 | Pending |
+| CFG-01 | Phase 7 | Complete |
+| CFG-02 | Phase 7 | Complete |
+| PUB-02 | Phase 7 | Complete |
 
 **Coverage:**
 
@@ -123,4 +123,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 ---
 *Requirements defined: 2026-06-24*
-*Last updated: 2026-06-24 after roadmap creation*
+*Last updated: 2026-06-29 after Phase 7 closeout*

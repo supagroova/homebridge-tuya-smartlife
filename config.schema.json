@@ -2,6 +2,7 @@
   "pluginAlias": "TuyaSmartLife",
   "pluginType": "platform",
   "singular": true,
+  "customUi": true,
   "schema": {
     "type": "object",
     "properties": {
@@ -10,6 +11,40 @@
         "type": "string",
         "default": "Tuya SmartLife",
         "required": true
+      },
+      "endpoint": {
+        "title": "Tuya Endpoint",
+        "type": "string",
+        "default": "https://apigw.iotbing.com",
+        "description": "Tuya Smart Life login endpoint for your region."
+      },
+      "homeIds": {
+        "title": "Home IDs",
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Optional Tuya home IDs to include. Leave empty to include all homes."
+      },
+      "deviceIds": {
+        "title": "Device IDs",
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Optional Tuya device IDs to include. Leave empty to include all supported devices."
+      },
+      "pollIntervalSeconds": {
+        "title": "Poll Interval",
+        "type": "integer",
+        "default": 120,
+        "minimum": 30,
+        "description": "How often to refresh device state from Tuya cloud."
+      },
+      "debug": {
+        "title": "Debug Logging",
+        "type": "boolean",
+        "default": false
       }
     }
   }

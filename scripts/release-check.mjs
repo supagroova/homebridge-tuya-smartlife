@@ -24,6 +24,14 @@ export function validatePackageMetadata(packageJson) {
     errors.push('package files must include config.schema.json');
   }
 
+  if (!Array.isArray(packageJson.files) || !packageJson.files.includes('homebridge-ui/public')) {
+    errors.push('package files must include homebridge-ui/public');
+  }
+
+  if (!Array.isArray(packageJson.files) || !packageJson.files.includes('homebridge-ui/server.js')) {
+    errors.push('package files must include homebridge-ui/server.js');
+  }
+
   if (!Array.isArray(packageJson.keywords) || !packageJson.keywords.includes('homebridge-plugin')) {
     errors.push('package keywords must include homebridge-plugin');
   }
@@ -32,7 +40,23 @@ export function validatePackageMetadata(packageJson) {
     errors.push('package peerDependencies must include homebridge');
   }
 
+  if (packageJson.scripts?.prepare !== undefined) {
+    errors.push('package scripts.prepare must not be set');
+  }
+
   throwIfErrors(errors);
+}
+
+export function validateGitInstallFiles(trackedFiles) {
+  throwIfMissing(
+    new Set(trackedFiles),
+    [
+      ['README.md', 'git install branch must track README.md'],
+      ['dist/index.js', 'git install branch must track dist/index.js'],
+      ['homebridge-ui/public/index.html', 'git install branch must track homebridge-ui/public/index.html'],
+      ['homebridge-ui/server.js', 'git install branch must track homebridge-ui/server.js'],
+    ],
+  );
 }
 
 export function validateConfigSchema(configSchema) {
@@ -67,6 +91,18 @@ export function validatePackFiles(packJson) {
     errors.push('npm pack must include config.schema.json');
   }
 
+  if (!files.has('README.md')) {
+    errors.push('npm pack must include README.md');
+  }
+
+  if (!files.has('homebridge-ui/public/index.html')) {
+    errors.push('npm pack must include homebridge-ui/public/index.html');
+  }
+
+  if (!files.has('homebridge-ui/server.js')) {
+    errors.push('npm pack must include homebridge-ui/server.js');
+  }
+
   throwIfErrors(errors);
 }
 
@@ -79,6 +115,7 @@ async function main() {
   validatePackageMetadata(packageJson);
   validateConfigSchema(configSchema);
   validatePublishWorkflow(publishWorkflow);
+  validateGitInstallFiles(runGitLsFiles(root));
   validatePackFiles(runNpmPackDryRun(root));
 
   console.log('Release check passed.');
@@ -104,6 +141,19 @@ function runNpmPackDryRun(cwd) {
   return JSON.parse(result.stdout);
 }
 
+function runGitLsFiles(cwd) {
+  const result = spawnSync('git', ['ls-files'], {
+    cwd,
+    encoding: 'utf8',
+  });
+
+  if (result.status !== 0) {
+    throw new Error(`git ls-files failed: ${result.stderr || result.stdout}`);
+  }
+
+  return result.stdout.split('\n').filter(Boolean);
+}
+
 async function readJson(path) {
   return JSON.parse(await readFile(path, 'utf8'));
 }
@@ -111,6 +161,14 @@ async function readJson(path) {
 function throwIfErrors(errors) {
   if (errors.length > 0) {
     throw new Error(errors.join('\n'));
+  }
+}
+
+function throwIfMissing(files, requiredFiles) {
+  for (const [path, message] of requiredFiles) {
+    if (!files.has(path)) {
+      throw new Error(message);
+    }
   }
 }
 

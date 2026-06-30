@@ -2,19 +2,19 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-current_phase: 06
-current_phase_name: Status Polling + Offline Handling (MVP Ship)
+current_phase: 07
+current_phase_name: Config-UI + QR Setup Screen
 status: ready_to_publish
-stopped_at: Phase 6 implementation complete; npm publish pending
-last_updated: "2026-06-26T08:48:54Z"
-last_activity: 2026-06-26
-last_activity_desc: Phase 6 release readiness complete; npm publish pending
+stopped_at: Phase 7 complete; npm publish pending
+last_updated: "2026-06-29T18:30:00Z"
+last_activity: 2026-06-29
+last_activity_desc: Phase 7 complete with custom QR setup UI, README, and release asset checks
 progress:
   total_phases: 7
-  completed_phases: 5
-  total_plans: 20
-  completed_plans: 20
-  percent: 71
+  completed_phases: 6
+  total_plans: 23
+  completed_plans: 23
+  percent: 86
 ---
 
 # Project State
@@ -24,22 +24,22 @@ progress:
 See: .planning/PROJECT.md (updated 2026-06-24)
 
 **Core value:** A user can control their Tuya devices in HomeKit after a simple Smart Life QR login — no per-user Tuya developer account.
-**Current focus:** Phase 06 — Status Polling + Offline Handling (MVP Ship)
+**Current focus:** Phase 07 — Config-UI + QR Setup Screen
 
 ## Current Position
 
-Phase: 06 (Status Polling + Offline Handling (MVP Ship)) — READY TO PUBLISH
-Plan: npm publish pending
-Status: Ready to publish — 3/3 Phase 6 plans complete
-Last activity: 2026-06-26 — Phase 6 release readiness complete; npm publish pending
+Phase: 07 (Config-UI + QR Setup Screen) — COMPLETE
+Plan: 07-03-SUMMARY.md
+Status: Ready to publish — Phase 7 complete; actual npm publish remains pending
+Last activity: 2026-06-29 — Phase 7 complete with custom QR setup UI, README, and release asset checks
 
-Progress: [█████░░░░░] 5/7 phases complete
+Progress: [████████░░] 6/7 phases complete
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 20
+- Total plans completed: 23
 - Average duration: - min
 - Total execution time: 0.0 hours
 
@@ -80,6 +80,9 @@ Progress: [█████░░░░░] 5/7 phases complete
 | Phase 06 P01 | ~20m | 4 tasks | 4 files |
 | Phase 06 P02 | ~25m | 4 tasks | 9 files |
 | Phase 06 P03 | ~15m | 3 tasks | 4 files |
+| Phase 07 P01 | ~20m | 2 tasks | 5 files |
+| Phase 07 P02 | ~40m | 3 tasks | 7 files |
+| Phase 07 P03 | ~20m | 3 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -119,10 +122,10 @@ Items acknowledged and carried forward from previous milestone close:
 
 | Category | Item | Status | Deferred At |
 |----------|------|--------|-------------|
-| *(none)* | | | |
+| npm publish | First public npm publish for `PUB-01` remains pending after local/PR readiness checks | Pending | Phase 06/07 closeout |
 
 ## Session Continuity
 
-Last session: 2026-06-26T08:48:54Z
-Stopped at: Phase 6 implementation complete; npm publish pending
-Resume file: .planning/phases/06-status-polling-offline-handling-mvp-ship/06-03-SUMMARY.md
+Last session: 2026-06-29T18:30:00Z
+Stopped at: Phase 7 complete; npm publish pending
+Resume file: .planning/phases/07-config-ui-qr-setup-screen/07-03-SUMMARY.md

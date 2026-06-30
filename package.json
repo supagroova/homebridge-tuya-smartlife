@@ -20,6 +20,7 @@
     "build": "rimraf dist && tsc",
     "lint": "eslint .",
     "test": "jest",
+    "test:ui": "node --test homebridge-ui/*.test.mjs",
     "coverage": "jest --coverage",
     "auth:qr-login": "npm run build && node scripts/qr-login.mjs",
     "prepublishOnly": "npm run lint && npm test && npm run build",
@@ -46,6 +47,12 @@
   },
   "files": [
     "dist",
-    "config.schema.json"
-  ]
+    "config.schema.json",
+    "homebridge-ui/public",
+    "homebridge-ui/server.js"
+  ],
+  "dependencies": {
+    "@homebridge/plugin-ui-utils": "^2.2.4",
+    "qrcode": "^1.5.4"
+  }
 }

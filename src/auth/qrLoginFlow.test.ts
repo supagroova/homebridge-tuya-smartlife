@@ -43,7 +43,7 @@ describe('QrLoginFlow', () => {
     });
     expect(fetchMock).toHaveBeenCalledWith(
       'https://apigw.iotbing.com/v1.0/m/life/home-assistant/qrcode/tokens?clientid=client-id&usercode=user-code&schema=schema-id',
-      { method: 'POST' },
+      { method: 'POST', signal: expect.any(AbortSignal) },
     );
   });
 
@@ -52,6 +52,7 @@ describe('QrLoginFlow', () => {
       .fn()
       .mockResolvedValueOnce(jsonResponse({ success: false, code: 'LOGIN_PENDING', msg: 'pending' }))
       .mockResolvedValueOnce(jsonResponse({ success: false, code: 'QR_EXPIRED', msg: 'expired' }))
+      .mockResolvedValueOnce(jsonResponse({ success: false, code: 'E0020003', msg: 'Login failed, please scan and try again!' }))
       .mockResolvedValueOnce(jsonResponse({ success: false, code: 'E0020003', msg: 'wrong app' }));
     const flow = new QrLoginFlow({
       clientId: 'client-id',
@@ -68,6 +69,11 @@ describe('QrLoginFlow', () => {
       state: 'expired',
       code: 'QR_EXPIRED',
       message: 'expired',
+    });
+    await expect(flow.pollLoginResult('qr-token', 'user-code')).resolves.toEqual({
+      state: 'pending',
+      code: 'E0020003',
+      message: 'Login failed, please scan and try again!',
     });
     await expect(flow.pollLoginResult('qr-token', 'user-code')).resolves.toEqual({
       state: 'failed',
@@ -133,5 +139,69 @@ describe('QrLoginFlow', () => {
 
     await expect(flow.pollLoginResult('qr-token', 'user-code')).rejects.toThrow('QR login HTTP error');
     expect(tokenStore.token).toBeNull();
+  });
+
+  it('times out QR token creation instead of waiting forever', async () => {
+    jest.useFakeTimers();
+    const fetchMock = jest.fn(
+      (_url: string | URL | Request, init?: RequestInit) =>
+        new Promise<Response>((_resolve, reject) => {
+          init?.signal?.addEventListener('abort', () => {
+            reject(Object.assign(new Error('aborted'), { name: 'AbortError' }));
+          });
+        }),
+    );
+    const flow = new QrLoginFlow({
+      clientId: 'client-id',
+      schema: 'schema-id',
+      fetch: fetchMock,
+      requestTimeoutMs: 5,
+    });
+
+    const result = expect(flow.createQrCode('user-code')).rejects.toThrow('QR login request timed out');
+
+    await jest.advanceTimersByTimeAsync(5);
+    await result;
+    jest.useRealTimers();
+  });
+
+  it('logs sanitized QR polling request and response metadata', async () => {
+    const debug = jest.fn();
+    const fetchMock = jest.fn().mockResolvedValue(
+      jsonResponse({
+        success: false,
+        code: 'LOGIN_PENDING',
+        msg: 'pending',
+        result: {
+          qrcode: 'sensitive-qr-token',
+          access_token: 'sensitive-access-token',
+        },
+      }),
+    );
+    const flow = new QrLoginFlow({
+      clientId: 'client-id',
+      schema: 'schema-id',
+      fetch: fetchMock,
+      log: { debug },
+    });
+
+    await flow.pollLoginResult('sensitive-qr-token', 'user-code');
+
+    expect(debug).toHaveBeenCalledWith(
+      'Tuya QR request: method=%s endpoint=%s path=%s',
+      'GET',
+      'https://apigw.iotbing.com',
+      '/v1.0/m/life/home-assistant/qrcode/tokens/[REDACTED]',
+    );
+    expect(debug).toHaveBeenCalledWith(
+      'Tuya QR response: status=%d success=%s code=%s msg=%s resultKeys=%s',
+      200,
+      false,
+      'LOGIN_PENDING',
+      'pending',
+      'qrcode,access_token',
+    );
+    expect(JSON.stringify(debug.mock.calls)).not.toContain('sensitive-qr-token');
+    expect(JSON.stringify(debug.mock.calls)).not.toContain('sensitive-access-token');
   });
 });

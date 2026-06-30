@@ -47,7 +47,9 @@ export async function runPlatformDiscovery<TClient, TAccessory extends RegistryA
   const token = await options.tokenStore.load();
 
   if (token === null) {
-    options.log.warn('Tuya Smart Life authentication is required before device discovery can run.');
+    options.log.warn(
+      'Tuya Smart Life authentication is required before device discovery can run. Open the plugin settings to complete QR setup.',
+    );
 
     return { status: 'reauth-required' };
   }

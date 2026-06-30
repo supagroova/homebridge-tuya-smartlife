@@ -29,7 +29,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 4: Switches & Outlets + Mapping Engine** - On/off control incl. multi-gang, plus the reusable DP→HomeKit mapping/scaling engine
 - [x] **Phase 5: Climate & Sensors** - Temp/humidity, binary sensors, thermostat control, battery reporting
 - [ ] **Phase 6: Status Polling + Offline Handling (MVP Ship)** - Polling keeps state current, offline devices show "No Response", first npm publish
-- [ ] **Phase 7: Config-UI + QR Setup Screen** - Config schema + custom QR login UI + README documentation
+- [x] **Phase 7: Config-UI + QR Setup Screen** - Config schema + custom QR login UI + README documentation
 
 ## Phase Details
 
@@ -114,7 +114,7 @@ Plans:
   2. A multi-gang device exposes each gang (`switch_N` DP) as its own HomeKit service that is independently controllable.
   3. Outlets are mapped to the HomeKit Outlet service and plain switches to the Switch service, based on Tuya category.
 
-**Plans**: 3 plans ready
+**Plans**: 3/3 plans complete
 
 Plans:
 
@@ -179,12 +179,23 @@ Plans:
   2. A custom config-UI screen renders the login QR, polls for scan completion, and shows friendly messages for known errors (e.g. `E0020003`, "designated APP", region issues).
   3. The README documents QR-login setup, the supported device set, and known limitations.
 
-**Plans**: TBD
+**QR Setup Flow To Preserve**:
+
+  1. Enable Homebridge custom plugin UI with `customUi: true` and a shipped `homebridge-ui/` bundle; the static schema form alone is not enough to display/poll QR login.
+  2. The UI asks for Smart Life user code and region/endpoint, then calls plugin UI server endpoints through `homebridge.request(...)`.
+  3. The UI server calls the existing `QrLoginFlow.createQrCode(...)` and returns the QR payload/data URL for display in the settings modal.
+  4. The user scans the QR code in the Smart Life app; the UI polls the server for scan status.
+  5. On success, the server writes `tuya-smartlife-token.json` to `this.homebridgeStoragePath` so the platform can load it on startup.
+  6. The UI updates/saves plugin config as needed and prompts the user to restart Homebridge.
+
+**Plans**: 3 plans ready
 **UI hint**: yes
 
 Plans:
 
-- [ ] 07-01: TBD
+- [x] 07-01-PLAN.md — Config schema and startup setup visibility (CFG-01)
+- [x] 07-02-PLAN.md — Custom Homebridge QR login UI and UI server (CFG-02)
+- [x] 07-03-PLAN.md — README, package asset checks, and Phase 7 closeout (PUB-02)
 
 ## Future / v2
 
@@ -209,4 +220,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 4. Switches & Outlets + Mapping Engine | 3/3 | Complete    | 2026-06-25 |
 | 5. Climate & Sensors | 4/4 | Complete    | 2026-06-26 |
 | 6. Status Polling + Offline Handling (MVP Ship) | 3/3 | Ready to publish | - |
-| 7. Config-UI + QR Setup Screen | 0/TBD | Not started | - |
+| 7. Config-UI + QR Setup Screen | 3/3 | Complete | 2026-06-29 |
