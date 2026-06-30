@@ -19,6 +19,7 @@ export type QrLoginFlowOptions = {
     clientId: string;
     schema: string;
     loginEndpoint?: string;
+    requestTimeoutMs?: number;
     fetch?: typeof fetch;
     tokenStore?: TokenStore;
 };

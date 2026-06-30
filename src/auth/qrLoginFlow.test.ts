@@ -43,7 +43,7 @@ describe('QrLoginFlow', () => {
     });
     expect(fetchMock).toHaveBeenCalledWith(
       'https://apigw.iotbing.com/v1.0/m/life/home-assistant/qrcode/tokens?clientid=client-id&usercode=user-code&schema=schema-id',
-      { method: 'POST' },
+      { method: 'POST', signal: expect.any(AbortSignal) },
     );
   });
 
@@ -152,10 +152,10 @@ describe('QrLoginFlow', () => {
       requestTimeoutMs: 5,
     });
 
-    const result = flow.createQrCode('user-code');
-    await jest.advanceTimersByTimeAsync(5);
+    const result = expect(flow.createQrCode('user-code')).rejects.toThrow('QR login request timed out');
 
-    await expect(result).rejects.toThrow('QR login request timed out');
+    await jest.advanceTimersByTimeAsync(5);
+    await result;
     jest.useRealTimers();
   });
 });

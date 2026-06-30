@@ -3,6 +3,7 @@ import type { PersistedTokenInfo } from './types';
 import type { TokenStore } from './tokenStore';
 
 const DEFAULT_LOGIN_ENDPOINT = 'https://apigw.iotbing.com';
+const DEFAULT_REQUEST_TIMEOUT_MS = 10_000;
 
 type LoginTokenResponse = {
   success: boolean;
@@ -50,6 +51,7 @@ export type QrLoginFlowOptions = {
   clientId: string;
   schema: string;
   loginEndpoint?: string;
+  requestTimeoutMs?: number;
   fetch?: typeof fetch;
   tokenStore?: TokenStore;
 };
@@ -118,7 +120,24 @@ export class QrLoginFlow {
   }
 
   private async requestJson<T>(pathAndQuery: string, init: RequestInit): Promise<T> {
-    const response = await this.fetchImpl(`${this.loginEndpoint}${pathAndQuery}`, init);
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), this.options.requestTimeoutMs ?? DEFAULT_REQUEST_TIMEOUT_MS);
+
+    let response: Response;
+    try {
+      response = await this.fetchImpl(`${this.loginEndpoint}${pathAndQuery}`, {
+        ...init,
+        signal: controller.signal,
+      });
+    } catch (error) {
+      if (isAbortError(error)) {
+        throw new TuyaTransportError('QR login request timed out');
+      }
+
+      throw error;
+    } finally {
+      clearTimeout(timeout);
+    }
 
     if (!response.ok) {
       throw new TuyaTransportError(`QR login HTTP error: status=${response.status}`);
@@ -126,6 +145,10 @@ export class QrLoginFlow {
 
     return (await response.json()) as T;
   }
+}
+
+function isAbortError(error: unknown): boolean {
+  return error instanceof Error && error.name === 'AbortError';
 }
 
 function mapLoginFailure(code = 'UNKNOWN', message = 'QR login failed'): QrLoginPending {

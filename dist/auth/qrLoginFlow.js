@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.QrLoginFlow = void 0;
 const errors_1 = require("./errors");
 const DEFAULT_LOGIN_ENDPOINT = 'https://apigw.iotbing.com';
+const DEFAULT_REQUEST_TIMEOUT_MS = 10_000;
 class QrLoginFlow {
     options;
     loginEndpoint;
@@ -49,7 +50,24 @@ class QrLoginFlow {
         };
     }
     async requestJson(pathAndQuery, init) {
-        const response = await this.fetchImpl(`${this.loginEndpoint}${pathAndQuery}`, init);
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), this.options.requestTimeoutMs ?? DEFAULT_REQUEST_TIMEOUT_MS);
+        let response;
+        try {
+            response = await this.fetchImpl(`${this.loginEndpoint}${pathAndQuery}`, {
+                ...init,
+                signal: controller.signal,
+            });
+        }
+        catch (error) {
+            if (isAbortError(error)) {
+                throw new errors_1.TuyaTransportError('QR login request timed out');
+            }
+            throw error;
+        }
+        finally {
+            clearTimeout(timeout);
+        }
         if (!response.ok) {
             throw new errors_1.TuyaTransportError(`QR login HTTP error: status=${response.status}`);
         }
@@ -57,6 +75,9 @@ class QrLoginFlow {
     }
 }
 exports.QrLoginFlow = QrLoginFlow;
+function isAbortError(error) {
+    return error instanceof Error && error.name === 'AbortError';
+}
 function mapLoginFailure(code = 'UNKNOWN', message = 'QR login failed') {
     if (code.includes('PENDING')) {
         return { state: 'pending', code, message };
