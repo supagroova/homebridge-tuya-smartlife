@@ -20,6 +20,7 @@
     "build": "rimraf dist && tsc",
     "lint": "eslint .",
     "test": "jest",
+    "test:ui": "node --test homebridge-ui/*.test.mjs",
     "coverage": "jest --coverage",
     "auth:qr-login": "npm run build && node scripts/qr-login.mjs",
     "prepublishOnly": "npm run lint && npm test && npm run build",
