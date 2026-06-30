@@ -134,4 +134,28 @@ describe('QrLoginFlow', () => {
     await expect(flow.pollLoginResult('qr-token', 'user-code')).rejects.toThrow('QR login HTTP error');
     expect(tokenStore.token).toBeNull();
   });
+
+  it('times out QR token creation instead of waiting forever', async () => {
+    jest.useFakeTimers();
+    const fetchMock = jest.fn(
+      (_url: string | URL | Request, init?: RequestInit) =>
+        new Promise<Response>((_resolve, reject) => {
+          init?.signal?.addEventListener('abort', () => {
+            reject(Object.assign(new Error('aborted'), { name: 'AbortError' }));
+          });
+        }),
+    );
+    const flow = new QrLoginFlow({
+      clientId: 'client-id',
+      schema: 'schema-id',
+      fetch: fetchMock,
+      requestTimeoutMs: 5,
+    });
+
+    const result = flow.createQrCode('user-code');
+    await jest.advanceTimersByTimeAsync(5);
+
+    await expect(result).rejects.toThrow('QR login request timed out');
+    jest.useRealTimers();
+  });
 });
