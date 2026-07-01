@@ -4,6 +4,14 @@
   "version": "1.0.0",
   "description": "Homebridge plugin bringing Tuya / Smart Life devices into HomeKit via the Smart Life device-sharing (QR) login — no Tuya developer account required.",
   "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/supagroova/homebridge-tuya-smartlife.git"
+  },
+  "bugs": {
+    "url": "https://github.com/supagroova/homebridge-tuya-smartlife/issues"
+  },
+  "homepage": "https://github.com/supagroova/homebridge-tuya-smartlife#readme",
   "main": "dist/index.js",
   "engines": {
     "node": "^22 || ^24",
