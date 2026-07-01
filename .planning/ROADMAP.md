@@ -78,11 +78,11 @@ Plans:
 3. Verified badge is added to README only after Homebridge approval.
 4. Milestone closes with a record of the verification request URL and outcome.
 
-**Plans:** 0/1 plans complete
+**Plans:** 1/1 plans ready
 
 Plans:
 
-- [ ] 11-01-PLAN.md — Reviewer feedback handling and verified badge closeout.
+- [x] 11-01-PLAN.md — Reviewer feedback handling and verified badge closeout.
 
 ## Future / v2 Candidates
 
@@ -99,4 +99,4 @@ Plans:
 |-------|----------------|--------|-----------|
 | 9. Verification Readiness Audit | 1/1 | Complete | 2026-07-01 |
 | 10. Verification Submission Package | 1/1 | Complete | 2026-07-01 |
-| 11. Reviewer Feedback & Approval Closeout | 0/1 | Pending | — |
+| 11. Reviewer Feedback & Approval Closeout | 0/1 | Planned | — |
