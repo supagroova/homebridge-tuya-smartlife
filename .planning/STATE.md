@@ -1,20 +1,20 @@
 ---
 gsd_state_version: 1.0
-milestone: none
-milestone_name: none
-current_phase: none
-current_phase_name: none
-status: milestone_complete
-stopped_at: v1.0 archived; ready for next milestone
-last_updated: "2026-07-01T10:45:00Z"
+milestone: homebridge-plugin-verification
+milestone_name: Homebridge Plugin Verification
+current_phase: 09
+current_phase_name: Verification Readiness Audit
+status: planned
+stopped_at: New verification milestone created; ready to plan Phase 9
+last_updated: "2026-07-01T11:02:29Z"
 last_activity: 2026-07-01
-last_activity_desc: Archived v1.0 release milestone and prepared for next milestone
+last_activity_desc: Created Homebridge Plugin Verification milestone from official Homebridge verification process
 progress:
-  total_phases: 0
+  total_phases: 3
   completed_phases: 0
-  total_plans: 0
+  total_plans: 3
   completed_plans: 0
-  percent: 100
+  percent: 0
 ---
 
 # Project State
@@ -24,34 +24,36 @@ progress:
 See: `.planning/PROJECT.md`
 
 **Core value:** A user can control Tuya / Smart Life devices in HomeKit after a simple Smart Life QR login, without a per-user Tuya developer account.
-**Current focus:** No active milestone.
+**Current focus:** Phase 09 — Verification Readiness Audit
 
 ## Current Position
 
-The v1.0 milestone is complete and archived:
+Milestone: Homebridge Plugin Verification
+Phase: 09 (Verification Readiness Audit)
+Status: Planned
 
-- Summary: `.planning/milestones/v1.0-SUMMARY.md`
-- Roadmap archive: `.planning/milestones/v1.0-ROADMAP.md`
-- Requirements archive: `.planning/milestones/v1.0-REQUIREMENTS.md`
+Progress: [----------] 0/3 phases complete
 
-`homebridge-tuya-smartlife@1.0.0` is published to npm and was smoke-tested on the remote Homebridge server.
+## Current Context
+
+Homebridge verification is requested through a `homebridge/plugins` issue template. The request must
+show that the plugin meets Homebridge's requirements for dynamic platform plugins, npm/GitHub
+release hygiene, supported Node LTS compatibility, safe install/startup behavior, Homebridge UI
+configuration, storage under the Homebridge storage directory, no analytics/tracking, and handled
+errors.
+
+The strongest project-specific risk is differentiation from existing verified Tuya plugins. The
+submission should explicitly explain the Smart Life QR login path and no per-user Tuya developer
+account requirement.
 
 ## Next Step
 
-Start the next milestone with `/gsd-new-milestone`.
-
-Likely candidates:
-
-- Homebridge verified-plugin submission.
-- Tuya/Homebridge-specific QR credential follow-up.
-- MQTT push updates.
-- Expanded device-category support.
+Run `/gsd-plan-phase 9`.
 
 ## Deferred Items
 
 | Category | Item | Status | Deferred At |
 |----------|------|--------|-------------|
-| Homebridge verification | Verified-plugin submission and badge are post-publish/approval work, not an assumption before release | Pending | v1.0 |
-| Tuya credentials | Revisit Homebridge-specific `client_id` / `schema` or explicit Tuya blessing before broad public/verified release | Pending | v1.0 |
+| Tuya credentials | Revisit Homebridge-specific `client_id` / `schema` or explicit Tuya blessing if Homebridge reviewers raise it | Pending | Verification milestone |
 | Device support | Lights, dimmers, covers, fans, scenes, and DP override config | Pending | v1.0 |
 | Updates | MQTT-over-WebSocket real-time push and optimistic write reconciliation | Pending | v1.0 |

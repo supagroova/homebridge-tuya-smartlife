@@ -22,7 +22,8 @@ server. The v1.0 milestone delivered Smart Life QR login, token persistence/refr
 device discovery, switches/outlets, climate/sensors, polling/offline handling, custom config UI,
 release hardening, changelog, and README badges.
 
-No active milestone is currently open. Start the next cycle with `/gsd-new-milestone`.
+The active milestone is **Homebridge Plugin Verification**: prepare, submit, and close the
+Homebridge verification request for the plugin.
 
 ## Requirements
 
@@ -45,7 +46,10 @@ No active milestone is currently open. Start the next cycle with `/gsd-new-miles
 
 <!-- Current scope. Building toward these. Hypotheses until shipped. -->
 
-No active milestone requirements. Start the next cycle with `/gsd-new-milestone`.
+- [ ] Verify current Homebridge plugin verification requirements against this repo and npm package
+- [ ] Ensure GitHub release/repo/package metadata are ready for Homebridge review
+- [ ] Prepare the `homebridge/plugins` verification request issue package
+- [ ] Track reviewer feedback and add the verified badge only after approval
 
 ### Out of Scope
 
@@ -74,6 +78,7 @@ No active milestone requirements. Start the next cycle with `/gsd-new-milestone`
 - **CI**: GitHub Actions running the full gate (`make check`) on PR/push across a Node version matrix; publish-on-tag.
 - **Compatibility**: current Homebridge LTS + HAP; configured via the `homebridge-config-ui-x` schema.
 - **Distribution**: published npm package; aim for Homebridge "verified plugin" status eventually.
+- **Verification milestone**: Homebridge verification is requested through a `homebridge/plugins` issue template, not by opening a PR. The verified badge is deferred until approval.
 
 ## Key Decisions
 
@@ -85,13 +90,15 @@ No active milestone requirements. Start the next cycle with `/gsd-new-milestone`
 | v1 covers switches/outlets + climate/sensors only | Author's actual devices; "cover my devices well" over parity | Validated in v1.0 |
 | Defer local control + lights/covers to v2 | Keep v1 shippable and focused on the author's setup | Retained for vNext |
 | Manual local npm publish for v1.0 | Avoid long-lived npm automation credentials until release cadence is clearer | Validated in v1.0 |
+| Request Homebridge verification via issue, not PR | Current Homebridge process uses `homebridge/plugins` Plugin Verification Request issues | Active milestone |
 
 ## Open Questions / Top Risks
 
 - **Tuya QR credential path:** v1.0 works with the Tuya-published HA-compatible `client_id`/`schema` used by Home Assistant. Before a broad public/verified release, revisit whether Tuya will issue or bless a Homebridge-specific credential.
 - **Region nuance:** the EU Data Act framing around device data sharing — confirm it doesn't block the consumer QR flow for the author's region.
 - **Token fragility:** QR expiry and token-refresh ("sign invalid") issues observed in HA — design refresh/recovery accordingly.
-- **Homebridge verification:** the verified badge must not be added until Homebridge verification is actually granted.
+- **Homebridge verification differentiation:** existing verified Tuya plugins are a comparison risk; the request must explain that this plugin provides maintained Smart Life QR login without a per-user Tuya developer account.
+- **Homebridge verification badge:** the verified badge must not be added until Homebridge verification is actually granted.
 
 ## Evolution
 
@@ -111,4 +118,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-07-01 after completing and archiving the v1.0 milestone*
+*Last updated: 2026-07-01 when opening the Homebridge Plugin Verification milestone*
