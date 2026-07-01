@@ -15,28 +15,37 @@ A user can control their Tuya devices in HomeKit after a simple **Smart Life QR-
 per-user Tuya developer account and no 6-month API-trial renewals. If everything else fails, that
 frictionless cloud onboarding + reliable control is what must work.
 
+## Current State
+
+`homebridge-tuya-smartlife@1.0.0` is published to npm and smoke-tested on the remote Homebridge
+server. The v1.0 milestone delivered Smart Life QR login, token persistence/refresh, Tuya cloud
+device discovery, switches/outlets, climate/sensors, polling/offline handling, custom config UI,
+release hardening, changelog, and README badges.
+
+No active milestone is currently open. Start the next cycle with `/gsd-new-milestone`.
+
 ## Requirements
 
 ### Validated
 
 <!-- Shipped and confirmed valuable. -->
 
-(None yet — greenfield; ship to validate)
+- [x] Cloud auth via the Smart Life **User Code + QR device-sharing flow** (no per-user dev account)
+- [x] Persist + refresh auth tokens across Homebridge restarts
+- [x] Discover devices from the Tuya cloud and expose them to HomeKit
+- [x] Support **switches / outlets** (on/off)
+- [x] Support **climate & sensors** (the author's gateway-bridged BT devices)
+- [x] Homebridge config-UI schema and custom QR setup UI
+- [x] Strict TDD gates + GitHub Actions CI
+- [x] Published to npm + discoverable in Homebridge
+- [x] v1.0 release hardening: debug logs gated, sensitive values redacted, package metadata verified, changelog added, version set to `1.0.0`
+- [x] README npm release badges added
 
 ### Active
 
 <!-- Current scope. Building toward these. Hypotheses until shipped. -->
 
-- [ ] Cloud auth via the Smart Life **User Code + QR device-sharing flow** (no per-user dev account)
-- [ ] Persist + refresh auth tokens across Homebridge restarts
-- [ ] Discover devices from the Tuya cloud and expose them to HomeKit
-- [ ] Support **switches / outlets** (on/off)
-- [ ] Support **climate & sensors** (the author's gateway-bridged BT devices)
-- [ ] Homebridge config-UI schema (`config.schema.json`) for setup
-- [x] Strict TDD gates + GitHub Actions CI (Phase 1 foundation) — ✓ delivered in Phase 1
-- [ ] Published to npm + discoverable in Homebridge
-- [ ] v1.0 release hardening: debug logs gated, sensitive values redacted, package metadata verified, changelog added, version set to `1.0.0`
-- [ ] README release badges added, with the Homebridge verified badge only after verification is actually granted
+No active milestone requirements. Start the next cycle with `/gsd-new-milestone`.
 
 ### Out of Scope
 
@@ -70,20 +79,19 @@ frictionless cloud onboarding + reliable control is what must work.
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| Cloud-only via the Smart Life QR device-sharing flow | No per-user dev account; matches current HA approach; author's BT devices are cloud-reachable via a gateway; host has no local/BT access | — Pending (gated by Tuya partner-access research) |
-| npm + Jest toolchain (not pnpm/Vitest as in `localizer`) | Homebridge ecosystem convention; easiest for outside contributors | — Pending |
-| TDD gates modeled on `localizer`, adapted to a single package, built in Phase 1 | Author's established quality practice; appropriate bar for a community plugin | — Pending |
-| v1 covers switches/outlets + climate/sensors only | Author's actual devices; "cover my devices well" over parity | — Pending |
-| Defer local control + lights/covers to v2 | Keep v1 shippable and focused on the author's setup | — Pending |
-| v1.0 release hardening is its own milestone phase | Real Homebridge testing proved QR login and device exposure; npm publication now needs packaging, logging, and docs hardening rather than more feature work | — Active |
+| Cloud-only via the Smart Life QR device-sharing flow | No per-user dev account; matches current HA approach; author's BT devices are cloud-reachable via a gateway; host has no local/BT access | Validated in v1.0 |
+| npm + Jest toolchain (not pnpm/Vitest as in `localizer`) | Homebridge ecosystem convention; easiest for outside contributors | Validated in v1.0 |
+| TDD gates modeled on `localizer`, adapted to a single package, built in Phase 1 | Author's established quality practice; appropriate bar for a community plugin | Validated in v1.0 |
+| v1 covers switches/outlets + climate/sensors only | Author's actual devices; "cover my devices well" over parity | Validated in v1.0 |
+| Defer local control + lights/covers to v2 | Keep v1 shippable and focused on the author's setup | Retained for vNext |
+| Manual local npm publish for v1.0 | Avoid long-lived npm automation credentials until release cadence is clearer | Validated in v1.0 |
 
 ## Open Questions / Top Risks
 
-- **Tuya QR credential path:** For development, proceed with the Tuya-published HA-compatible `client_id`/`schema` used by Home Assistant so the Homebridge port can work without per-user developer accounts. Before a broad public/verified release, revisit whether Tuya will issue or bless a Homebridge-specific credential.
-- **Author-side credentials:** not per-user; centralized QR credential values are used by the plugin, with any Homebridge-specific credential acquisition deferred until the port works.
+- **Tuya QR credential path:** v1.0 works with the Tuya-published HA-compatible `client_id`/`schema` used by Home Assistant. Before a broad public/verified release, revisit whether Tuya will issue or bless a Homebridge-specific credential.
 - **Region nuance:** the EU Data Act framing around device data sharing — confirm it doesn't block the consumer QR flow for the author's region.
 - **Token fragility:** QR expiry and token-refresh ("sign invalid") issues observed in HA — design refresh/recovery accordingly.
-- **Release logging:** QR/auth debugging helped validate the real Homebridge flow, but public builds must gate verbose diagnostics behind the existing debug config and never log user codes, QR tokens, access tokens, refresh tokens, raw token payloads, encrypted payloads, or request signatures.
+- **Homebridge verification:** the verified badge must not be added until Homebridge verification is actually granted.
 
 ## Evolution
 
@@ -103,4 +111,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-07-01 when planning the v1.0 release milestone*
+*Last updated: 2026-07-01 after completing and archiving the v1.0 milestone*

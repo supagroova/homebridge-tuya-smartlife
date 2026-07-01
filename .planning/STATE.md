@@ -1,19 +1,19 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.0
-milestone_name: v1.0 Release
-current_phase: 08
-current_phase_name: v1.0 Release Hardening & npm Publish
-status: complete
-stopped_at: Phase 8 complete; v1.0 release published and smoke-tested from npm
-last_updated: "2026-07-01T10:30:00Z"
+milestone: none
+milestone_name: none
+current_phase: none
+current_phase_name: none
+status: milestone_complete
+stopped_at: v1.0 archived; ready for next milestone
+last_updated: "2026-07-01T10:45:00Z"
 last_activity: 2026-07-01
-last_activity_desc: Confirmed remote Homebridge npm install, plugin discovery, QR login, and HomeKit device visibility for v1.0.0
+last_activity_desc: Archived v1.0 release milestone and prepared for next milestone
 progress:
-  total_phases: 8
-  completed_phases: 8
-  total_plans: 27
-  completed_plans: 27
+  total_phases: 0
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
   percent: 100
 ---
 
@@ -21,120 +21,37 @@ progress:
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-07-01)
+See: `.planning/PROJECT.md`
 
-**Core value:** A user can control their Tuya devices in HomeKit after a simple Smart Life QR login — no per-user Tuya developer account.
-**Current focus:** Phase 08 — v1.0 Release Hardening & npm Publish
+**Core value:** A user can control Tuya / Smart Life devices in HomeKit after a simple Smart Life QR login, without a per-user Tuya developer account.
+**Current focus:** No active milestone.
 
 ## Current Position
 
-Phase: 08 (v1.0 Release Hardening & npm Publish) — COMPLETE
-Plan: 08-04-SUMMARY.md
-Status: Complete — v1.0.0 is published to npm and smoke-tested on the remote Homebridge server
-Last activity: 2026-07-01 — Confirmed remote Homebridge npm install, plugin discovery, QR login, and HomeKit device visibility for v1.0.0
+The v1.0 milestone is complete and archived:
 
-Progress: [██████████] 8/8 phases complete
+- Summary: `.planning/milestones/v1.0-SUMMARY.md`
+- Roadmap archive: `.planning/milestones/v1.0-ROADMAP.md`
+- Requirements archive: `.planning/milestones/v1.0-REQUIREMENTS.md`
 
-## Performance Metrics
+`homebridge-tuya-smartlife@1.0.0` is published to npm and was smoke-tested on the remote Homebridge server.
 
-**Velocity:**
+## Next Step
 
-- Total plans completed: 23
-- Average duration: - min
-- Total execution time: 0.0 hours
+Start the next milestone with `/gsd-new-milestone`.
 
-**By Phase:**
+Likely candidates:
 
-| Phase | Plans | Total | Avg/Plan |
-|-------|-------|-------|----------|
-| 01 | 3 | - | - |
-| 02 | 4/4 | - | - |
-| 03 | 3/3 | - | - |
-| 04 | 3/3 | - | - |
-| 05 | 4/4 | - | - |
-| 06 | 3/3 | - | - |
-| 07 | 3/3 | - | - |
-| 08 | 4/4 | - | - |
-
-**Recent Trend:**
-
-- Last 5 plans: -
-- Trend: -
-
-*Updated after each plan completion*
-| Phase 01 P01 | 4m | 2 tasks | 11 files |
-| Phase 01 P02 | ~30m | 3 tasks | 14 files |
-| Phase 01 P03 | ~5m | 2 tasks | 3 files |
-| Phase 02 P01 | ~10m | 3 tasks | 4 files |
-| Phase 02 P02 | ~20m | 3 tasks | 5 files |
-| Phase 02 P03 | ~20m | 4 tasks | 5 files |
-| Phase 02 P04 | ~15m | 4 tasks | 4 files |
-| Phase 03 P01 | ~15m | 2 tasks | 3 files |
-| Phase 03 P02 | ~20m | 4 tasks | 4 files |
-| Phase 03 P03 | ~20m | 3 tasks | 5 files |
-| Phase 04 P01 | ~25m | 4 tasks | 4 files |
-| Phase 04 P02 | ~10m | 2 tasks | 3 files |
-| Phase 04 P03 | ~20m | 4 tasks | 5 files |
-| Phase 05 P01 | ~15m | 2 tasks | 2 files |
-| Phase 05 P02 | ~15m | 4 tasks | 4 files |
-| Phase 05 P03 | ~15m | 2 tasks | 2 files |
-| Phase 05 P04 | ~20m | 4 tasks | 5 files |
-| Phase 06 P01 | ~20m | 4 tasks | 4 files |
-| Phase 06 P02 | ~25m | 4 tasks | 9 files |
-| Phase 06 P03 | ~15m | 3 tasks | 4 files |
-| Phase 07 P01 | ~20m | 2 tasks | 5 files |
-| Phase 07 P02 | ~40m | 3 tasks | 7 files |
-| Phase 07 P03 | ~20m | 3 tasks | 6 files |
-
-## Accumulated Context
-
-### Decisions
-
-Decisions are logged in PROJECT.md Key Decisions table.
-Recent decisions affecting current work:
-
-- [Roadmap]: Phase 1 is the mandated first step — scaffolding + TDD harness, itself exempt from the test-first rule it establishes.
-- [Roadmap]: The credential/auth question is resolved in Phase 2 BEFORE any device work; HA's credential is a throwaway probe, never shipped.
-- [Phase 2]: Owner approved using the Tuya-published HA-compatible QR `client_id` / `schema` values to get the Homebridge port working; pursue Homebridge-specific credentials later before broad release.
-- [Roadmap]: Phase 6 (polling + offline) is the MVP ship point; MQTT push and lights/covers/scenes are deferred to v2.
-- [Phase ?]: Homebridge plugin scaffolded with tsc-only build; HAP via api.hap, no hap-nodejs dependency
-- [Phase ?]: Added @eslint/js + .prettierignore as Rule-3 blocking fixes during scaffolding
-- [Phase ?]: Coverage excludes Homebridge glue (index/platform/settings) to keep the 85% jest gate green on a clean checkout.
-- [Phase ?]: tdd-audit skips constant-only modules so src/settings.ts passes without an exempt marker.
-- [Phase ?]: CI invokes make check + npm run build so CI and local hook gate are identical
-- [Phase ?]: Publish-on-tag uses npm Trusted Publishing / --provenance; NPM_TOKEN is fallback only
-- [Release]: Real Homebridge testing confirmed QR login works and devices appear in HomeKit from the PR build.
-- [Release]: The Homebridge verified badge must not be shown until verification is actually granted.
-- [Release]: Manual local publish is the chosen release path for now; GitHub publish automation is not required.
-- [Release]: npm registry verifies `homebridge-tuya-smartlife@1.0.0`.
-- [Release]: Remote Homebridge npm install and QR login smoke test were confirmed after publishing `1.0.0`.
-
-### Pending Todos
-
-[From .planning/todos/pending/ — ideas captured during sessions]
-
-None yet.
-
-### Blockers/Concerns
-
-[Issues that affect future work]
-
-- [Phase 2]: Tuya partner gating is the project-defining unknown. If a legitimate `client_id`/`schema` cannot be obtained, auth pivots to the developer-project API fallback — but scaffolding (Phase 1) is reused regardless.
-- [Phase 2]: Execution must not use Claude CLI/agents; Phase 2 planning was completed Codex-local with `.codex/scripts` as the local gate.
-- [Phase 2]: Public/verified release should revisit whether Tuya will issue or bless a Homebridge-specific `client_id` / `schema`.
-- [Release]: Debug diagnostics added during real-device troubleshooting must be gated behind the existing `debug` config before npm publication.
-- [Release]: Logs must not expose Smart Life user codes, QR tokens, access/refresh tokens, raw token payloads, encrypted payloads, encrypted request data, or signatures.
+- Homebridge verified-plugin submission.
+- Tuya/Homebridge-specific QR credential follow-up.
+- MQTT push updates.
+- Expanded device-category support.
 
 ## Deferred Items
 
-Items acknowledged and carried forward from previous milestone close:
-
 | Category | Item | Status | Deferred At |
 |----------|------|--------|-------------|
-| Homebridge verification | Verified-plugin submission and badge are post-publish/approval work, not an assumption before release | Pending | v1.0 release milestone |
-
-## Session Continuity
-
-Last session: 2026-07-01T10:30:00Z
-Stopped at: Phase 8 complete; v1.0 release published and smoke-tested from npm
-Resume file: .planning/phases/08-v1-release-hardening-npm-publish/08-04-SUMMARY.md
+| Homebridge verification | Verified-plugin submission and badge are post-publish/approval work, not an assumption before release | Pending | v1.0 |
+| Tuya credentials | Revisit Homebridge-specific `client_id` / `schema` or explicit Tuya blessing before broad public/verified release | Pending | v1.0 |
+| Device support | Lights, dimmers, covers, fans, scenes, and DP override config | Pending | v1.0 |
+| Updates | MQTT-over-WebSocket real-time push and optimistic write reconciliation | Pending | v1.0 |
