@@ -4,11 +4,11 @@ milestone: homebridge-plugin-verification
 milestone_name: Homebridge Plugin Verification
 current_phase: 11
 current_phase_name: Reviewer Feedback & Approval Closeout
-status: planned
-stopped_at: Phase 11 planned; ready to execute reviewer feedback closeout after verification issue submission
-last_updated: "2026-07-01T14:35:00Z"
+status: blocked
+stopped_at: Phase 11 waiting for Homebridge verification issue submission
+last_updated: "2026-07-01T14:50:00Z"
 last_activity: 2026-07-01
-last_activity_desc: Planned Phase 11 reviewer feedback and approval closeout
+last_activity_desc: Created Phase 11 feedback log; no Homebridge verification issue found yet
 progress:
   total_phases: 3
   completed_phases: 2
@@ -30,7 +30,7 @@ See: `.planning/PROJECT.md`
 
 Milestone: Homebridge Plugin Verification
 Phase: 11 (Reviewer Feedback & Approval Closeout)
-Status: Phase 11 planned; waiting for verification issue submission
+Status: Blocked — waiting for Homebridge verification issue submission
 
 Progress: [███████---] 2/3 phases complete
 
@@ -63,7 +63,7 @@ developer account requirement.
 
 ## Next Step
 
-Open the Homebridge verification issue using the Phase 10 issue draft, then run `/gsd-execute-phase 11`.
+Open the Homebridge verification issue using the Phase 10 issue draft, then resume `/gsd-execute-phase 11` with the issue URL.
 
 ## Deferred Items
 
