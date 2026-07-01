@@ -9,8 +9,8 @@
 ### Process & Submission
 
 - [x] **VER-01**: Verification process is tracked as a Homebridge `homebridge/plugins` issue request, not as a pull request.
-- [ ] **VER-02**: The verification issue includes the npm package name, GitHub repository link, and a concise explanation of how the plugin differs from existing verified Tuya plugins.
-- [ ] **VER-03**: Optional plugin icon decision is made before submission; if used, the icon is a square PNG around 100x100 and does not violate trademarks or licenses.
+- [x] **VER-02**: The verification issue includes the npm package name, GitHub repository link, and a concise explanation of how the plugin differs from existing verified Tuya plugins.
+- [x] **VER-03**: Optional plugin icon decision is made before submission; if used, the icon is a square PNG around 100x100 and does not violate trademarks or licenses.
 - [ ] **VER-04**: The Homebridge verified badge is added only after approval is granted.
 
 ### Release & Repository Readiness
@@ -31,7 +31,7 @@
 ### Evidence Package
 
 - [x] **VER-14**: A verification checklist document records evidence for each Homebridge requirement.
-- [ ] **VER-15**: A draft issue body is prepared for the Homebridge verification request.
+- [x] **VER-15**: A draft issue body is prepared for the Homebridge verification request.
 - [ ] **VER-16**: Any reviewer feedback is tracked, resolved, and released before adding the verified badge.
 
 ## Deferred
@@ -44,8 +44,8 @@
 | Requirement | Phase | Status |
 |-------------|-------|--------|
 | VER-01 | Phase 9 | Complete |
-| VER-02 | Phase 10 | Pending |
-| VER-03 | Phase 10 | Pending |
+| VER-02 | Phase 10 | Complete |
+| VER-03 | Phase 10 | Complete |
 | VER-04 | Phase 11 | Pending |
 | VER-05 | Phase 9/10 | Follow-up |
 | VER-06 | Phase 9/10 | Follow-up |
@@ -57,5 +57,5 @@
 | VER-12 | Phase 9 | Complete |
 | VER-13 | Phase 9 | Complete |
 | VER-14 | Phase 9 | Complete |
-| VER-15 | Phase 10 | Pending |
+| VER-15 | Phase 10 | Complete |
 | VER-16 | Phase 11 | Pending |

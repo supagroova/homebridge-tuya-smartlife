@@ -4,11 +4,11 @@ milestone: homebridge-plugin-verification
 milestone_name: Homebridge Plugin Verification
 current_phase: 10
 current_phase_name: Verification Submission Package
-status: planned
-stopped_at: Phase 10 planned; ready to execute verification submission package
-last_updated: "2026-07-01T12:05:00Z"
+status: awaiting_approval
+stopped_at: Phase 10 local prep complete; explicit approval needed to push main and create GitHub Release v1.0.0
+last_updated: "2026-07-01T12:35:00Z"
 last_activity: 2026-07-01
-last_activity_desc: Planned Phase 10 verification submission package
+last_activity_desc: Prepared Phase 10 package and issue draft; waiting for remote push/release approval
 progress:
   total_phases: 3
   completed_phases: 1
@@ -30,7 +30,7 @@ See: `.planning/PROJECT.md`
 
 Milestone: Homebridge Plugin Verification
 Phase: 10 (Verification Submission Package)
-Status: Phase 10 planned; ready to execute
+Status: Awaiting approval for remote push/release
 
 Progress: [███-------] 1/3 phases complete
 
@@ -43,11 +43,11 @@ configuration, storage under the Homebridge storage directory, no analytics/trac
 errors.
 
 Phase 9 found the project is mostly ready for verification, with three Phase 10 follow-ups before
-submission:
+submission. Local prep has addressed the repo-side fixes:
 
 - Create GitHub Release `v1.0.0` with release notes.
-- Add a root `LICENSE` file for Apache-2.0.
-- Add `repository`, `bugs`, and `homepage` fields to `package.json`.
+- Add a root `LICENSE` file for Apache-2.0. Done locally in commit `1cdd4af`.
+- Add `repository`, `bugs`, and `homepage` fields to `package.json`. Done locally in commit `1cdd4af`.
 
 The strongest project-specific submission risk remains differentiation from existing verified Tuya
 plugins. The submission should explicitly explain the Smart Life QR login path and no per-user Tuya
@@ -55,7 +55,7 @@ developer account requirement.
 
 ## Next Step
 
-Run `/gsd-execute-phase 10`.
+Approve `git push origin main` and GitHub Release creation, then resume `/gsd-execute-phase 10`.
 
 ## Deferred Items
 
