@@ -212,13 +212,13 @@ Plans:
   4. `package.json` is versioned `1.0.0`, `CHANGELOG.md` documents the release, and README includes the npm version/download badges. The Homebridge verified badge is added only after verification is granted.
   5. The package is published to npm and a Homebridge smoke test installs from npm, discovers the plugin, completes QR login, and shows the user's switches/thermometers in HomeKit.
 
-**Plans**: 2/4 plans complete
+**Plans**: 3/4 plans complete
 
 Plans:
 
 - [x] 08-01-PLAN.md — Debug logging gate and sensitive logging audit (REL-01, REL-02)
 - [x] 08-02-PLAN.md — Release metadata/docs: version `1.0.0`, changelog, README badges, package/license hardening (REL-03, REL-04, REL-05, REL-06)
-- [ ] 08-03-PLAN.md — npm publish readiness and controlled `1.0.0` publish (PUB-01, REL-03, REL-07)
+- [x] 08-03-PLAN.md — npm publish readiness and controlled `1.0.0` publish (PUB-01, REL-03, REL-07)
 - [ ] 08-04-PLAN.md — Post-publish Homebridge smoke test and release closeout (REL-08)
 
 ## Future / v2
@@ -243,6 +243,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8
 | 3. Device Discovery + Platform Skeleton | 3/3 | Complete    | 2026-06-24 |
 | 4. Switches & Outlets + Mapping Engine | 3/3 | Complete    | 2026-06-25 |
 | 5. Climate & Sensors | 4/4 | Complete    | 2026-06-26 |
-| 6. Status Polling + Offline Handling (MVP Ship) | 3/3 | Ready to publish | - |
+| 6. Status Polling + Offline Handling (MVP Ship) | 3/3 | Complete | 2026-07-01 |
 | 7. Config-UI + QR Setup Screen | 3/3 | Complete | 2026-06-29 |
-| 8. v1.0 Release Hardening & npm Publish | 2/4 | Awaiting npm publish auth | - |
+| 8. v1.0 Release Hardening & npm Publish | 3/4 | Awaiting post-publish smoke test | - |

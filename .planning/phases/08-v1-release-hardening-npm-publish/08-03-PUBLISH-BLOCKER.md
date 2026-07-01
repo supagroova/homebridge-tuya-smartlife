@@ -2,19 +2,17 @@
 
 ## Status
 
-Pre-publish local gate passed; actual npm publish is blocked on npm authentication or a confirmed GitHub Actions release path.
+Resolved. The pre-publish local gate passed, local publish was completed manually without provenance, and npm registry verification now confirms `homebridge-tuya-smartlife@1.0.0`.
 
 ## Evidence
 
 - `make check` passed.
 - `npm run release:check` passed.
 - `NPM_CONFIG_CACHE=/private/tmp/homebridge-tuya-smartlife-npm-cache npm pack --dry-run --json` passed and includes `CHANGELOG.md`, `README.md`, `config.schema.json`, `dist/index.js`, `homebridge-ui/public/index.html`, and `homebridge-ui/server.js`.
-- `npm view homebridge-tuya-smartlife@1.0.0 version` returned 404, so version `1.0.0` is not already published.
-- `npm whoami` returned E401 in this environment, so local publish cannot proceed yet.
+- Initial `npm publish --provenance --access public` failed locally because npm provenance requires a supported CI provider.
+- Manual `npm publish --access public` was completed by the package owner.
+- `npm view homebridge-tuya-smartlife@1.0.0 version` now returns `1.0.0`.
 
-## Next Options
+## Remaining Work
 
-1. Run `npm login` locally, then publish with `npm publish --provenance --access public` after confirming the working tree is clean.
-2. Confirm the GitHub publish workflow has valid npm credentials or trusted publishing configured, then create and push a `v1.0.0` tag.
-
-Do not mark `PUB-01` or `REL-07` complete until npm confirms `homebridge-tuya-smartlife@1.0.0` is published.
+Do not close Phase 8 until the remote Homebridge server installs from npm and verifies plugin discovery, QR login, and HomeKit device visibility.
