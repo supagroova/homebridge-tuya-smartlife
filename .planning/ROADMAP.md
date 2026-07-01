@@ -56,11 +56,11 @@ Plans:
 3. Optional icon decision is made and any icon asset is prepared only if desired.
 4. Any small audit fixes are committed and released before the verification issue is opened.
 
-**Plans:** 0/1 plans complete
+**Plans:** 1/1 plans ready
 
 Plans:
 
-- [ ] 10-01-PLAN.md — Verification request issue package and final pre-submit fixes.
+- [x] 10-01-PLAN.md — Verification request issue package and final pre-submit fixes.
 
 ### Phase 11: Reviewer Feedback & Approval Closeout
 
@@ -96,5 +96,5 @@ Plans:
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 9. Verification Readiness Audit | 1/1 | Complete | 2026-07-01 |
-| 10. Verification Submission Package | 0/1 | Pending | — |
+| 10. Verification Submission Package | 0/1 | Planned | — |
 | 11. Reviewer Feedback & Approval Closeout | 0/1 | Pending | — |
