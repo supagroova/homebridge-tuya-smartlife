@@ -34,11 +34,11 @@ Goal: prepare, submit, and close the Homebridge verification request for
 4. Release readiness is verified: npm `1.0.0`, GitHub Release status, README/changelog/license, package contents, and repo issues.
 5. Logging/storage/error-handling review confirms no obvious verification blocker.
 
-**Plans:** 0/1 plans complete
+**Plans:** 1/1 plans ready
 
 Plans:
 
-- [ ] 09-01-PLAN.md — Homebridge verification readiness audit and evidence checklist.
+- [x] 09-01-PLAN.md — Homebridge verification readiness audit and evidence checklist.
 
 ### Phase 10: Verification Submission Package
 
@@ -93,6 +93,6 @@ Plans:
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 9. Verification Readiness Audit | 0/1 | Pending | — |
+| 9. Verification Readiness Audit | 0/1 | Planned | — |
 | 10. Verification Submission Package | 0/1 | Pending | — |
 | 11. Reviewer Feedback & Approval Closeout | 0/1 | Pending | — |

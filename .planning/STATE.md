@@ -5,10 +5,10 @@ milestone_name: Homebridge Plugin Verification
 current_phase: 09
 current_phase_name: Verification Readiness Audit
 status: planned
-stopped_at: New verification milestone created; ready to plan Phase 9
-last_updated: "2026-07-01T11:02:29Z"
+stopped_at: Phase 9 planned; ready to execute verification readiness audit
+last_updated: "2026-07-01T11:18:00Z"
 last_activity: 2026-07-01
-last_activity_desc: Created Homebridge Plugin Verification milestone from official Homebridge verification process
+last_activity_desc: Planned Phase 9 verification readiness audit
 progress:
   total_phases: 3
   completed_phases: 0
@@ -30,7 +30,7 @@ See: `.planning/PROJECT.md`
 
 Milestone: Homebridge Plugin Verification
 Phase: 09 (Verification Readiness Audit)
-Status: Planned
+Status: Planned — ready to execute
 
 Progress: [----------] 0/3 phases complete
 
@@ -48,7 +48,7 @@ account requirement.
 
 ## Next Step
 
-Run `/gsd-plan-phase 9`.
+Run `/gsd-execute-phase 9`.
 
 ## Deferred Items
 
