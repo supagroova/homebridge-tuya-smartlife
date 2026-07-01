@@ -14,7 +14,7 @@ Goal: prepare, submit, and close the Homebridge verification request for
 ## Phases
 
 - [x] **Phase 9: Verification Readiness Audit** — verify repository, npm package, runtime behavior, storage/logging, install/config flow, Node 22/24 compatibility, and GitHub Release readiness.
-- [ ] **Phase 10: Verification Submission Package** — prepare the Homebridge verification issue body, differentiation rationale versus existing Tuya plugins, optional icon decision, and any small docs/release fixes required by the audit.
+- [x] **Phase 10: Verification Submission Package** — prepare the Homebridge verification issue body, differentiation rationale versus existing Tuya plugins, optional icon decision, and any small docs/release fixes required by the audit.
 - [ ] **Phase 11: Reviewer Feedback & Approval Closeout** — track Homebridge reviewer feedback, make required fixes, publish follow-up release if needed, and add the verified badge only after approval.
 
 ## Phase Details
@@ -56,11 +56,13 @@ Plans:
 3. Optional icon decision is made and any icon asset is prepared only if desired.
 4. Any small audit fixes are committed and released before the verification issue is opened.
 
-**Plans:** 1/1 plans ready
+**Plans:** 1/1 plans complete
 
 Plans:
 
 - [x] 10-01-PLAN.md — Verification request issue package and final pre-submit fixes.
+
+**Result:** GitHub Release `v1.0.0` exists, fresh Node 22/24 CI evidence passed, and the Homebridge verification issue draft is ready to submit.
 
 ### Phase 11: Reviewer Feedback & Approval Closeout
 
@@ -96,5 +98,5 @@ Plans:
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 9. Verification Readiness Audit | 1/1 | Complete | 2026-07-01 |
-| 10. Verification Submission Package | 0/1 | Planned | — |
+| 10. Verification Submission Package | 1/1 | Complete | 2026-07-01 |
 | 11. Reviewer Feedback & Approval Closeout | 0/1 | Pending | — |

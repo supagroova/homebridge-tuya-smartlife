@@ -2,19 +2,19 @@
 gsd_state_version: 1.0
 milestone: homebridge-plugin-verification
 milestone_name: Homebridge Plugin Verification
-current_phase: 10
-current_phase_name: Verification Submission Package
-status: awaiting_approval
-stopped_at: Phase 10 local prep complete; explicit approval needed to push main and create GitHub Release v1.0.0
-last_updated: "2026-07-01T12:35:00Z"
+current_phase: 11
+current_phase_name: Reviewer Feedback & Approval Closeout
+status: phase_complete
+stopped_at: Phase 10 complete; verification issue draft ready to submit
+last_updated: "2026-07-01T14:15:00Z"
 last_activity: 2026-07-01
-last_activity_desc: Prepared Phase 10 package and issue draft; waiting for remote push/release approval
+last_activity_desc: Completed Phase 10 verification submission package
 progress:
   total_phases: 3
-  completed_phases: 1
+  completed_phases: 2
   total_plans: 3
-  completed_plans: 1
-  percent: 33
+  completed_plans: 2
+  percent: 67
 ---
 
 # Project State
@@ -24,15 +24,15 @@ progress:
 See: `.planning/PROJECT.md`
 
 **Core value:** A user can control Tuya / Smart Life devices in HomeKit after a simple Smart Life QR login, without a per-user Tuya developer account.
-**Current focus:** Phase 10 — Verification Submission Package
+**Current focus:** Verification issue submission, then Phase 11 — Reviewer Feedback & Approval Closeout
 
 ## Current Position
 
 Milestone: Homebridge Plugin Verification
-Phase: 10 (Verification Submission Package)
-Status: Awaiting approval for remote push/release
+Phase: 11 (Reviewer Feedback & Approval Closeout)
+Status: Phase 10 complete; waiting for verification issue submission
 
-Progress: [███-------] 1/3 phases complete
+Progress: [███████---] 2/3 phases complete
 
 ## Current Context
 
@@ -42,12 +42,20 @@ release hygiene, supported Node LTS compatibility, safe install/startup behavior
 configuration, storage under the Homebridge storage directory, no analytics/tracking, and handled
 errors.
 
-Phase 9 found the project is mostly ready for verification, with three Phase 10 follow-ups before
-submission. Local prep has addressed the repo-side fixes:
+Phase 10 completed the submission package:
 
-- Create GitHub Release `v1.0.0` with release notes.
+- Create GitHub Release `v1.0.0` with release notes. Done:
+  https://github.com/supagroova/homebridge-tuya-smartlife/releases/tag/v1.0.0
 - Add a root `LICENSE` file for Apache-2.0. Done locally in commit `1cdd4af`.
 - Add `repository`, `bugs`, and `homepage` fields to `package.json`. Done locally in commit `1cdd4af`.
+- Fresh CI evidence for commit `2050127`: `main` CI run `28521627541` and tag CI run
+  `28523419836` passed Node 22 and Node 24.
+- Verification issue draft is ready at
+  `.planning/phases/10-verification-submission-package/10-VERIFICATION-ISSUE-DRAFT.md`.
+
+The tag-triggered `Publish` workflow failed with `ENEEDAUTH` during `npm publish`, but this is not a
+verification blocker because npm `1.0.0` was already published manually and manual publishing is the
+chosen process for now.
 
 The strongest project-specific submission risk remains differentiation from existing verified Tuya
 plugins. The submission should explicitly explain the Smart Life QR login path and no per-user Tuya
@@ -55,7 +63,7 @@ developer account requirement.
 
 ## Next Step
 
-Approve `git push origin main` and GitHub Release creation, then resume `/gsd-execute-phase 10`.
+Open the Homebridge verification issue using the Phase 10 issue draft, then run `/gsd-plan-phase 11`.
 
 ## Deferred Items
 

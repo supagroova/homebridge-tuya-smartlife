@@ -110,8 +110,10 @@ Verification evidence:
 
 - npm package: https://www.npmjs.com/package/homebridge-tuya-smartlife
 - GitHub repository: https://github.com/supagroova/homebridge-tuya-smartlife
-- GitHub Release: pending until `v1.0.0` is created.
-- CI evidence: pending fresh run after verification-prep changes are pushed.
+- GitHub Release: https://github.com/supagroova/homebridge-tuya-smartlife/releases/tag/v1.0.0
+- CI evidence:
+  - `main` CI run `28521627541` passed Node 22 and Node 24 on commit `2050127`.
+  - `v1.0.0` tag CI run `28523419836` passed Node 22 and Node 24 on commit `2050127`.
 
 Current caveats to mention only if relevant:
 

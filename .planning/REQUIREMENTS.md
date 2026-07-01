@@ -15,8 +15,8 @@
 
 ### Release & Repository Readiness
 
-- [ ] **VER-05**: `homebridge-tuya-smartlife@1.0.0` has a GitHub Release with release notes matching the npm release.
-- [ ] **VER-06**: GitHub repository settings are ready for review: public source, issues enabled, README/changelog/license visible.
+- [x] **VER-05**: `homebridge-tuya-smartlife@1.0.0` has a GitHub Release with release notes matching the npm release.
+- [x] **VER-06**: GitHub repository settings are ready for review: public source, issues enabled, README/changelog/license visible.
 - [x] **VER-07**: CI and local gates pass on supported Homebridge Node LTS versions, currently Node `v22` and `v24`.
 - [x] **VER-08**: Package metadata remains Homebridge-compatible: dynamic platform, `homebridge-plugin` keyword, config schema/custom UI assets included, no post-install script.
 
@@ -47,8 +47,8 @@
 | VER-02 | Phase 10 | Complete |
 | VER-03 | Phase 10 | Complete |
 | VER-04 | Phase 11 | Pending |
-| VER-05 | Phase 9/10 | Follow-up |
-| VER-06 | Phase 9/10 | Follow-up |
+| VER-05 | Phase 9/10 | Complete |
+| VER-06 | Phase 9/10 | Complete |
 | VER-07 | Phase 9 | Complete |
 | VER-08 | Phase 9 | Complete |
 | VER-09 | Phase 9 | Complete |
