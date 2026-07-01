@@ -1,4 +1,6 @@
-.PHONY: help build lint typecheck test test-ui coverage tdd-audit lockfile-check fmt check
+.PHONY: help build lint typecheck test test-ui coverage tdd-audit lockfile-check fmt check publish-check
+
+NPM_PACK_CACHE ?= /private/tmp/homebridge-tuya-smartlife-npm-cache
 
 # Default target — list available commands.
 help:
@@ -14,6 +16,7 @@ help:
 	@echo "  make lockfile-check Fail if package-lock.json drifts (npm ci)"
 	@echo "  make fmt            Apply Prettier formatting"
 	@echo "  make check          Full gate: lockfile-check + lint + typecheck + tdd-audit + test + test-ui"
+	@echo "  make publish-check  Manual pre-publish gate; does not publish"
 
 build:
 	npm run build
@@ -47,3 +50,9 @@ fmt:
 
 # Full quality gate — the single entry point CI invokes.
 check: lockfile-check lint typecheck tdd-audit test test-ui
+
+# Manual pre-publish gate. This intentionally does not run npm publish.
+publish-check: check
+	npm run release:check
+	NPM_CONFIG_CACHE=$(NPM_PACK_CACHE) npm pack --dry-run --json
+	npm view homebridge-tuya-smartlife version
