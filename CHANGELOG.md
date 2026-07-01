@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.0.1 - 2026-07-01
+
+Homebridge verification metadata patch.
+
+- Added npm package metadata required by the Homebridge review bot.
+- Removed `homebridge` from peer dependencies; it remains a development dependency only.
+- Fixed `config.schema.json` to use object-level JSON Schema `required`.
+
 ## 1.0.0 - 2026-07-01
 
 Initial public release.

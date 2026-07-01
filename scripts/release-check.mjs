@@ -12,8 +12,16 @@ export function validatePackageMetadata(packageJson) {
     errors.push('package name must start with homebridge-');
   }
 
-  if (packageJson.version !== '1.0.0') {
-    errors.push('package version must be 1.0.0');
+  if (typeof packageJson.version !== 'string' || !/^\d+\.\d+\.\d+$/.test(packageJson.version)) {
+    errors.push('package version must be valid semver');
+  }
+
+  if (typeof packageJson.homepage !== 'string' || !packageJson.homepage.startsWith('https://')) {
+    errors.push('package homepage must start with https://');
+  }
+
+  if (typeof packageJson.bugs?.url !== 'string' || !packageJson.bugs.url.startsWith('https://')) {
+    errors.push('package bugs.url must start with https://');
   }
 
   if (packageJson.main !== 'dist/index.js') {
@@ -40,8 +48,21 @@ export function validatePackageMetadata(packageJson) {
     errors.push('package keywords must include homebridge-plugin');
   }
 
-  if (!packageJson.peerDependencies?.homebridge) {
-    errors.push('package peerDependencies must include homebridge');
+  if (!packageJson.devDependencies?.homebridge) {
+    errors.push('package devDependencies must include homebridge');
+  }
+
+  for (const section of ['dependencies', 'optionalDependencies', 'peerDependencies']) {
+    if (packageJson[section]?.homebridge) {
+      errors.push(`package ${section} must not include homebridge`);
+    }
+  }
+
+  if (
+    Array.isArray(packageJson.bundledDependencies) &&
+    packageJson.bundledDependencies.includes('homebridge')
+  ) {
+    errors.push('package bundledDependencies must not include homebridge');
   }
 
   if (packageJson.scripts?.prepare !== undefined) {
@@ -52,15 +73,15 @@ export function validatePackageMetadata(packageJson) {
 }
 
 export function validateGitInstallFiles(trackedFiles) {
-  throwIfMissing(
-    new Set(trackedFiles),
+  throwIfMissing(new Set(trackedFiles), [
+    ['README.md', 'git install branch must track README.md'],
+    ['dist/index.js', 'git install branch must track dist/index.js'],
     [
-      ['README.md', 'git install branch must track README.md'],
-      ['dist/index.js', 'git install branch must track dist/index.js'],
-      ['homebridge-ui/public/index.html', 'git install branch must track homebridge-ui/public/index.html'],
-      ['homebridge-ui/server.js', 'git install branch must track homebridge-ui/server.js'],
+      'homebridge-ui/public/index.html',
+      'git install branch must track homebridge-ui/public/index.html',
     ],
-  );
+    ['homebridge-ui/server.js', 'git install branch must track homebridge-ui/server.js'],
+  ]);
 }
 
 export function validateConfigSchema(configSchema) {
@@ -74,11 +95,25 @@ export function validateConfigSchema(configSchema) {
     errors.push('config.schema.json pluginType must be platform');
   }
 
+  if (configSchema.schema?.required !== undefined && !Array.isArray(configSchema.schema.required)) {
+    errors.push('config.schema.json required must be an array');
+  }
+
+  for (const [propertyName, propertySchema] of Object.entries(
+    configSchema.schema?.properties ?? {},
+  )) {
+    if (propertySchema && typeof propertySchema === 'object' && 'required' in propertySchema) {
+      errors.push(
+        `config.schema.json must use object-level required array, not ${propertyName}.required`,
+      );
+    }
+  }
+
   throwIfErrors(errors);
 }
 
 export function validatePublishWorkflow(workflowContent) {
-  if (!workflowContent.includes("tags:") || !workflowContent.includes("'v*'")) {
+  if (!workflowContent.includes('tags:') || !workflowContent.includes("'v*'")) {
     throw new Error('publish workflow must trigger on v* tags');
   }
 
@@ -121,8 +156,8 @@ export function validateReleaseDocs({ readme, changelog }) {
     errors.push('README must document npm install');
   }
 
-  if (!changelog.includes('## 1.0.0')) {
-    errors.push('CHANGELOG.md must document version 1.0.0');
+  if (!/^\s*## \d+\.\d+\.\d+/m.test(changelog)) {
+    errors.push('CHANGELOG.md must document a release version');
   }
 
   throwIfErrors(errors);
@@ -184,9 +219,11 @@ function runNpmPackDryRun(cwd) {
     env: {
       ...process.env,
       NPM_CONFIG_CACHE:
-        process.env.RELEASE_CHECK_NPM_CACHE ?? resolve(tmpdir(), 'homebridge-tuya-smartlife-npm-cache'),
+        process.env.RELEASE_CHECK_NPM_CACHE ??
+        resolve(tmpdir(), 'homebridge-tuya-smartlife-npm-cache'),
       npm_config_cache:
-        process.env.RELEASE_CHECK_NPM_CACHE ?? resolve(tmpdir(), 'homebridge-tuya-smartlife-npm-cache'),
+        process.env.RELEASE_CHECK_NPM_CACHE ??
+        resolve(tmpdir(), 'homebridge-tuya-smartlife-npm-cache'),
     },
   });
 

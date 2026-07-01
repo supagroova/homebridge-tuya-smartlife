@@ -1,7 +1,7 @@
 {
   "name": "homebridge-tuya-smartlife",
   "displayName": "Homebridge Tuya SmartLife",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Homebridge plugin bringing Tuya / Smart Life devices into HomeKit via the Smart Life device-sharing (QR) login — no Tuya developer account required.",
   "license": "Apache-2.0",
   "repository": {
@@ -33,9 +33,6 @@
     "auth:qr-login": "npm run build && node scripts/qr-login.mjs",
     "prepublishOnly": "npm run lint && npm test && npm run build",
     "release:check": "npm run build && node scripts/release-check.mjs"
-  },
-  "peerDependencies": {
-    "homebridge": "^2.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^9",

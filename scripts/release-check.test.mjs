@@ -13,12 +13,16 @@ import {
 test('validates Homebridge npm package metadata', () => {
   validatePackageMetadata({
     name: 'homebridge-tuya-smartlife',
-    version: '1.0.0',
+    version: '1.0.1',
+    homepage: 'https://github.com/supagroova/homebridge-tuya-smartlife#readme',
+    bugs: {
+      url: 'https://github.com/supagroova/homebridge-tuya-smartlife/issues',
+    },
     main: 'dist/index.js',
     files: ['dist', 'config.schema.json', 'homebridge-ui/public', 'homebridge-ui/server.js'],
     keywords: ['homebridge-plugin', 'tuya'],
-    peerDependencies: {
-      homebridge: '^2.0.0',
+    devDependencies: {
+      homebridge: '^2',
     },
   });
 });
@@ -28,12 +32,16 @@ test('rejects packages that are not Homebridge-discoverable', () => {
     () =>
       validatePackageMetadata({
         name: 'homebridge-tuya-smartlife',
-        version: '1.0.0',
+        version: '1.0.1',
+        homepage: 'https://github.com/supagroova/homebridge-tuya-smartlife#readme',
+        bugs: {
+          url: 'https://github.com/supagroova/homebridge-tuya-smartlife/issues',
+        },
         main: 'dist/index.js',
         files: ['dist', 'config.schema.json'],
         keywords: ['homebridge-plugin', 'tuya'],
-        peerDependencies: {
-          homebridge: '^2.0.0',
+        devDependencies: {
+          homebridge: '^2',
         },
         scripts: {
           prepare: 'npm run build',
@@ -43,20 +51,65 @@ test('rejects packages that are not Homebridge-discoverable', () => {
   );
 });
 
-test('rejects packages not versioned for the v1.0 release', () => {
+test('rejects packages without valid semver', () => {
   assert.throws(
     () =>
       validatePackageMetadata({
         name: 'homebridge-tuya-smartlife',
-        version: '0.1.0',
+        version: 'next',
+        homepage: 'https://github.com/supagroova/homebridge-tuya-smartlife#readme',
+        bugs: {
+          url: 'https://github.com/supagroova/homebridge-tuya-smartlife/issues',
+        },
+        main: 'dist/index.js',
+        files: ['dist', 'config.schema.json', 'homebridge-ui/public', 'homebridge-ui/server.js'],
+        keywords: ['homebridge-plugin', 'tuya'],
+        devDependencies: {
+          homebridge: '^2',
+        },
+      }),
+    /package version must be valid semver/,
+  );
+});
+
+test('rejects packages missing Homebridge review metadata', () => {
+  assert.throws(
+    () =>
+      validatePackageMetadata({
+        name: 'homebridge-tuya-smartlife',
+        version: '1.0.1',
+        main: 'dist/index.js',
+        files: ['dist', 'config.schema.json', 'homebridge-ui/public', 'homebridge-ui/server.js'],
+        keywords: ['homebridge-plugin', 'tuya'],
+        devDependencies: {
+          homebridge: '^2',
+        },
+      }),
+    /package homepage must start with https:\/\//,
+  );
+});
+
+test('rejects Homebridge outside devDependencies', () => {
+  assert.throws(
+    () =>
+      validatePackageMetadata({
+        name: 'homebridge-tuya-smartlife',
+        version: '1.0.1',
+        homepage: 'https://github.com/supagroova/homebridge-tuya-smartlife#readme',
+        bugs: {
+          url: 'https://github.com/supagroova/homebridge-tuya-smartlife/issues',
+        },
         main: 'dist/index.js',
         files: ['dist', 'config.schema.json', 'homebridge-ui/public', 'homebridge-ui/server.js'],
         keywords: ['homebridge-plugin', 'tuya'],
         peerDependencies: {
           homebridge: '^2.0.0',
         },
+        devDependencies: {
+          homebridge: '^2',
+        },
       }),
-    /package version must be 1\.0\.0/,
+    /package peerDependencies must not include homebridge/,
   );
 });
 
@@ -84,14 +137,66 @@ test('rejects github installs without tracked build output', () => {
 });
 
 test('rejects github installs without custom UI assets and README', () => {
-  assert.throws(() => validateGitInstallFiles(['dist/index.js']), /git install branch must track README.md/);
+  assert.throws(
+    () => validateGitInstallFiles(['dist/index.js']),
+    /git install branch must track README.md/,
+  );
 });
 
 test('validates Homebridge config schema metadata', () => {
   validateConfigSchema({
     pluginAlias: 'TuyaSmartLife',
     pluginType: 'platform',
+    schema: {
+      type: 'object',
+      required: ['name'],
+      properties: {
+        name: {
+          type: 'string',
+        },
+      },
+    },
   });
+});
+
+test('rejects field-level required config schema properties', () => {
+  assert.throws(
+    () =>
+      validateConfigSchema({
+        pluginAlias: 'TuyaSmartLife',
+        pluginType: 'platform',
+        schema: {
+          type: 'object',
+          properties: {
+            name: {
+              type: 'string',
+              required: true,
+            },
+          },
+        },
+      }),
+    /config.schema.json must use object-level required array/,
+  );
+});
+
+test('rejects config schema with non-array object-level required value', () => {
+  assert.throws(
+    () =>
+      validateConfigSchema({
+        pluginAlias: 'TuyaSmartLife',
+        pluginType: 'platform',
+        schema: {
+          type: 'object',
+          required: true,
+          properties: {
+            name: {
+              type: 'string',
+            },
+          },
+        },
+      }),
+    /config.schema.json required must be an array/,
+  );
 });
 
 test('validates npm provenance publish workflow', () => {
@@ -156,8 +261,8 @@ test('validates release documentation', () => {
     changelog: `
       # Changelog
 
-      ## 1.0.0 - 2026-07-01
-      - Initial release.
+      ## 1.0.1 - 2026-07-01
+      - Homebridge verification metadata fixes.
     `,
   });
 });
@@ -197,7 +302,11 @@ test('rejects dry-run packs without custom UI assets and README', () => {
     () =>
       validatePackFiles([
         {
-          files: [{ path: 'dist/index.js' }, { path: 'config.schema.json' }, { path: 'package.json' }],
+          files: [
+            { path: 'dist/index.js' },
+            { path: 'config.schema.json' },
+            { path: 'package.json' },
+          ],
         },
       ]),
     /npm pack must include README.md/,
