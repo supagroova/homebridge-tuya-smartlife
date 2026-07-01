@@ -1,25 +1,28 @@
 # Phase 11 Summary: Reviewer Feedback & Approval Closeout
 
-**Status:** Blocked — waiting for Homebridge verification issue submission
+**Status:** Submitted — waiting for Homebridge review
 **Completed:** Not complete
 **Plan:** `11-01-PLAN.md`
 
 ## Outcome
 
-Phase 11 execution created the reviewer feedback log but cannot proceed to reviewer feedback or
-approval closeout until the Homebridge Plugin Verification Request issue exists.
+Phase 11 execution created the reviewer feedback log and captured the submitted Homebridge Plugin
+Verification Request issue.
+
+The request is currently open with labels `pending` and `request-verification`, with no reviewer
+comments yet.
 
 No verified badge was added.
 
 ## Evidence
 
-- `gh issue list --repo homebridge/plugins --search "homebridge-tuya-smartlife" --state all --limit 10` returned no matching `homebridge-tuya-smartlife` issue.
-- Feedback log created at `11-FEEDBACK-LOG.md` with status `waiting-for-submission`.
-- Submission draft remains ready at `../10-verification-submission-package/10-VERIFICATION-ISSUE-DRAFT.md`.
+- Verification issue: https://github.com/homebridge/plugins/issues/1101
+- `gh issue view 1101 --repo homebridge/plugins --comments --json number,title,state,labels,comments,url,createdAt,author` returned state `OPEN`, labels `pending` and `request-verification`, and no comments.
+- Feedback log updated at `11-FEEDBACK-LOG.md` with status `submitted`.
 
 ## Next Step
 
-Open the Homebridge Plugin Verification Request issue using the Phase 10 draft, then resume:
+Wait for Homebridge reviewer feedback, then resume:
 
 ```bash
 /gsd-execute-phase 11
