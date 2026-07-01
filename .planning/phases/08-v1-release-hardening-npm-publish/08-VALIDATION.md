@@ -2,7 +2,7 @@
 
 ## Validation Status
 
-Partially validated. Release hardening and npm publication are verified. Post-publish Homebridge smoke testing remains open.
+Validated. Release hardening, npm publication, and post-publish Homebridge smoke testing are verified.
 
 ## Automated Evidence
 
@@ -15,7 +15,7 @@ Partially validated. Release hardening and npm publication are verified. Post-pu
 | REL-05 changelog | Verified | `CHANGELOG.md` plus release-check coverage. |
 | REL-06 npm README badges | Verified | `README.md` plus release-check coverage; Homebridge verified badge intentionally absent until approval. |
 | REL-07 npm publish | Verified | `npm view homebridge-tuya-smartlife@1.0.0 version` returns `1.0.0`. |
-| REL-08 post-publish Homebridge smoke test | Open | Requires remote Homebridge install from npm, QR login, and HomeKit device visibility confirmation. |
+| REL-08 post-publish Homebridge smoke test | Verified | User confirmed remote Homebridge npm install, plugin discovery, QR login, and HomeKit device visibility after publishing `1.0.0`. |
 
 ## Commands Verified
 
@@ -27,16 +27,9 @@ Partially validated. Release hardening and npm publication are verified. Post-pu
 
 ## Nyquist Gaps
 
-1. **Post-publish Homebridge smoke test remains manual and unverified.**
-   - Install from npm on the remote Homebridge host.
-   - Confirm Homebridge UI discovers the plugin.
-   - Complete QR login from the custom UI.
-   - Restart Homebridge and confirm switches/thermometers appear in HomeKit.
-   - Confirm default logs do not include sensitive values or debug-only diagnostics.
-
-2. **Homebridge verified badge remains intentionally excluded.**
+1. **Homebridge verified badge remains intentionally excluded.**
    - Add it only after Homebridge verification is granted.
 
 ## Decision
 
-Do not close Phase 8 until REL-08 is satisfied. Phase 8 should resume at `08-04-PLAN.md`.
+Phase 8 can close. The remaining Homebridge verified-plugin submission is post-v1.0 follow-up work.

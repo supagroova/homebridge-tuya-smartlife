@@ -77,7 +77,7 @@ Release-hardening requirements for the public `1.0.0` npm release.
 ### Publication & Smoke Test
 
 - [x] **REL-07**: `homebridge-tuya-smartlife@1.0.0` is published to npm with the configured release process and verified on the npm package page.
-- [ ] **REL-08**: A post-publish Homebridge smoke test installs from npm, confirms plugin discovery, completes QR login, and verifies the user's switches/thermometers appear in HomeKit.
+- [x] **REL-08**: A post-publish Homebridge smoke test installs from npm, confirms plugin discovery, completes QR login, and verifies the user's switches/thermometers appear in HomeKit.
 
 ## v2 Requirements
 
@@ -142,7 +142,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | REL-05 | Phase 8 | Complete |
 | REL-06 | Phase 8 | Complete |
 | REL-07 | Phase 8 | Complete |
-| REL-08 | Phase 8 | Pending |
+| REL-08 | Phase 8 | Complete |
 
 **Coverage:**
 

@@ -4,17 +4,17 @@ milestone: v1.0
 milestone_name: v1.0 Release
 current_phase: 08
 current_phase_name: v1.0 Release Hardening & npm Publish
-status: awaiting_post_publish_smoke_test
-stopped_at: 08-03 complete; npm registry verifies 1.0.0, awaiting remote Homebridge npm-install smoke test
-last_updated: "2026-07-01T10:10:00Z"
+status: complete
+stopped_at: Phase 8 complete; v1.0 release published and smoke-tested from npm
+last_updated: "2026-07-01T10:30:00Z"
 last_activity: 2026-07-01
-last_activity_desc: Verified npm publication for homebridge-tuya-smartlife@1.0.0 and added Phase 8 validation audit
+last_activity_desc: Confirmed remote Homebridge npm install, plugin discovery, QR login, and HomeKit device visibility for v1.0.0
 progress:
   total_phases: 8
-  completed_phases: 6
+  completed_phases: 8
   total_plans: 27
-  completed_plans: 26
-  percent: 96
+  completed_plans: 27
+  percent: 100
 ---
 
 # Project State
@@ -28,12 +28,12 @@ See: .planning/PROJECT.md (updated 2026-07-01)
 
 ## Current Position
 
-Phase: 08 (v1.0 Release Hardening & npm Publish) — IN PROGRESS
-Plan: 08-04-PLAN.md
-Status: Awaiting post-publish smoke test — npm registry verifies `homebridge-tuya-smartlife@1.0.0`
-Last activity: 2026-07-01 — Verified npm publication for homebridge-tuya-smartlife@1.0.0 and added Phase 8 validation audit
+Phase: 08 (v1.0 Release Hardening & npm Publish) — COMPLETE
+Plan: 08-04-SUMMARY.md
+Status: Complete — v1.0.0 is published to npm and smoke-tested on the remote Homebridge server
+Last activity: 2026-07-01 — Confirmed remote Homebridge npm install, plugin discovery, QR login, and HomeKit device visibility for v1.0.0
 
-Progress: [███████░░░] 6/8 phases complete
+Progress: [██████████] 8/8 phases complete
 
 ## Performance Metrics
 
@@ -54,7 +54,7 @@ Progress: [███████░░░] 6/8 phases complete
 | 05 | 4/4 | - | - |
 | 06 | 3/3 | - | - |
 | 07 | 3/3 | - | - |
-| 08 | 3/4 | - | - |
+| 08 | 4/4 | - | - |
 
 **Recent Trend:**
 
@@ -107,6 +107,7 @@ Recent decisions affecting current work:
 - [Release]: The Homebridge verified badge must not be shown until verification is actually granted.
 - [Release]: Manual local publish is the chosen release path for now; GitHub publish automation is not required.
 - [Release]: npm registry verifies `homebridge-tuya-smartlife@1.0.0`.
+- [Release]: Remote Homebridge npm install and QR login smoke test were confirmed after publishing `1.0.0`.
 
 ### Pending Todos
 
@@ -131,10 +132,9 @@ Items acknowledged and carried forward from previous milestone close:
 | Category | Item | Status | Deferred At |
 |----------|------|--------|-------------|
 | Homebridge verification | Verified-plugin submission and badge are post-publish/approval work, not an assumption before release | Pending | v1.0 release milestone |
-| post-publish smoke test | Install `homebridge-tuya-smartlife` from npm on the remote Homebridge server and verify QR login/devices | Pending | Phase 08 |
 
 ## Session Continuity
 
-Last session: 2026-07-01T10:10:00Z
-Stopped at: 08-03 complete; npm registry verifies 1.0.0, awaiting remote Homebridge npm-install smoke test
-Resume file: .planning/phases/08-v1-release-hardening-npm-publish/08-04-PLAN.md
+Last session: 2026-07-01T10:30:00Z
+Stopped at: Phase 8 complete; v1.0 release published and smoke-tested from npm
+Resume file: .planning/phases/08-v1-release-hardening-npm-publish/08-04-SUMMARY.md
