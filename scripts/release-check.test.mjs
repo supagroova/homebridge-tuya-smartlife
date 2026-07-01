@@ -7,11 +7,13 @@ import {
   validatePackageMetadata,
   validatePackFiles,
   validatePublishWorkflow,
+  validateReleaseDocs,
 } from './release-check.mjs';
 
 test('validates Homebridge npm package metadata', () => {
   validatePackageMetadata({
     name: 'homebridge-tuya-smartlife',
+    version: '1.0.0',
     main: 'dist/index.js',
     files: ['dist', 'config.schema.json', 'homebridge-ui/public', 'homebridge-ui/server.js'],
     keywords: ['homebridge-plugin', 'tuya'],
@@ -26,6 +28,7 @@ test('rejects packages that are not Homebridge-discoverable', () => {
     () =>
       validatePackageMetadata({
         name: 'homebridge-tuya-smartlife',
+        version: '1.0.0',
         main: 'dist/index.js',
         files: ['dist', 'config.schema.json'],
         keywords: ['homebridge-plugin', 'tuya'],
@@ -37,6 +40,23 @@ test('rejects packages that are not Homebridge-discoverable', () => {
         },
       }),
     /package scripts.prepare must not be set/,
+  );
+});
+
+test('rejects packages not versioned for the v1.0 release', () => {
+  assert.throws(
+    () =>
+      validatePackageMetadata({
+        name: 'homebridge-tuya-smartlife',
+        version: '0.1.0',
+        main: 'dist/index.js',
+        files: ['dist', 'config.schema.json', 'homebridge-ui/public', 'homebridge-ui/server.js'],
+        keywords: ['homebridge-plugin', 'tuya'],
+        peerDependencies: {
+          homebridge: '^2.0.0',
+        },
+      }),
+    /package version must be 1\.0\.0/,
   );
 });
 
@@ -77,9 +97,83 @@ test('validates Homebridge config schema metadata', () => {
 test('validates npm provenance publish workflow', () => {
   validatePublishWorkflow(`
     name: Publish
+    on:
+      push:
+        tags:
+          - 'v*'
     steps:
+      - run: npm ci
+      - run: npm run release:check
       - run: npm publish --provenance --access public
   `);
+});
+
+test('rejects publish workflows without release checks before publish', () => {
+  assert.throws(
+    () =>
+      validatePublishWorkflow(`
+        on:
+          push:
+            tags:
+              - 'v*'
+        steps:
+          - run: npm ci
+          - run: npm publish --provenance --access public
+      `),
+    /publish workflow must run npm run release:check before publish/,
+  );
+});
+
+test('rejects publish workflows triggered by branch pushes', () => {
+  assert.throws(
+    () =>
+      validatePublishWorkflow(`
+        on:
+          push:
+            branches:
+              - main
+            tags:
+              - 'v*'
+        steps:
+          - run: npm ci
+          - run: npm run release:check
+          - run: npm publish --provenance --access public
+      `),
+    /publish workflow must not publish from branch pushes/,
+  );
+});
+
+test('validates release documentation', () => {
+  validateReleaseDocs({
+    readme: `
+      # Homebridge Tuya SmartLife
+
+      [![npm](https://badgen.net/npm/v/homebridge-tuya-smartlife)](https://www.npmjs.com/package/homebridge-tuya-smartlife)
+      [![npm](https://badgen.net/npm/dt/homebridge-tuya-smartlife)](https://www.npmjs.com/package/homebridge-tuya-smartlife)
+
+      npm install -g homebridge-tuya-smartlife
+    `,
+    changelog: `
+      # Changelog
+
+      ## 1.0.0 - 2026-07-01
+      - Initial release.
+    `,
+  });
+});
+
+test('rejects release docs without changelog, npm badges, or premature verified badge', () => {
+  assert.throws(
+    () =>
+      validateReleaseDocs({
+        readme: `
+          # Homebridge Tuya SmartLife
+          [![verified-by-homebridge](https://badgen.net/badge/homebridge/verified/purple)](https://github.com/homebridge/homebridge/wiki/Verified-Plugins)
+        `,
+        changelog: '# Changelog\n',
+      }),
+    /README must include npm version badge/,
+  );
 });
 
 test('validates dry-run pack file contents', () => {
@@ -87,6 +181,7 @@ test('validates dry-run pack file contents', () => {
     {
       files: [
         { path: 'README.md' },
+        { path: 'CHANGELOG.md' },
         { path: 'dist/index.js' },
         { path: 'config.schema.json' },
         { path: 'homebridge-ui/public/index.html' },

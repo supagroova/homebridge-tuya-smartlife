@@ -64,15 +64,15 @@ Release-hardening requirements for the public `1.0.0` npm release.
 
 ### Logging & Security
 
-- [ ] **REL-01**: Verbose Tuya QR/auth diagnostic logging is gated behind the existing `debug` config flag; default logs remain quiet.
-- [ ] **REL-02**: Sensitive values are never logged, including Smart Life user codes, QR tokens, access tokens, refresh tokens, token JSON, raw encrypted payloads, encrypted request data, and request signatures.
+- [x] **REL-01**: Verbose Tuya QR/auth diagnostic logging is gated behind the existing `debug` config flag; default logs remain quiet.
+- [x] **REL-02**: Sensitive values are never logged, including Smart Life user codes, QR tokens, access tokens, refresh tokens, token JSON, raw encrypted payloads, encrypted request data, and request signatures.
 
 ### Packaging & Documentation
 
-- [ ] **REL-03**: Release hardening verifies package metadata, license, package contents, Homebridge discovery fields, npm install behavior, and CI/publish workflow readiness.
-- [ ] **REL-04**: Package version is set to `1.0.0`.
-- [ ] **REL-05**: `CHANGELOG.md` exists and documents the initial v1.0.0 release.
-- [ ] **REL-06**: README includes npm version/download badges; the Homebridge verified badge is added only once Homebridge verification is granted.
+- [x] **REL-03**: Release hardening verifies package metadata, license, package contents, Homebridge discovery fields, npm install behavior, and CI/publish workflow readiness.
+- [x] **REL-04**: Package version is set to `1.0.0`.
+- [x] **REL-05**: `CHANGELOG.md` exists and documents the initial v1.0.0 release.
+- [x] **REL-06**: README includes npm version/download badges; the Homebridge verified badge is added only once Homebridge verification is granted.
 
 ### Publication & Smoke Test
 
@@ -135,12 +135,12 @@ Which phases cover which requirements. Updated during roadmap creation.
 | CFG-01 | Phase 7 | Complete |
 | CFG-02 | Phase 7 | Complete |
 | PUB-02 | Phase 7 | Complete |
-| REL-01 | Phase 8 | Pending |
-| REL-02 | Phase 8 | Pending |
-| REL-03 | Phase 8 | Pending |
-| REL-04 | Phase 8 | Pending |
-| REL-05 | Phase 8 | Pending |
-| REL-06 | Phase 8 | Pending |
+| REL-01 | Phase 8 | Complete |
+| REL-02 | Phase 8 | Complete |
+| REL-03 | Phase 8 | Complete |
+| REL-04 | Phase 8 | Complete |
+| REL-05 | Phase 8 | Complete |
+| REL-06 | Phase 8 | Complete |
 | REL-07 | Phase 8 | Pending |
 | REL-08 | Phase 8 | Pending |
 

@@ -4,17 +4,17 @@ milestone: v1.0
 milestone_name: v1.0 Release
 current_phase: 08
 current_phase_name: v1.0 Release Hardening & npm Publish
-status: planned
-stopped_at: Phase 8 planned; ready to execute 08-01
-last_updated: "2026-07-01T00:00:00Z"
+status: awaiting_publish_auth
+stopped_at: 08-01 and 08-02 complete; 08-03 pre-publish gate passed but npm publish is blocked by missing npm auth
+last_updated: "2026-07-01T09:46:00Z"
 last_activity: 2026-07-01
-last_activity_desc: Planned release milestone for debug gating, sensitive logging audit, version 1.0.0, changelog, README badges, npm publish, and post-publish smoke testing
+last_activity_desc: Completed debug gating, sensitive logging audit, version 1.0.0, changelog, README badges, release checks, package dry-run, and npm pre-publish version check
 progress:
   total_phases: 8
   completed_phases: 6
   total_plans: 27
-  completed_plans: 23
-  percent: 75
+  completed_plans: 25
+  percent: 93
 ---
 
 # Project State
@@ -28,10 +28,10 @@ See: .planning/PROJECT.md (updated 2026-07-01)
 
 ## Current Position
 
-Phase: 08 (v1.0 Release Hardening & npm Publish) — PLANNED
-Plan: 08-01-PLAN.md
-Status: Phase 8 planned; actual npm publish remains pending
-Last activity: 2026-07-01 — Planned release milestone for debug gating, sensitive logging audit, version 1.0.0, changelog, README badges, npm publish, and post-publish smoke testing
+Phase: 08 (v1.0 Release Hardening & npm Publish) — IN PROGRESS
+Plan: 08-03-PLAN.md
+Status: Awaiting npm publish auth — local npm auth returned E401; `homebridge-tuya-smartlife@1.0.0` is not yet published
+Last activity: 2026-07-01 — Completed debug gating, sensitive logging audit, version 1.0.0, changelog, README badges, release checks, package dry-run, and npm pre-publish version check
 
 Progress: [███████░░░] 6/8 phases complete
 
@@ -54,7 +54,7 @@ Progress: [███████░░░] 6/8 phases complete
 | 05 | 4/4 | - | - |
 | 06 | 3/3 | - | - |
 | 07 | 3/3 | - | - |
-| 08 | 0/4 | - | - |
+| 08 | 2/4 | - | - |
 
 **Recent Trend:**
 
@@ -105,6 +105,7 @@ Recent decisions affecting current work:
 - [Phase ?]: Publish-on-tag uses npm Trusted Publishing / --provenance; NPM_TOKEN is fallback only
 - [Release]: Real Homebridge testing confirmed QR login works and devices appear in HomeKit from the PR build.
 - [Release]: The Homebridge verified badge must not be shown until verification is actually granted.
+- [Release]: Local npm auth is not available in this environment (`npm whoami` returned E401); publish can proceed via local `npm login` or a confirmed GitHub tag workflow with npm credentials.
 
 ### Pending Todos
 
@@ -130,9 +131,10 @@ Items acknowledged and carried forward from previous milestone close:
 |----------|------|--------|-------------|
 | npm publish | First public npm publish for `PUB-01` remains pending after local/PR readiness checks | Pending | Phase 06/07 closeout |
 | Homebridge verification | Verified-plugin submission and badge are post-publish/approval work, not an assumption before release | Pending | v1.0 release milestone |
+| npm auth | `homebridge-tuya-smartlife@1.0.0` is absent from npm, but local `npm whoami` returned E401; publish requires auth or a confirmed GitHub Actions release path | Pending | Phase 08 |
 
 ## Session Continuity
 
-Last session: 2026-07-01T00:00:00Z
-Stopped at: Phase 8 planned; ready to execute 08-01
-Resume file: .planning/phases/08-v1-release-hardening-npm-publish/08-01-PLAN.md
+Last session: 2026-07-01T09:46:00Z
+Stopped at: 08-01 and 08-02 complete; 08-03 pre-publish gate passed but npm publish is blocked by missing npm auth
+Resume file: .planning/phases/08-v1-release-hardening-npm-publish/08-03-PLAN.md

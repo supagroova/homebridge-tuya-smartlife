@@ -12,6 +12,10 @@ export function validatePackageMetadata(packageJson) {
     errors.push('package name must start with homebridge-');
   }
 
+  if (packageJson.version !== '1.0.0') {
+    errors.push('package version must be 1.0.0');
+  }
+
   if (packageJson.main !== 'dist/index.js') {
     errors.push('package main must be dist/index.js');
   }
@@ -74,9 +78,54 @@ export function validateConfigSchema(configSchema) {
 }
 
 export function validatePublishWorkflow(workflowContent) {
+  if (!workflowContent.includes("tags:") || !workflowContent.includes("'v*'")) {
+    throw new Error('publish workflow must trigger on v* tags');
+  }
+
+  if (workflowContent.includes('branches:')) {
+    throw new Error('publish workflow must not publish from branch pushes');
+  }
+
+  if (!workflowContent.includes('npm ci')) {
+    throw new Error('publish workflow must install with npm ci');
+  }
+
+  const releaseCheckIndex = workflowContent.indexOf('npm run release:check');
+  const publishIndex = workflowContent.indexOf('npm publish --provenance --access public');
+
   if (!workflowContent.includes('npm publish --provenance --access public')) {
     throw new Error('publish workflow must run npm publish --provenance --access public');
   }
+
+  if (releaseCheckIndex === -1 || releaseCheckIndex > publishIndex) {
+    throw new Error('publish workflow must run npm run release:check before publish');
+  }
+}
+
+export function validateReleaseDocs({ readme, changelog }) {
+  const errors = [];
+
+  if (!readme.includes('[![npm](https://badgen.net/npm/v/homebridge-tuya-smartlife)]')) {
+    errors.push('README must include npm version badge');
+  }
+
+  if (!readme.includes('[![npm](https://badgen.net/npm/dt/homebridge-tuya-smartlife)]')) {
+    errors.push('README must include npm download badge');
+  }
+
+  if (readme.includes('badgen.net/badge/homebridge/verified/purple')) {
+    errors.push('README must not include Homebridge verified badge before verification is granted');
+  }
+
+  if (!readme.includes('npm install -g homebridge-tuya-smartlife')) {
+    errors.push('README must document npm install');
+  }
+
+  if (!changelog.includes('## 1.0.0')) {
+    errors.push('CHANGELOG.md must document version 1.0.0');
+  }
+
+  throwIfErrors(errors);
 }
 
 export function validatePackFiles(packJson) {
@@ -95,6 +144,10 @@ export function validatePackFiles(packJson) {
     errors.push('npm pack must include README.md');
   }
 
+  if (!files.has('CHANGELOG.md')) {
+    errors.push('npm pack must include CHANGELOG.md');
+  }
+
   if (!files.has('homebridge-ui/public/index.html')) {
     errors.push('npm pack must include homebridge-ui/public/index.html');
   }
@@ -111,10 +164,13 @@ async function main() {
   const packageJson = await readJson(resolve(root, 'package.json'));
   const configSchema = await readJson(resolve(root, 'config.schema.json'));
   const publishWorkflow = await readFile(resolve(root, '.github/workflows/publish.yml'), 'utf8');
+  const readme = await readFile(resolve(root, 'README.md'), 'utf8');
+  const changelog = await readFile(resolve(root, 'CHANGELOG.md'), 'utf8');
 
   validatePackageMetadata(packageJson);
   validateConfigSchema(configSchema);
   validatePublishWorkflow(publishWorkflow);
+  validateReleaseDocs({ readme, changelog });
   validateGitInstallFiles(runGitLsFiles(root));
   validatePackFiles(runNpmPackDryRun(root));
 

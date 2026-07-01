@@ -87,13 +87,13 @@ test('starts QR login and returns a displayable QR payload', async () => {
   });
 
   assert.equal(calls[0].loginEndpoint, 'https://apigw.iotbing.com');
-  assert.equal(calls[0].log, log);
+  assert.equal(calls[0].log, undefined);
   assert.equal(response.state, 'created');
   assert.equal(response.qrToken, 'qr-token');
   assert.equal(response.qrImage.startsWith('data:image/png;base64,'), true);
   assert.equal(JSON.stringify(response).includes('access_token'), false);
-  assert.match(log.lines.join('\n'), /QR login start requested/);
-  assert.match(log.lines.join('\n'), /QR login token created/);
+  assert.doesNotMatch(log.lines.join('\n'), /QR login start requested/);
+  assert.doesNotMatch(log.lines.join('\n'), /QR login token created/);
   assert.equal(log.lines.join('\n').includes('qr-token'), false);
 });
 
@@ -138,10 +138,80 @@ test('polls QR login, persists token, and returns only safe status', async () =>
   const saved = JSON.parse(await readFile(join(dir, 'tuya-smartlife-token.json'), 'utf8'));
   assert.equal(saved.accessToken, 'access-token');
   assert.equal(saved.refreshToken, 'refresh-token');
-  assert.match(log.lines.join('\n'), /QR login poll requested/);
-  assert.match(log.lines.join('\n'), /QR login poll result: state=success/);
+  assert.doesNotMatch(log.lines.join('\n'), /QR login poll requested/);
+  assert.doesNotMatch(log.lines.join('\n'), /QR login poll result: state=success/);
   assert.equal(log.lines.join('\n').includes('qr-token'), false);
   assert.equal(log.lines.join('\n').includes('access-token'), false);
+});
+
+test('emits sanitized QR diagnostics only when debug is enabled', async () => {
+  const log = createMemoryLog();
+  const handlers = createUiHandlers({
+    storagePath: '/tmp/homebridge',
+    tokenStore: createMemoryTokenStore(),
+    log,
+    debug: true,
+    createFlow(options) {
+      return {
+        async createQrCode(userCode) {
+          options.log.debug('Tuya QR request: method=%s endpoint=%s path=%s', 'POST', 'https://apigw.iotbing.com', '/safe');
+          assert.equal(userCode, 'sensitive-user-code');
+
+          return {
+            state: 'created',
+            token: 'sensitive-qr-token',
+            qrUrl: 'tuyaSmart--qrLogin?token=sensitive-qr-token',
+            userCode,
+          };
+        },
+      };
+    },
+    qrCodeToDataUrl: async (value) => `data:image/png;base64,${Buffer.from(value).toString('base64')}`,
+  });
+
+  await handlers.startQr({
+    userCode: 'sensitive-user-code',
+    endpoint: 'https://apigw.iotbing.com',
+  });
+
+  const output = log.lines.join('\n');
+  assert.match(output, /QR login start requested/);
+  assert.match(output, /QR login token created/);
+  assert.match(output, /Tuya QR request/);
+  assert.equal(output.includes('sensitive-user-code'), false);
+  assert.equal(output.includes('sensitive-qr-token'), false);
+});
+
+test('does not pass a logger to QR flow when debug is disabled', async () => {
+  const log = createMemoryLog();
+  const handlers = createUiHandlers({
+    storagePath: '/tmp/homebridge',
+    tokenStore: createMemoryTokenStore(),
+    log,
+    debug: false,
+    createFlow(options) {
+      assert.equal(options.log, undefined);
+
+      return {
+        async createQrCode() {
+          return {
+            state: 'created',
+            token: 'sensitive-qr-token',
+            qrUrl: 'tuyaSmart--qrLogin?token=sensitive-qr-token',
+            userCode: 'sensitive-user-code',
+          };
+        },
+      };
+    },
+    qrCodeToDataUrl: async (value) => `data:image/png;base64,${Buffer.from(value).toString('base64')}`,
+  });
+
+  await handlers.startQr({
+    userCode: 'sensitive-user-code',
+    endpoint: 'https://apigw.iotbing.com',
+  });
+
+  assert.equal(log.lines.join('\n'), '');
 });
 
 test('maps known QR login failures to friendly messages', () => {

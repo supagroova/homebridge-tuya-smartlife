@@ -15,6 +15,7 @@ function createUiHandlers(options) {
   const createFlow = options.createFlow ?? ((flowOptions) => new QrLoginFlow(flowOptions));
   const qrCodeToDataUrl = options.qrCodeToDataUrl ?? ((value) => qrcode.toDataURL(value));
   const log = options.log ?? console;
+  const debugEnabled = options.debug === true;
 
   return {
     async status() {
@@ -30,16 +31,16 @@ function createUiHandlers(options) {
     async startQr(payload = {}) {
       const userCode = normalizeRequiredString(payload.userCode, 'Smart Life user code');
       const loginEndpoint = normalizeEndpoint(payload.endpoint);
-      logDebug(log, 'QR login start requested: endpoint=%s userCodeLength=%d', loginEndpoint, userCode.length);
-      const flow = createFlow(createFlowOptions({ loginEndpoint, tokenStore, log }));
+      logDebug(debugEnabled, log, 'QR login start requested: endpoint=%s userCodeLength=%d', loginEndpoint, userCode.length);
+      const flow = createFlow(createFlowOptions({ loginEndpoint, tokenStore, log: debugEnabled ? log : undefined }));
       const created = await flow.createQrCode(userCode);
 
       if (created.state !== 'created') {
-        logDebug(log, 'QR login start result: state=%s code=%s', created.state, created.code ?? '');
+        logDebug(debugEnabled, log, 'QR login start result: state=%s code=%s', created.state, created.code ?? '');
         return mapQrLoginError(created);
       }
 
-      logDebug(log, 'QR login token created: qrUrlScheme=%s', created.qrUrl.split('?')[0]);
+      logDebug(debugEnabled, log, 'QR login token created: qrUrlScheme=%s', created.qrUrl.split('?')[0]);
 
       return {
         state: 'created',
@@ -53,11 +54,11 @@ function createUiHandlers(options) {
       const qrToken = normalizeRequiredString(payload.qrToken, 'QR token');
       const userCode = normalizeRequiredString(payload.userCode, 'Smart Life user code');
       const loginEndpoint = normalizeEndpoint(payload.endpoint);
-      logDebug(log, 'QR login poll requested: endpoint=%s userCodeLength=%d', loginEndpoint, userCode.length);
-      const flow = createFlow(createFlowOptions({ loginEndpoint, tokenStore, log }));
+      logDebug(debugEnabled, log, 'QR login poll requested: endpoint=%s userCodeLength=%d', loginEndpoint, userCode.length);
+      const flow = createFlow(createFlowOptions({ loginEndpoint, tokenStore, log: debugEnabled ? log : undefined }));
       const result = await flow.pollLoginResult(qrToken, userCode);
 
-      logDebug(log, 'QR login poll result: state=%s code=%s', result.state, result.code ?? '');
+      logDebug(debugEnabled, log, 'QR login poll result: state=%s code=%s', result.state, result.code ?? '');
 
       if (result.state !== 'success') {
         return mapQrLoginError(result);
@@ -87,7 +88,11 @@ function createFlowOptions({ loginEndpoint, tokenStore, log }) {
   };
 }
 
-function logDebug(log, message, ...parameters) {
+function logDebug(enabled, log, message, ...parameters) {
+  if (!enabled) {
+    return;
+  }
+
   if (typeof log.debug === 'function') {
     log.debug(message, ...parameters);
     return;

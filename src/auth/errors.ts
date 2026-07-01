@@ -6,6 +6,9 @@ const SENSITIVE_KEYS = new Set([
   'refresh_token',
   'X-token',
   'x-token',
+  'X-sign',
+  'x-sign',
+  'sign',
   'encdata',
 ]);
 
@@ -54,8 +57,7 @@ export function redactSensitive(value: unknown): string {
 
 function redactString(value: string): string {
   return value
-    .replace(/(accessToken|refreshToken|access_token|refresh_token|encdata)([=:]\s*)[^,\s}]+/gi, `$1$2${REDACTED}`)
-    .replace(/(X-token)([=:]\s*)[^,\s}]+/gi, `$1$2${REDACTED}`);
+    .replace(/(accessToken|refreshToken|access_token|refresh_token|encdata|X-token|X-sign|sign)([=:]\s*)[^,\s}]+/gi, `$1$2${REDACTED}`);
 }
 
 function redactKnownValues(value: string, sensitiveValues: string[]): string {

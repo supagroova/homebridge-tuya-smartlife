@@ -1,14 +1,24 @@
 # Homebridge Tuya SmartLife
 
+[![npm](https://badgen.net/npm/v/homebridge-tuya-smartlife)](https://www.npmjs.com/package/homebridge-tuya-smartlife)
+[![npm](https://badgen.net/npm/dt/homebridge-tuya-smartlife)](https://www.npmjs.com/package/homebridge-tuya-smartlife)
+
 Homebridge plugin for Tuya / Smart Life devices using the Smart Life QR login flow. The goal is to
 avoid per-user Tuya developer accounts and 6-month IoT Core trial renewals.
 
-This project is still in test-build status. The current v1 focus is switches, outlets,
-thermometers, basic sensors, and thermostats.
+The current v1 focus is switches, outlets, thermometers, basic sensors, and thermostats.
 
-## Current Test Install
+## Install
 
-Until the package is published to npm, install a GitHub tarball from a known commit:
+Install through the Homebridge UI plugin search, or from the Homebridge server shell:
+
+```bash
+npm install -g homebridge-tuya-smartlife
+```
+
+## Test Builds
+
+For unreleased test builds, install a GitHub tarball from a known commit:
 
 ```bash
 npm install "https://github.com/supagroova/homebridge-tuya-smartlife/archive/<commit-sha>.tar.gz"
@@ -23,16 +33,6 @@ https://github.com/supagroova/homebridge-tuya-smartlife/pull/1
 Avoid installing this test build with `git+https://...` on Raspberry Pi / Homebridge hosts. npm
 treats that as a Git dependency and runs a preparation install with dev dependencies; on low-memory
 hosts this can be killed with `SIGKILL`.
-
-## Future npm Install
-
-After the first npm publish, installation should be:
-
-```bash
-npm install -g homebridge-tuya-smartlife
-```
-
-or through the Homebridge UI plugin search.
 
 ## Smart Life QR Setup
 

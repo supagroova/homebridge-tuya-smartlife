@@ -165,7 +165,31 @@ describe('QrLoginFlow', () => {
     jest.useRealTimers();
   });
 
-  it('logs sanitized QR polling request and response metadata', async () => {
+  it('does not log QR request and response metadata without a debug logger', async () => {
+    const fetchMock = jest.fn().mockResolvedValue(
+      jsonResponse({
+        success: false,
+        code: 'LOGIN_PENDING',
+        msg: 'pending',
+        result: {
+          qrcode: 'sensitive-qr-token',
+          access_token: 'sensitive-access-token',
+          refresh_token: 'sensitive-refresh-token',
+        },
+      }),
+    );
+    const flow = new QrLoginFlow({
+      clientId: 'client-id',
+      schema: 'schema-id',
+      fetch: fetchMock,
+    });
+
+    await flow.pollLoginResult('sensitive-qr-token', 'sensitive-user-code');
+
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+
+  it('logs sanitized QR polling request and response metadata when debug is enabled', async () => {
     const debug = jest.fn();
     const fetchMock = jest.fn().mockResolvedValue(
       jsonResponse({
@@ -175,6 +199,7 @@ describe('QrLoginFlow', () => {
         result: {
           qrcode: 'sensitive-qr-token',
           access_token: 'sensitive-access-token',
+          refresh_token: 'sensitive-refresh-token',
         },
       }),
     );
@@ -199,9 +224,13 @@ describe('QrLoginFlow', () => {
       false,
       'LOGIN_PENDING',
       'pending',
-      'qrcode,access_token',
+      '[REDACTED],[REDACTED],[REDACTED]',
     );
     expect(JSON.stringify(debug.mock.calls)).not.toContain('sensitive-qr-token');
     expect(JSON.stringify(debug.mock.calls)).not.toContain('sensitive-access-token');
+    expect(JSON.stringify(debug.mock.calls)).not.toContain('sensitive-refresh-token');
+    expect(JSON.stringify(debug.mock.calls)).not.toContain('user-code');
+    expect(JSON.stringify(debug.mock.calls)).not.toContain('access_token');
+    expect(JSON.stringify(debug.mock.calls)).not.toContain('refresh_token');
   });
 });

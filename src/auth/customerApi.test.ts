@@ -132,10 +132,11 @@ describe('TuyaDeviceSharingClient', () => {
         accessToken: 'access-secret',
         refreshToken: 'refresh-secret',
         encdata: 'cipher-secret',
-        nested: { 'X-token': 'header-secret' },
+        'X-sign': 'signature-secret',
+        nested: { 'X-token': 'header-secret', sign: 'nested-signature-secret' },
       }),
     ).toBe(
-      '{"accessToken":"[REDACTED]","refreshToken":"[REDACTED]","encdata":"[REDACTED]","nested":{"X-token":"[REDACTED]"}}',
+      '{"accessToken":"[REDACTED]","refreshToken":"[REDACTED]","encdata":"[REDACTED]","X-sign":"[REDACTED]","nested":{"X-token":"[REDACTED]","sign":"[REDACTED]"}}',
     );
   });
 

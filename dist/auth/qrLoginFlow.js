@@ -86,7 +86,7 @@ class QrLoginFlow {
             this.logDebug('Tuya QR response: status=%d bodyType=%s', status, typeof body);
             return;
         }
-        this.logDebug('Tuya QR response: status=%d success=%s code=%s msg=%s resultKeys=%s', status, body.success, body.code ?? '', body.msg ?? '', Object.keys(body.result ?? {}).join(','));
+        this.logDebug('Tuya QR response: status=%d success=%s code=%s msg=%s resultKeys=%s', status, body.success, body.code ?? '', body.msg ?? '', safeResultKeys(body.result ?? {}).join(','));
     }
 }
 exports.QrLoginFlow = QrLoginFlow;
@@ -98,6 +98,14 @@ function isQrResponse(body) {
 }
 function sanitizeQrPath(pathname) {
     return pathname.replace(/(\/qrcode\/tokens\/)[^/]+$/, `$1${REDACTED}`);
+}
+function safeResultKeys(result) {
+    return Object.keys(result).map((key) => {
+        if (key.toLowerCase().includes('token') || key === 'qrcode') {
+            return REDACTED;
+        }
+        return key;
+    });
 }
 function mapLoginFailure(code = 'UNKNOWN', message = 'QR login failed') {
     const normalized = `${code} ${message}`.toLowerCase();

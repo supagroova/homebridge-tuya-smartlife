@@ -1,7 +1,7 @@
 {
   "name": "homebridge-tuya-smartlife",
   "displayName": "Homebridge Tuya SmartLife",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Homebridge plugin bringing Tuya / Smart Life devices into HomeKit via the Smart Life device-sharing (QR) login — no Tuya developer account required.",
   "license": "Apache-2.0",
   "main": "dist/index.js",
@@ -48,6 +48,7 @@
   "files": [
     "dist",
     "config.schema.json",
+    "CHANGELOG.md",
     "homebridge-ui/public",
     "homebridge-ui/server.js"
   ],

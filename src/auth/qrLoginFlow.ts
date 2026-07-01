@@ -179,7 +179,7 @@ export class QrLoginFlow {
       body.success,
       body.code ?? '',
       body.msg ?? '',
-      Object.keys(body.result ?? {}).join(','),
+      safeResultKeys(body.result ?? {}).join(','),
     );
   }
 }
@@ -194,6 +194,16 @@ function isQrResponse(body: unknown): body is { success: boolean; code?: string;
 
 function sanitizeQrPath(pathname: string): string {
   return pathname.replace(/(\/qrcode\/tokens\/)[^/]+$/, `$1${REDACTED}`);
+}
+
+function safeResultKeys(result: object): string[] {
+  return Object.keys(result).map((key) => {
+    if (key.toLowerCase().includes('token') || key === 'qrcode') {
+      return REDACTED;
+    }
+
+    return key;
+  });
 }
 
 function mapLoginFailure(code = 'UNKNOWN', message = 'QR login failed'): QrLoginPending {
