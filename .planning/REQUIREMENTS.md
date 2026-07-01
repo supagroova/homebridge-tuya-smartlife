@@ -58,6 +58,27 @@ Requirements for the initial release. Each maps to roadmap phases.
 - [ ] **PUB-01**: Published to npm following Homebridge conventions (`homebridge-plugin` keyword, discoverable)
 - [x] **PUB-02**: README documents setup (QR login), supported devices, and known limitations
 
+## v1.0 Release Requirements
+
+Release-hardening requirements for the public `1.0.0` npm release.
+
+### Logging & Security
+
+- [ ] **REL-01**: Verbose Tuya QR/auth diagnostic logging is gated behind the existing `debug` config flag; default logs remain quiet.
+- [ ] **REL-02**: Sensitive values are never logged, including Smart Life user codes, QR tokens, access tokens, refresh tokens, token JSON, raw encrypted payloads, encrypted request data, and request signatures.
+
+### Packaging & Documentation
+
+- [ ] **REL-03**: Release hardening verifies package metadata, license, package contents, Homebridge discovery fields, npm install behavior, and CI/publish workflow readiness.
+- [ ] **REL-04**: Package version is set to `1.0.0`.
+- [ ] **REL-05**: `CHANGELOG.md` exists and documents the initial v1.0.0 release.
+- [ ] **REL-06**: README includes npm version/download badges; the Homebridge verified badge is added only once Homebridge verification is granted.
+
+### Publication & Smoke Test
+
+- [ ] **REL-07**: `homebridge-tuya-smartlife@1.0.0` is published to npm with the configured release process and verified on the npm package page.
+- [ ] **REL-08**: A post-publish Homebridge smoke test installs from npm, confirms plugin discovery, completes QR login, and verifies the user's switches/thermometers appear in HomeKit.
+
 ## v2 Requirements
 
 Deferred to a future release. Tracked but not in the current roadmap.
@@ -114,13 +135,22 @@ Which phases cover which requirements. Updated during roadmap creation.
 | CFG-01 | Phase 7 | Complete |
 | CFG-02 | Phase 7 | Complete |
 | PUB-02 | Phase 7 | Complete |
+| REL-01 | Phase 8 | Pending |
+| REL-02 | Phase 8 | Pending |
+| REL-03 | Phase 8 | Pending |
+| REL-04 | Phase 8 | Pending |
+| REL-05 | Phase 8 | Pending |
+| REL-06 | Phase 8 | Pending |
+| REL-07 | Phase 8 | Pending |
+| REL-08 | Phase 8 | Pending |
 
 **Coverage:**
 
 - v1 requirements: 27 total
-- Mapped to phases: 27 (100%)
+- v1.0 release requirements: 8 total
+- Mapped to phases: 35 (100%)
 - Unmapped: 0
 
 ---
 *Requirements defined: 2026-06-24*
-*Last updated: 2026-06-29 after Phase 7 closeout*
+*Last updated: 2026-07-01 when planning the v1.0 release milestone*

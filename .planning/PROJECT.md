@@ -1,4 +1,4 @@
-# homebridge-tuya-smartlife (working title)
+# homebridge-tuya-smartlife
 
 ## What This Is
 
@@ -35,6 +35,8 @@ frictionless cloud onboarding + reliable control is what must work.
 - [ ] Homebridge config-UI schema (`config.schema.json`) for setup
 - [x] Strict TDD gates + GitHub Actions CI (Phase 1 foundation) — ✓ delivered in Phase 1
 - [ ] Published to npm + discoverable in Homebridge
+- [ ] v1.0 release hardening: debug logs gated, sensitive values redacted, package metadata verified, changelog added, version set to `1.0.0`
+- [ ] README release badges added, with the Homebridge verified badge only after verification is actually granted
 
 ### Out of Scope
 
@@ -73,6 +75,7 @@ frictionless cloud onboarding + reliable control is what must work.
 | TDD gates modeled on `localizer`, adapted to a single package, built in Phase 1 | Author's established quality practice; appropriate bar for a community plugin | — Pending |
 | v1 covers switches/outlets + climate/sensors only | Author's actual devices; "cover my devices well" over parity | — Pending |
 | Defer local control + lights/covers to v2 | Keep v1 shippable and focused on the author's setup | — Pending |
+| v1.0 release hardening is its own milestone phase | Real Homebridge testing proved QR login and device exposure; npm publication now needs packaging, logging, and docs hardening rather than more feature work | — Active |
 
 ## Open Questions / Top Risks
 
@@ -80,6 +83,7 @@ frictionless cloud onboarding + reliable control is what must work.
 - **Author-side credentials:** not per-user; centralized QR credential values are used by the plugin, with any Homebridge-specific credential acquisition deferred until the port works.
 - **Region nuance:** the EU Data Act framing around device data sharing — confirm it doesn't block the consumer QR flow for the author's region.
 - **Token fragility:** QR expiry and token-refresh ("sign invalid") issues observed in HA — design refresh/recovery accordingly.
+- **Release logging:** QR/auth debugging helped validate the real Homebridge flow, but public builds must gate verbose diagnostics behind the existing debug config and never log user codes, QR tokens, access tokens, refresh tokens, raw token payloads, encrypted payloads, or request signatures.
 
 ## Evolution
 
@@ -99,4 +103,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-06-24 after Phase 1 (scaffolding & TDD gates) completion*
+*Last updated: 2026-07-01 when planning the v1.0 release milestone*

@@ -1,39 +1,39 @@
 ---
 gsd_state_version: 1.0
 milestone: v1.0
-milestone_name: milestone
-current_phase: 07
-current_phase_name: Config-UI + QR Setup Screen
-status: ready_to_publish
-stopped_at: Phase 7 complete; npm publish pending
-last_updated: "2026-06-29T18:30:00Z"
-last_activity: 2026-06-29
-last_activity_desc: Phase 7 complete with custom QR setup UI, README, and release asset checks
+milestone_name: v1.0 Release
+current_phase: 08
+current_phase_name: v1.0 Release Hardening & npm Publish
+status: planned
+stopped_at: Phase 8 planned; ready to execute 08-01
+last_updated: "2026-07-01T00:00:00Z"
+last_activity: 2026-07-01
+last_activity_desc: Planned release milestone for debug gating, sensitive logging audit, version 1.0.0, changelog, README badges, npm publish, and post-publish smoke testing
 progress:
-  total_phases: 7
+  total_phases: 8
   completed_phases: 6
-  total_plans: 23
+  total_plans: 27
   completed_plans: 23
-  percent: 86
+  percent: 75
 ---
 
 # Project State
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-06-24)
+See: .planning/PROJECT.md (updated 2026-07-01)
 
 **Core value:** A user can control their Tuya devices in HomeKit after a simple Smart Life QR login — no per-user Tuya developer account.
-**Current focus:** Phase 07 — Config-UI + QR Setup Screen
+**Current focus:** Phase 08 — v1.0 Release Hardening & npm Publish
 
 ## Current Position
 
-Phase: 07 (Config-UI + QR Setup Screen) — COMPLETE
-Plan: 07-03-SUMMARY.md
-Status: Ready to publish — Phase 7 complete; actual npm publish remains pending
-Last activity: 2026-06-29 — Phase 7 complete with custom QR setup UI, README, and release asset checks
+Phase: 08 (v1.0 Release Hardening & npm Publish) — PLANNED
+Plan: 08-01-PLAN.md
+Status: Phase 8 planned; actual npm publish remains pending
+Last activity: 2026-07-01 — Planned release milestone for debug gating, sensitive logging audit, version 1.0.0, changelog, README badges, npm publish, and post-publish smoke testing
 
-Progress: [████████░░] 6/7 phases complete
+Progress: [███████░░░] 6/8 phases complete
 
 ## Performance Metrics
 
@@ -53,6 +53,8 @@ Progress: [████████░░] 6/7 phases complete
 | 04 | 3/3 | - | - |
 | 05 | 4/4 | - | - |
 | 06 | 3/3 | - | - |
+| 07 | 3/3 | - | - |
+| 08 | 0/4 | - | - |
 
 **Recent Trend:**
 
@@ -101,6 +103,8 @@ Recent decisions affecting current work:
 - [Phase ?]: tdd-audit skips constant-only modules so src/settings.ts passes without an exempt marker.
 - [Phase ?]: CI invokes make check + npm run build so CI and local hook gate are identical
 - [Phase ?]: Publish-on-tag uses npm Trusted Publishing / --provenance; NPM_TOKEN is fallback only
+- [Release]: Real Homebridge testing confirmed QR login works and devices appear in HomeKit from the PR build.
+- [Release]: The Homebridge verified badge must not be shown until verification is actually granted.
 
 ### Pending Todos
 
@@ -115,6 +119,8 @@ None yet.
 - [Phase 2]: Tuya partner gating is the project-defining unknown. If a legitimate `client_id`/`schema` cannot be obtained, auth pivots to the developer-project API fallback — but scaffolding (Phase 1) is reused regardless.
 - [Phase 2]: Execution must not use Claude CLI/agents; Phase 2 planning was completed Codex-local with `.codex/scripts` as the local gate.
 - [Phase 2]: Public/verified release should revisit whether Tuya will issue or bless a Homebridge-specific `client_id` / `schema`.
+- [Release]: Debug diagnostics added during real-device troubleshooting must be gated behind the existing `debug` config before npm publication.
+- [Release]: Logs must not expose Smart Life user codes, QR tokens, access/refresh tokens, raw token payloads, encrypted payloads, encrypted request data, or signatures.
 
 ## Deferred Items
 
@@ -123,9 +129,10 @@ Items acknowledged and carried forward from previous milestone close:
 | Category | Item | Status | Deferred At |
 |----------|------|--------|-------------|
 | npm publish | First public npm publish for `PUB-01` remains pending after local/PR readiness checks | Pending | Phase 06/07 closeout |
+| Homebridge verification | Verified-plugin submission and badge are post-publish/approval work, not an assumption before release | Pending | v1.0 release milestone |
 
 ## Session Continuity
 
-Last session: 2026-06-29T18:30:00Z
-Stopped at: Phase 7 complete; npm publish pending
-Resume file: .planning/phases/07-config-ui-qr-setup-screen/07-03-SUMMARY.md
+Last session: 2026-07-01T00:00:00Z
+Stopped at: Phase 8 planned; ready to execute 08-01
+Resume file: .planning/phases/08-v1-release-hardening-npm-publish/08-01-PLAN.md

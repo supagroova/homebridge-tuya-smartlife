@@ -10,9 +10,9 @@ question by porting the device-sharing signing/crypto from the Python SDK and pr
 end-to-end (Phase 2). With a working signed client, the build follows the research's unambiguous
 dependency order: device discovery + platform skeleton (Phase 3) → switches/outlets + the reusable
 mapping engine (Phase 4) → climate & sensors, the author's actual devices (Phase 5) → status
-polling + offline handling, which is the MVP ship point with the first npm publish (Phase 6) →
-the config-UI and custom QR setup screen plus README (Phase 7). Real-time MQTT push and
-lights/covers/scenes are explicitly deferred to v2.
+polling + offline handling, which is the MVP ship point (Phase 6) → the config-UI and custom QR
+setup screen plus README (Phase 7) → release hardening and the first npm publish (Phase 8).
+Real-time MQTT push and lights/covers/scenes are explicitly deferred to v2.
 
 ## Phases
 
@@ -30,6 +30,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 5: Climate & Sensors** - Temp/humidity, binary sensors, thermostat control, battery reporting
 - [ ] **Phase 6: Status Polling + Offline Handling (MVP Ship)** - Polling keeps state current, offline devices show "No Response", first npm publish
 - [x] **Phase 7: Config-UI + QR Setup Screen** - Config schema + custom QR login UI + README documentation
+- [ ] **Phase 8: v1.0 Release Hardening & npm Publish** - Gate debug logs, audit sensitive logging, set version `1.0.0`, add changelog/badges, publish to npm, and smoke-test the npm install
 
 ## Phase Details
 
@@ -197,6 +198,29 @@ Plans:
 - [x] 07-02-PLAN.md — Custom Homebridge QR login UI and UI server (CFG-02)
 - [x] 07-03-PLAN.md — README, package asset checks, and Phase 7 closeout (PUB-02)
 
+### Phase 8: v1.0 Release Hardening & npm Publish
+
+**Goal**: Prepare and publish `homebridge-tuya-smartlife@1.0.0` after real Homebridge testing proved QR login and device exposure work.
+**Mode:** mvp
+**Depends on**: Phase 7 plus real Homebridge UAT confirming QR login and switches/thermometers appear in HomeKit
+**Requirements**: PUB-01, REL-01, REL-02, REL-03, REL-04, REL-05, REL-06, REL-07, REL-08
+**Success Criteria** (what must be TRUE):
+
+  1. Tuya QR/auth diagnostics are emitted only when `debug` is enabled, and default logs do not expose implementation-level polling or token details.
+  2. A logging audit and tests prove sensitive values are redacted or omitted: user codes, QR tokens, access/refresh tokens, token JSON, raw encrypted payloads, encrypted request data, and request signatures.
+  3. Package metadata, npm pack contents, Homebridge discovery fields, install behavior, CI, and publish workflow are release-ready.
+  4. `package.json` is versioned `1.0.0`, `CHANGELOG.md` documents the release, and README includes the npm version/download badges. The Homebridge verified badge is added only after verification is granted.
+  5. The package is published to npm and a Homebridge smoke test installs from npm, discovers the plugin, completes QR login, and shows the user's switches/thermometers in HomeKit.
+
+**Plans**: 4 plans ready
+
+Plans:
+
+- [ ] 08-01-PLAN.md — Debug logging gate and sensitive logging audit (REL-01, REL-02)
+- [ ] 08-02-PLAN.md — Release metadata/docs: version `1.0.0`, changelog, README badges, package/license hardening (REL-03, REL-04, REL-05, REL-06)
+- [ ] 08-03-PLAN.md — npm publish readiness and controlled `1.0.0` publish (PUB-01, REL-03, REL-07)
+- [ ] 08-04-PLAN.md — Post-publish Homebridge smoke test and release closeout (REL-08)
+
 ## Future / v2
 
 Explicitly out of scope for this v1.0 milestone; tracked for a future release:
@@ -210,7 +234,7 @@ Explicitly out of scope for this v1.0 milestone; tracked for a future release:
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
+Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
@@ -221,3 +245,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 5. Climate & Sensors | 4/4 | Complete    | 2026-06-26 |
 | 6. Status Polling + Offline Handling (MVP Ship) | 3/3 | Ready to publish | - |
 | 7. Config-UI + QR Setup Screen | 3/3 | Complete | 2026-06-29 |
+| 8. v1.0 Release Hardening & npm Publish | 0/4 | Planned | - |
