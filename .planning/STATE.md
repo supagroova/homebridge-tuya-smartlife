@@ -2,19 +2,19 @@
 gsd_state_version: 1.0
 milestone: homebridge-plugin-verification
 milestone_name: Homebridge Plugin Verification
-current_phase: 09
-current_phase_name: Verification Readiness Audit
-status: planned
-stopped_at: Phase 9 planned; ready to execute verification readiness audit
-last_updated: "2026-07-01T11:18:00Z"
+current_phase: 10
+current_phase_name: Verification Submission Package
+status: phase_complete
+stopped_at: Phase 9 complete; ready to plan Phase 10 submission package and fixes
+last_updated: "2026-07-01T11:45:00Z"
 last_activity: 2026-07-01
-last_activity_desc: Planned Phase 9 verification readiness audit
+last_activity_desc: Completed Phase 9 verification readiness audit
 progress:
   total_phases: 3
-  completed_phases: 0
+  completed_phases: 1
   total_plans: 3
-  completed_plans: 0
-  percent: 0
+  completed_plans: 1
+  percent: 33
 ---
 
 # Project State
@@ -24,15 +24,15 @@ progress:
 See: `.planning/PROJECT.md`
 
 **Core value:** A user can control Tuya / Smart Life devices in HomeKit after a simple Smart Life QR login, without a per-user Tuya developer account.
-**Current focus:** Phase 09 — Verification Readiness Audit
+**Current focus:** Phase 10 — Verification Submission Package
 
 ## Current Position
 
 Milestone: Homebridge Plugin Verification
-Phase: 09 (Verification Readiness Audit)
-Status: Planned — ready to execute
+Phase: 10 (Verification Submission Package)
+Status: Phase 9 complete; Phase 10 ready to plan
 
-Progress: [----------] 0/3 phases complete
+Progress: [███-------] 1/3 phases complete
 
 ## Current Context
 
@@ -42,13 +42,20 @@ release hygiene, supported Node LTS compatibility, safe install/startup behavior
 configuration, storage under the Homebridge storage directory, no analytics/tracking, and handled
 errors.
 
-The strongest project-specific risk is differentiation from existing verified Tuya plugins. The
-submission should explicitly explain the Smart Life QR login path and no per-user Tuya developer
-account requirement.
+Phase 9 found the project is mostly ready for verification, with three Phase 10 follow-ups before
+submission:
+
+- Create GitHub Release `v1.0.0` with release notes.
+- Add a root `LICENSE` file for Apache-2.0.
+- Add `repository`, `bugs`, and `homepage` fields to `package.json`.
+
+The strongest project-specific submission risk remains differentiation from existing verified Tuya
+plugins. The submission should explicitly explain the Smart Life QR login path and no per-user Tuya
+developer account requirement.
 
 ## Next Step
 
-Run `/gsd-execute-phase 9`.
+Run `/gsd-plan-phase 10`.
 
 ## Deferred Items
 
